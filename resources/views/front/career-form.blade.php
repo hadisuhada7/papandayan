@@ -1,0 +1,1079 @@
+@extends('front.layouts.app')
+
+@section('title', 'Form Karir')
+
+@section('plugins.BsCustomFileInput', true)
+@section('plugins.TempusDominusBs4', true)
+@section('plugins.Select2', true)
+@section('plugins.Toastr', true)
+
+@section('content_header')
+@stop
+
+@section('content')
+    <!--preloader start-->
+    <div id="preloader">
+        <div id="status">
+            <div class="u-loading">
+                <div class="u-loading__symbol">
+                    <img src="{{ asset('images/logo/logo2.png') }}" alt="loader" class="img-fluid">
+                </div>
+            </div>
+            <div class="loader" id="dotsLoader">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <!--preloader end-->
+
+   <!--header start-->
+   <header class="w-100 clearfix header headerOne" id="headerOne">
+      
+        <!--top header-->
+        <div class="topHeader">
+            <div class="container">
+                <div class="topHeaderInner">
+                    <div class="mobile boxGroupHeader">
+                        <a href="javascript:void(0);">
+                            <div class="flexGroupHeader">
+                                <div class="icon">
+                                <img src="{{ asset('images/icon/phone.png') }}" alt="icon" class="img-fluid">
+                                </div>
+                                <div class="iconTxt">
+                                <span>(+62) 81400561146</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                <div class="mail boxGroupHeader">
+                    <a href="javascript:void(0);">
+                        <div class="flexGroupHeader">
+                            <div class="icon">
+                            <img src="{{ asset('images/icon/mail.png') }}" alt="icon" class="img-fluid">
+                            </div>
+                            <div class="iconTxt">
+                            <span>kontak@papandayan.co.id</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="language boxGroupHeader ms-auto">
+                    <div class="flexGroupHeader">
+                        <div class="icon">
+                            <img src="{{ asset('images/icon/lang.png') }}" alt="icon" class="img-fluid">
+                        </div>
+                        <div class="iconTxt">
+                            <select class="form-select">
+                            <option>EN</option>
+                            <option>ID</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+
+      <!--main header-->
+      <div class="mainHeader">
+         <nav class="navbar navbar-expand-xl">
+            <div class="container">
+               <a class="navbar-brand" href="#"><img src="{{ asset('images/logo/logo1.png') }}" alt="loader" class="img-fluid"></a>
+               <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                  <ul class="navbar-nav">
+                     <li class="nav-item">
+                        <a class="nav-link" href="#">Home</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="#">About Us</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="#">Our Business</a>
+                     </li>
+                     <li class="nav-item dropdown">
+                        <a class="nav-link" href="#" data-bs-toggle="dropdown">Sustainability <i
+                              class="fa fa-angle-right" aria-hidden="true"></i></a>
+                        <ul class="dropdown-menu">
+                           <li><a class="dropdown-item" href="#">K3</a></li>
+                           <li><a class="dropdown-item" href="#">CSR</a></li>
+                           <li><a class="dropdown-item" href="#">Initiatives</a></li>
+                           <li><a class="dropdown-item" href="#">Document Reports</a></li>
+                        </ul>
+                     </li>
+                     <li class="nav-item dropdown">
+                        <a class="nav-link" href="#" data-bs-toggle="dropdown">Investor <i
+                              class="fa fa-angle-right" aria-hidden="true"></i></a>
+                        <ul class="dropdown-menu">
+                           <li><a class="dropdown-item" href="#">Annual Reports</a></li>
+                           <li><a class="dropdown-item" href="#">Financial Reports</a></li>
+                           <li><a class="dropdown-item" href="#">Investor Presentations</a></li>
+                           <li><a class="dropdown-item" href="#">Stock and Bond Information</a></li>
+                           <li><a class="dropdown-item" href="#">General Meeting of Shareholders</a></li>
+                        </ul>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="#">Careers</a>
+                     </li>
+                  </ul>
+               </div>
+               <div class="rightMenu">
+                  <ul class="nav">
+                     <li class="nav-item searchBtn">
+                        <a class="nav-link" href="javascript:void(0);"><img src="{{ asset('images/icon/search.png') }}" alt="loader"
+                              class="img-fluid"></a>
+                     </li>
+                     <li class="nav-item loginBtn d-none d-md-block">
+                        <div class="btnGroup">
+                           <a class="nav-link btn" href="#">Contact Us</a>
+                        </div>
+                     </li>
+                     <li class="nav-item toggleBtn">
+                        <a class="nav-link navbar-toggler" href="javascript:void(0);" data-bs-toggle="collapse"
+                           data-bs-target="#collapsibleNavbar">
+                           <span class="navbar-toggler-icon"></span>
+                        </a>
+                     </li>
+                  </ul>
+               </div>
+            </div>
+         </nav>
+      </div>
+
+      <!--overlay-->
+      <div class="widgetOverlay"></div>
+
+   </header>
+   <!--header one end-->
+
+   <!--search box start-->
+   <div class="searchBox searchBox1">
+      <div class="container">
+         <div class="searchBoxInner">
+            <div class="searchHeading">
+               <h4>Search Our Site</h4>
+            </div>
+            <div class="searchInput">
+               <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Search">
+                  <a href="javascript:void(0);" class="input-group-text searchButton"><span>Search</span> <img
+                        src="{{ asset('images/icon/icon-right.png') }}" alt="btn-arrow" class="img-fluid"></a>
+               </div>
+            </div>
+            <div class="quickSearch">
+               <p><span>Quick Search:</span>K3, CSR, Initiatives, Document Reports</p>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!--search box end-->
+
+   <!--banner sec start-->
+   <section class="w-100 clearfix bannerSec" id="bannerSec" style="background-image: url('{{ asset('images/inner-banner.png') }}');">
+      <div class="container">
+         <div class="bannerContent">
+            <h1>Career Form</h1>
+            <ul class="breadcrumb">
+               <li class="breadcrumb-item"><a href="#">Home</a></li>
+               <li class="breadcrumb-item active">Career Form</li>
+            </ul>
+         </div>
+      </div>
+   </section>
+   <!--banner sec end-->
+
+    <!--FAQ start-->
+    <section class="w-100 clearfix checkout" id="checkout">
+        <div class="container">
+            <div class="checkoutInner">
+                <div class="row">
+                    <div class="col-lg-8 order-2 order-lg-1">
+                        <div class="blogSingleBlog">
+                            <div class="latestNewsCardInner">
+                                <!--checkout box-->
+                                <div class="commentBox">
+                                    <div class="commentBoxInner">
+                                        <div class="commentBoxForm">
+                                            <!--checkout form-->
+                                            <form method="POST" action="{{ route('front.career.store') }}" enctype="multipart/form-data">
+                                                @csrf
+
+                                                <!-- Hidden fields for automatic values -->
+                                                <input type="hidden" name="career_id" value="{{ $career->id }}">
+                                                <input type="hidden" name="status" value="New">
+
+                                                 @if ($errors->any())
+                                                    @foreach ($errors->all() as $error)
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="alert alert-danger" role="alert">
+                                                                {{ $error }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @endforeach
+                                                @endif
+
+                                                <div class="commentBoxHeading">
+                                                    <h4>Personal Information</h4>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="commentFormGroup">
+                                                            <label for="firstName" class="form-label">First Name <span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control" id="firstName" name="first_name" maxlength="255" placeholder="" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="commentFormGroup">
+                                                            <label for="lastName" class="form-label">Last Name </label>
+                                                            <input type="text" class="form-control" id="lastName" name="last_name" maxlength="255" placeholder="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="commentFormGroup">
+                                                            <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control" id="email" name="email" maxlength="255" placeholder="" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="commentFormGroup">
+                                                            <label for="phoneNumber" class="form-label">Phone Number</label>
+                                                            <input type="text" class="form-control number-only" id="phoneNumber" name="phone_number" maxlength="15" placeholder="" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="commentFormGroup">
+                                                            <label for="bod" class="form-label">Birth of Date <span class="text-danger">*</span></label>
+                                                            <div class="input-group date" id="bodDatepicker" data-target-input="nearest">
+                                                                <input type="text" class="form-control datetimepicker-input" id="bod" name="bod" value="{{ old('bod') }}" data-target="#bodDatepicker" placeholder="dd-MM-yyyy" required/>
+                                                                <div class="input-group-append" data-target="#bodDatepicker" data-toggle="datetimepicker">
+                                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="commentFormGroup">
+                                                            <label for="education" class="form-label">Education <span class="text-danger">*</span></label>
+                                                            <select class="form-control select2bs4" style="width: 100%;" id="education" name="education" required>
+                                                                <option value="">-- Select Education --</option>
+                                                                <option value="SD">SD</option>
+                                                                <option value="SMP">SMP</option>
+                                                                <option value="SMA/SMK">SMA/SMK</option>
+                                                                <option value="Sarjana (S1)">Sarjana (S1)</option>
+                                                                <option value="Magister (S2)">Magister (S2)</option>
+                                                                <option value="Doktor (S3)">Doktor (S3)</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="commentFormGroup">
+                                                            <label for="major" class="form-label">Major</label>
+                                                            <input type="text" class="form-control" id="major" name="major" maxlength="255" placeholder="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="commentFormGroup">
+                                                            <label for="currentSalary" class="form-label">Current Salary <span class="text-danger">*</span></label>
+                                                            <div class="input-group" id="currentSalaryGroup">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">Rp</span>
+                                                                </div>
+                                                                <input type="text" class="form-control number-only" id="currentSalary" name="current_salary" value="{{ old('current_salary') }}" maxlength="20" placeholder="Current Salary" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="commentFormGroup">
+                                                            <label for="expectationSalary" class="form-label">Expectation Salary <span class="text-danger">*</span></label>
+                                                            <div class="input-group" id="expectationSalaryGroup">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">Rp</span>
+                                                                </div>
+                                                                <input type="text" class="form-control number-only" id="expectationSalary" name="expectation_salary" value="{{ old('expectation_salary') }}" maxlength="20" placeholder="Expectation Salary" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="commentFormGroup">
+                                                            <label for="curriculumVitae" class="form-label">Curriculum Vitae <span class="text-danger">*</span></label>
+                                                            <div class="input-group" id="curriculumVitaeGroup">
+                                                                <input type="file" class="form-control" id="curriculumVitae" name="curriculum_vitae" accept="application/pdf" required>
+                                                                <div class="input-group-append">
+                                                                    <span class="input-group-text">Browse</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="commentFormGroup">
+                                                            <label for="experienced" class="form-label">Experienced <span class="text-danger">*</span></label>
+                                                            <select class="form-control select2bs4" style="width: 100%;" id="experienced" name="experienced" required>
+                                                                <option value="">-- Select Experienced --</option>
+                                                                <option value="Yes">Yes</option>
+                                                                <option value="No">No</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Experienced Applicants -->
+                                                <div id="experiencedApplicants" style="display: none;">
+                                                    <div class="commentBoxHeading">
+                                                        <h4>Billing Detail</h4>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="commentFormGroup">
+                                                                <label for="companyName" class="form-label">Company Name <span class="text-danger">*</span></label>
+                                                                <input type="text" class="form-control" id="companyName" name="company_name" maxlength="255" placeholder="" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="commentFormGroup">
+                                                                <label for="industry" class="form-label">Industry <span class="text-danger">*</span></label>
+                                                                <input type="text" class="form-control" id="industry" name="industry" maxlength="255" placeholder="" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="commentFormGroup">
+                                                                <label for="position" class="form-label">Position <span class="text-danger">*</span></label>
+                                                                <input type="text" class="form-control" id="position" name="position" maxlength="255" placeholder="" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="commentFormGroup">
+                                                                <label for="duration" class="form-label">Duration <span class="text-danger">*</span></label>
+                                                                <div class="input-group" id="durationGroup">
+                                                                    <input type="text" class="form-control number-only" id="duration" name="duration" value="{{ old('duration') }}" maxlength="20" placeholder="Duration" required>
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text">Month</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="commentFormGroup mb-3">
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" name="remember"> Ship to a different adderess
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <button type="submit" class="btnCustom5 btn-1 hover-slide-down"><span>Send <img src="{{ asset('images/icon/icon-right.png') }}" alt="right" class="img-fluid"></span></button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 order-1 order-lg-2">
+                        <div class="checkoutAside">
+                            <div class="productBox">
+                                <div class="asideProductItem">
+                                <div class="asideHeading">
+                                    <h4>Product</h4>
+                                </div>
+                                <div class="asideProdtBx">
+                                    <div class="asideImg">
+                                        <div class="asideImgInner">
+                                            <img src="{{ asset('images/img23.png') }}" alt="img" class="img-fluid">
+                                        </div>
+                                        <div class="asideContent">
+                                            <h5>Bovans Browns</h5>
+                                            <p>QTY : 2</p>
+                                        </div>
+                                    </div>
+                                    <div class="asidePrice">
+                                        <span class="inline-block">$40.00</span>
+                                    </div>
+                                </div>
+                                <div class="subTotals">
+                                    <div class="subTotalsHead">
+                                        <p class="mb-0">Subtotals</p>
+                                    </div>
+                                    <div class="subTotalsNo">
+                                        <span class="inline-block">$40.00</span>
+                                    </div>
+                                </div>
+                                <hr class="horizLine">
+                                <div class="subTotals">
+                                    <div class="subTotalsHead">
+                                        <p class="mb-0">Shipping</p>
+                                    </div>
+                                </div>
+                                <div class="subPrice">
+                                    <div class="subPriceHeading custom-radios">
+                                        <div class="form-group">
+                                            <input type="radio" id="flateRate" name="selectprice" checked>
+                                            <label for="flateRate"><span>Flate Rate</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="asideProductPrice">
+                                        <span class="inline-block">$40.00</span>
+                                    </div>
+                                </div>
+                                <div class="subPrice">
+                                    <div class="subPriceHeading custom-radios">
+                                        <input type="radio" id="localPickup" name="selectprice">
+                                        <label for="localPickup"><span>Local Pickup</span></label>
+                                    </div>
+                                    <div class="asideProductPrice">
+                                        <span class="inline-block">$40.00</span>
+                                    </div>
+                                </div>
+                                <hr class="horizLine">
+                                <div class="subTotals">
+                                    <div class="subTotalsHead">
+                                        <p class="mb-0">Totals</p>
+                                    </div>
+                                    <div class="subTotalsNo">
+                                        <span class="inline-block">$40.00</span>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="paymentMethod">
+                                <div class="paymentMethodInner">
+                                <div class="asideHeading">
+                                    <h4>Payment Method</h4>
+                                </div>
+                                <div class="paymentMethodOpt">
+                                    <div class="paymentOptName custom-radios">
+                                        <div class="form-group paymentformGroup">
+                                            <input type="radio" id="bankTransfer" name="selectPaymentMode" checked>
+                                            <label for="bankTransfer">
+                                        
+                                                Direct Bank Transfer
+                                                <span>Make your payment directly into our bank account.</span>
+                                        
+                                            </label>
+                                        </div>
+                                        <div class="form-group paymentformGroup">
+                                            <input type="radio" id="cashDelivery" name="selectPaymentMode">
+                                            <label for="cashDelivery">
+                                        
+                                            Cash On Delivery
+                                            
+                                            </label>
+                                        </div>
+                                        <div class="form-group paymentformGroup">
+                                            <input type="radio" id="chequePayments" name="selectPaymentMode">
+                                            <label for="chequePayments">
+                                            
+                                                Cheque Payments
+                                            
+                                            </label>
+                                        </div>
+                                        <div class="form-group paymentformGroup">
+                                            <input type="radio" id="paypal" name="selectPaymentMode">
+                                            <label for="paypal">
+                                            
+                                                Paypal
+                                        
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cardImg">
+                                    <img src="{{ asset('images/card.png') }}" alt="card" class="img-fluid">
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--FAQ end-->
+
+   <!--footer start-->
+   <footer class="w-100 clearfix footer footerBg1" id="footer">
+      <div class="needOurSupport">
+         <div class="container">
+            <div class="needOurSupportInner">
+               <div class="needOurSupportTxt">
+                  <h2 class="fadein">Still You Need Our Support</h2>
+                  <p class="fadein">There are many variations of passages of lorem ipsum available but the majority have
+                     suffered
+                     alteration in some form by injected humor.</p>
+               </div>
+               <div class="needOurSupportInput">
+                  <div class="input-group fadein">
+                     <input type="text" class="form-control" placeholder="Email Address">
+                     <a href="javascript:void(0);" class="input-group-text subscriptionBtn"><span>Subscription</span>
+                        <img src="{{ asset('images/icon/icon-right.png') }}" alt="btn-arrow" class="img-fluid"></a>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="footerGroup">
+         <div class="footerInner">
+            <div class="container">
+               <div class="footerInnerRow">
+                  <div class="row">
+                     <div class="col-md-12 col-lg-3">
+                        <div class="footerCol footerCol1">
+                           <div class="footerLogo fadein">
+                              <img src="{{ asset('images/logo/logo-footer-2.png') }}" alt="footer-logo" class="img-fluid">
+                           </div>
+                           <div class="footerPara fadein">
+                              <p>There are many variations of passages of Lorem Ipsum available, but the majority have
+                                 suffered alteration in some form.</p>
+                           </div>
+                           <hr class="hrLine fadein">
+                           <div class="socialMediaIcon fadein">
+                              <ul class="nav">
+                                 <li class="nav-item">
+                                    <a class="nav-link" href="javascript:void(0);"><i class="fa fa-whatsapp"
+                                          aria-hidden="true"></i></a>
+                                 </li>
+                                 <li class="nav-item">
+                                    <a class="nav-link" href="javascript:void(0);"><i class="fa fa-instagram"
+                                          aria-hidden="true"></i></a>
+                                 </li>
+                                 <li class="nav-item">
+                                    <a class="nav-link" href="javascript:void(0);"><i class="fa fa-facebook"
+                                          aria-hidden="true"></i></a>
+                                 </li>
+                                 <li class="nav-item">
+                                    <a class="nav-link" href="javascript:void(0);"><i class="fa fa-twitter"
+                                          aria-hidden="true"></i></a>
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-sm-6 col-md-4 col-lg-3">
+                        <div class="footerCol footerCol2">
+                           <div class="footerMenuHeading">
+                              <h4 class="fadein">Useful Links</h4>
+                           </div>
+                           <div class="footerMenuLink">
+                              <ul class="nav flex-column">
+                                 <li class="nav-item fadein">
+                                    <a class="nav-link" href="about-us.html"><i class="fa fa-caret-right"
+                                          aria-hidden="true"></i> About Us</a>
+                                 </li>
+                                 <li class="nav-item fadein">
+                                    <a class="nav-link" href="poultry-feed.html"><i class="fa fa-caret-right"
+                                          aria-hidden="true"></i> Poultry Feeds </a>
+                                 </li>
+                                 <li class="nav-item fadein">
+                                    <a class="nav-link" href="our-service.html"><i class="fa fa-caret-right"
+                                          aria-hidden="true"></i> Our Services</a>
+                                 </li>
+                                 <li class="nav-item fadein">
+                                    <a class="nav-link" href="gallery-2-column.html"><i class="fa fa-caret-right"
+                                          aria-hidden="true"></i> Gallery</a>
+                                 </li>
+                                 <li class="nav-item fadein">
+                                    <a class="nav-link" href="video-gallery.html"><i class="fa fa-caret-right"
+                                          aria-hidden="true"></i> Videos</a>
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-sm-6 col-md-4 col-lg-3">
+                        <div class="footerCol footerCol3">
+                           <div class="footerMenuHeading">
+                              <h4 class="fadein">Our Services</h4>
+                           </div>
+                           <div class="footerMenuLink">
+                              <ul class="nav flex-column">
+                                 <li class="nav-item fadein">
+                                    <a class="nav-link" href="javascript:void(0);"><i class="fa fa-caret-right"
+                                          aria-hidden="true"></i> Breeders</a>
+                                 </li>
+                                 <li class="nav-item fadein">
+                                    <a class="nav-link" href="javascript:void(0);"><i class="fa fa-caret-right"
+                                          aria-hidden="true"></i> Our Blogs</a>
+                                 </li>
+                                 <li class="nav-item fadein">
+                                    <a class="nav-link" href="javascript:void(0);"><i class="fa fa-caret-right"
+                                          aria-hidden="true"></i> FAQ</a>
+                                 </li>
+                                 <li class="nav-item fadein">
+                                    <a class="nav-link" href="javascript:void(0);"><i class="fa fa-caret-right"
+                                          aria-hidden="true"></i> Policy</a>
+                                 </li>
+                                 <li class="nav-item fadein">
+                                    <a class="nav-link" href="javascript:void(0);"><i class="fa fa-caret-right"
+                                          aria-hidden="true"></i> Terms & Condition</a>
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-4 col-lg-3">
+                        <div class="footerCol footerCol4">
+                           <div class="footerMenuHeading">
+                              <h4 class="fadein">Contact Information</h4>
+                           </div>
+                           <div class="footerMenuLink footerContactInfo">
+                              <ul class="nav flex-column">
+                                 <li class="nav-item fadein">
+                                    <a class="nav-link" href="javascript:void(0);">
+                                       <div class="contactInfo">
+                                          <div class="contactInfoIcon">
+                                             <i class="fa fa-phone" aria-hidden="true"></i>
+                                          </div>
+                                          <div class="contactInfoTxt">
+                                             <h6>Call Us Now:</h6>
+                                             <p class="mb-0">(+62) 81400561146</p>
+                                          </div>
+                                       </div>
+                                    </a>
+                                 </li>
+                                 <li class="nav-item fadein">
+                                    <a class="nav-link" href="javascript:void(0);">
+                                       <div class="contactInfo">
+                                          <div class="contactInfoIcon">
+                                             <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                          </div>
+                                          <div class="contactInfoTxt">
+                                             <h6>Email Address:</h6>
+                                             <p class="mb-0">kontak@papandayan.co.id</p>
+                                          </div>
+                                       </div>
+                                    </a>
+                                 </li>
+                                 <li class="nav-item fadein">
+                                    <a class="nav-link" href="javascript:void(0);">
+                                       <div class="contactInfo">
+                                          <div class="contactInfoIcon">
+                                             <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                          </div>
+                                          <div class="contactInfoTxt">
+                                             <h6>Office Hour:</h6>
+                                             <p class="mb-0">08:00 - 18:00</p>
+                                          </div>
+                                       </div>
+                                    </a>
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="footerCopyRight">
+            <div class="container">
+               <div class="footerCopyRightInner">
+                  <p class="mb-0 fadein">Copyright © 2023 <a href="javascript:void(0);">Farmland</a>. All Rights
+                     Reserved.</p>
+               </div>
+            </div>
+         </div>
+      </div>
+   </footer>
+   <!--footer end-->
+@endsection
+
+@push('before-styles')
+    <link rel="stylesheet" href="{{ asset('vendor/toastr/toastr.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
+@endpush
+
+@push('before-scripts')
+    <style type="text/css">
+         /* Modify Select2 to match form inputs */
+        .select2-container--bootstrap4 .select2-selection--single {
+            height: auto !important;
+            padding: 0 !important;
+            border: none !important;
+            background-color: transparent !important;
+        }
+
+        .select2-container--bootstrap4 .select2-selection--single .select2-selection__rendered {
+            padding: 0.875rem 0.75rem !important;
+            line-height: 1.5 !important;
+            background-color: #F9F5F3 !important;
+            border-radius: 5px !important;
+            color: #6c757d !important;
+
+        }
+
+        .select2-container--bootstrap4 .select2-selection--single .select2-selection__placeholder {
+            color: #6c757d !important;
+        }
+
+        .select2-container--bootstrap4 .select2-selection--single .select2-selection__arrow {
+            height: 100% !important;
+            top: 0 !important;
+            right: 0.75rem !important;
+        }
+
+        .select2-container--bootstrap4 .select2-selection--single .select2-selection__arrow b {
+            border-color: #6c757d transparent transparent transparent !important;
+            border-style: solid !important;
+            border-width: 5px 4px 0 4px !important;
+            height: 0 !important;
+            right: 0.75rem !important;
+            margin-left: -4px !important;
+            margin-top: -2px !important;
+            position: absolute !important;
+            top: 50% !important;
+            width: 0 !important;
+        }
+
+        .select2-container--bootstrap4 .select2-selection--single:focus,
+        .select2-container--bootstrap4.select2-container--focus .select2-selection--single,
+        .select2-container--bootstrap4.select2-container--open .select2-selection--single {
+            box-shadow: none !important;
+            outline: none !important;
+            border: none !important;
+        }
+
+        /* Match dropdown styling */
+        .select2-container--bootstrap4 .select2-dropdown {
+            border: 1px solid #ced4da !important;
+            border-radius: 0.25rem !important;
+        }
+
+        .select2-container--bootstrap4 .select2-results__option {
+            padding: 0.5rem 1rem !important;
+        }
+
+        .select2-container--bootstrap4 .select2-results__option--highlighted,
+        .select2-container--bootstrap4 .select2-results__option--highlighted[aria-disabled="true"] {
+            background-color: #007bff !important;
+            color: white !important;
+        }
+
+        .select2-container--bootstrap4 .select2-results__option[aria-selected="true"]:not(.select2-results__option--highlighted) {
+            background-color: #e9ecef !important;
+            color: #6c757d !important;
+        }
+
+        /* Fix datetimepicker input group styling */
+        #bodDatepicker.input-group {
+            position: relative;
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: stretch;
+            width: 100%;
+        }
+        
+        #bodDatepicker .form-control.datetimepicker-input {
+            position: relative;
+            flex: 1 1 auto;
+            width: 1%;
+            min-width: 0;
+            margin-bottom: 0;
+            border-right: 0 !important;
+            border-top-right-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+        }
+        
+        #bodDatepicker .input-group-append {
+            margin-left: -1px !important;
+            display: flex;
+        }
+        
+        #bodDatepicker .input-group-append .input-group-text {
+            display: flex;
+            align-items: center;
+            padding: 0.375rem 0.75rem;
+            margin-bottom: 0;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #212529;
+            text-align: center;
+            white-space: nowrap;
+            background-color: #e9ecef !important;
+            border: 0px !important;
+            border-left: 1px solid #ced4da !important;
+            border-top-left-radius: 0 !important;
+            border-bottom-left-radius: 0 !important;
+            cursor: pointer;
+        }
+
+        /* Fix curriculum vitae input group styling */
+        #curriculumVitaeGroup.input-group {
+            position: relative;
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: stretch;
+            width: 100%;
+        }
+        
+        #curriculumVitaeGroup .form-control[type="file"] {
+            position: relative;
+            flex: 1 1 auto;
+            width: 1%;
+            min-width: 0;
+            margin-bottom: 0;
+            border-right: 0 !important;
+            border-top-right-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+        }
+        
+        #curriculumVitaeGroup .form-control[type="file"]::file-selector-button {
+            display: none;
+        }
+        
+        #curriculumVitaeGroup .form-control[type="file"] {
+            color: transparent;
+        }
+        
+        #curriculumVitaeGroup .form-control[type="file"].has-file {
+            color: #212529;
+        }
+        
+        /* Custom placeholder for file input */
+        #curriculumVitaeGroup .form-control[type="file"]::before {
+            content: 'Choose file';
+            color: #6c757d;
+            display: inline-block;
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        #curriculumVitaeGroup .form-control[type="file"].has-file::before {
+            content: '';
+        }
+        
+        #curriculumVitaeGroup .input-group-append {
+            margin-left: -1px !important;
+            display: flex;
+        }
+        
+        #curriculumVitaeGroup .input-group-append .input-group-text {
+            display: flex;
+            align-items: center;
+            padding: 0.375rem 0.75rem;
+            margin-bottom: 0;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #212529;
+            text-align: center;
+            white-space: nowrap;
+            background-color: #e9ecef !important;
+            border: 0px !important;
+            border-left: 1px solid #ced4da !important;
+            border-top-left-radius: 0 !important;
+            border-bottom-left-radius: 0 !important;
+            cursor: pointer;
+        }
+
+        /* Fix salary input groups styling */
+        #currentSalaryGroup.input-group,
+        #expectationSalaryGroup.input-group {
+            position: relative;
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: stretch;
+            width: 100%;
+        }
+        
+        #currentSalaryGroup .input-group-prepend,
+        #expectationSalaryGroup .input-group-prepend {
+            margin-right: -1px !important;
+            display: flex;
+        }
+        
+        #currentSalaryGroup .input-group-prepend .input-group-text,
+        #expectationSalaryGroup .input-group-prepend .input-group-text {
+            display: flex;
+            align-items: center;
+            padding: 0.375rem 0.75rem;
+            margin-bottom: 0;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #212529;
+            text-align: center;
+            white-space: nowrap;
+            background-color: #e9ecef !important;
+            border: 0px !important;
+            border-right: 1px solid #ced4da !important;
+            border-top-right-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+        }
+        
+        #currentSalaryGroup .form-control,
+        #expectationSalaryGroup .form-control {
+            position: relative;
+            flex: 1 1 auto;
+            width: 1%;
+            min-width: 0;
+            margin-bottom: 0;
+            border-left: 0 !important;
+            border-top-left-radius: 0 !important;
+            border-bottom-left-radius: 0 !important;
+        }
+
+        /* Fix duration input group styling */
+        #durationGroup.input-group {
+            position: relative;
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: stretch;
+            width: 100%;
+        }
+        
+        #durationGroup .input-group-prepend {
+            margin-left: -1px !important;
+            display: flex;
+        }
+        
+        #durationGroup .input-group-prepend .input-group-text {
+            display: flex;
+            align-items: center;
+            padding: 0.375rem 0.75rem;
+            margin-bottom: 0;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #212529;
+            text-align: center;
+            white-space: nowrap;
+            background-color: #e9ecef !important;
+            border: 0px !important;
+            border-left: 1px solid #ced4da !important;
+            border-top-left-radius: 0 !important;
+            border-bottom-left-radius: 0 !important;
+        }
+        
+        #durationGroup .form-control {
+            position: relative;
+            flex: 1 1 auto;
+            width: 1%;
+            min-width: 0;
+            margin-bottom: 0;
+            border-right: 0 !important;
+            border-top-right-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+        }
+    </style>
+@endpush
+
+@push('after-scripts')
+   <script src="{{ asset('js/jquery-3.6.4.min.js') }}"></script>
+   <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+   <script src="{{ asset('js/wow.min.js') }}"></script>
+   <script src="{{ asset('js/jquery.magnific-popup.js') }}"></script>
+   <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
+   <script src="{{ asset('js/slick.min.js') }}"></script>
+   <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
+   <script src="{{ asset('js/contact_form.js') }}"></script>
+   <script src="{{ asset('js/grt-youtube-popup.js') }}"></script>
+   <script src="{{ asset('js/jquery.fancybox.min.js') }}"></script>
+   <script src="{{ asset('js/custom.js') }}"></script>
+   <script src="{{ asset('vendor/jquery-timeline/js/timeline.min.js') }}"></script>
+   <script src="{{ asset('vendor/leaflet/dist/leaflet.js') }}"></script>
+   <script src="{{ asset('vendor/moment/moment.min.js') }}"></script>
+   <script src="{{ asset('vendor/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+   <script src="{{ asset('vendor/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
+   <script src="{{ asset('vendor/select2/js/select2.full.min.js') }}"></script>
+   <script src="{{ asset('vendor/toastr/toastr.min.js') }}"></script>
+
+    @include('partials.toastr')
+
+   <script>
+        $(document).ready(function () {
+            // Initialize DatePicker
+            $('#bodDatepicker').datetimepicker({
+                format: 'DD-MM-YYYY'
+            });
+
+            //Initialize Select2 Elements
+            $('.select2bs4').select2({
+                theme: 'bootstrap4'
+            });
+
+            // Handle file input validation and styling
+            $('#curriculumVitae').on('change', function(e) {
+                const file = this.files[0];
+                
+                if (file) {
+                    // Check file size (5MB = 5242880 bytes)
+                    if (file.size > 5242880) {
+                        toastr.warning('File size must not exceed 5MB.');
+                        $(this).val('').removeClass('has-file');
+                        return false;
+                    }
+                    
+                    // Check file type
+                    const allowedTypes = ['application/pdf'];
+                    if (!allowedTypes.includes(file.type)) {
+                        toastr.warning('File type must be PDF only.');
+                        $(this).val('').removeClass('has-file');
+                        return false;
+                    }
+                    
+                    // Add class when file is selected
+                    $(this).addClass('has-file');
+                } else {
+                    $(this).removeClass('has-file');
+                }
+            });
+
+            // Trigger file input when Browse button is clicked
+            $('#curriculumVitaeGroup .input-group-append').on('click', function() {
+                $('#curriculumVitae').click();
+            });
+
+            // Numeric Input Restriction
+            $(document).on("keypress", ".number-only", function (e) {
+                return ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"].includes(e.key)
+            });
+            
+            // Handle experienced applicants visibility
+            function toggleExperiencedApplicants() {
+                const experiencedValue = $('#experienced').val();
+                const experiencedApplicants = $('#experiencedApplicants');
+                const experiencedInputs = experiencedApplicants.find('input');
+                
+                if (experiencedValue === 'Yes') {
+                    experiencedApplicants.slideDown();
+                    // Make experienced applicants required
+                    experiencedInputs.attr('required', true);
+                } else {
+                    experiencedApplicants.slideUp();
+                    // Remove required attribute and clear values
+                    experiencedInputs.attr('required', false).val('');
+                }
+            }
+            
+            // Initialize experienced applicants visibility on page load
+            toggleExperiencedApplicants();
+            
+            // Show/hide experienced applicants when the experienced dropdown changes
+            $('#experienced').on('change', toggleExperiencedApplicants);
+            
+            // Handle form reset to update experienced applicants visibility
+            $('button[type="reset"]').on('click', function() {
+                setTimeout(function() {
+                    toggleExperiencedApplicants();
+                }, 50);
+            });
+        });
+
+      // Header active class toggle on scroll
+      const header = document.querySelector(".headerOne");
+      const toggleClass = "headerActive";
+      window.addEventListener("scroll", () => {
+         const currentScroll = window.pageYOffset;
+         if (currentScroll > 150) {
+            header.classList.add(toggleClass);
+         } else {
+            header.classList.remove(toggleClass);
+         }
+      });
+
+   </script>
+@endpush

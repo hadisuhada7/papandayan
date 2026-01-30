@@ -64,11 +64,12 @@ class FrontController extends Controller
 
     public function about() {
         $profiles = CompanyProfile::orderByDesc('id')->take(1)->get();
-        $abouts = CompanyAbout::orderByRaw("CASE WHEN type = 'Visions' THEN 0 ELSE 1 END")->orderByDesc('id')->get();
+        $visions = CompanyAbout::where('type', 'visions')->orderBy('id')->take(1)->get();
+        $missions = CompanyAbout::where('type', 'missions')->orderBy('id')->take(1)->get();
         $histories = TrackRecord::orderBy('track_record_at', 'asc')->take(5)->get();
         $organizations = OrganizationStructure::orderByDesc('id')->take(1)->get();
         $managements = OurManagement::orderBy('id')->take(10)->get();
-        return view('front.about', compact('profiles', 'abouts', 'histories', 'organizations', 'managements'));
+        return view('front.about', compact('profiles', 'visions', 'missions', 'histories', 'organizations', 'managements'));
     }
 
     public function business() {

@@ -76,21 +76,21 @@
                <div class="pigFactsTopicsCol pigFactsTopicsCol1 order-xl-1">
                   <div class="pigFactsTxt layerBreeders">
                      <div class="pigFactsTxtInner">
-                        @forelse ($abouts as $about)
+                        @forelse ($visions as $vision)
                         <div class="broilerBreederContent">
                            <div class="broilerBreederHeadGroup">
                               <div class="broilBreederImg">
-                                 <img src="{{ Storage::url($about->icon) }}" alt="Broiler-Breeder" class="img-fluid">
+                                 <img src="{{ Storage::url($vision->icon) }}" alt="Broiler-Breeder" class="img-fluid">
                               </div>
                               <div class="broilBreederHeading">
-                                 <h2 class="mb-0">{{ $about->name }}</h2>
+                                 <h2 class="mb-0">{{ $vision->name }}</h2>
                               </div>
                            </div>
                            <div class="broilerBreederPara">
-                              <p>{{ $about->description }}</p>
-                              @forelse ($about->keypoints as $keypoint)
+                              <p>{{ $vision->description }}</p>
+                              @forelse ($vision->keypoints as $keypoint)
                               <ul>
-                                 <li>it look like readable English. Many desktop publishing packages.</li>
+                                 <li>{{ $keypoint }}</li>
                               </ul>
                               @empty
                               
@@ -107,21 +107,21 @@
                <div class="pigFactsTopicsCol pigFactsTopicsCol2 order-xl-2">
                   <div class="pigFactsTxt broilerBreeders">
                      <div class="pigFactsTxtInner">
-                        @forelse ($abouts as $about)
+                        @forelse ($missions as $mission)
                         <div class="broilerBreederContent">
                            <div class="broilerBreederHeadGroup">
                               <div class="broilBreederImg">
-                                 <img src="{{ Storage::url($about->icon) }}" alt="Broiler-Breeder" class="img-fluid">
+                                 <img src="{{ Storage::url($mission->icon) }}" alt="Broiler-Breeder" class="img-fluid">
                               </div>
                               <div class="broilBreederHeading">
-                                 <h2 class="mb-0">{{ $about->name }}</h2>
+                                 <h2 class="mb-0">{{ $mission->name }}</h2>
                               </div>
                            </div>
                            <div class="broilerBreederPara">
-                              <p>{{ $about->description }}</p>
-                              @forelse ($about->keypoints as $keypoint)
+                              <p>{{ $mission->description }}</p>
+                              @forelse ($mission->keypoints as $keypoint)
                               <ul>
-                                 <li>it look like readable English. Many desktop publishing packages.</li>
+                                 <li>{{ $keypoint }}</li>
                               </ul>
                               @empty
                               

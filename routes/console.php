@@ -11,5 +11,11 @@ use App\Jobs\TicketingJob;
 
 // Schedule::call(new TicketingJob())->everyMinute();
 Schedule::call(function(){
+    // cari email yg blm dikirim
+    // loop
+    //{
+    //   TicketingJob::dispatch($email->id);
+   // }
+    
     print_r("Ticketing Job Running \n");
 })->everyMinute();

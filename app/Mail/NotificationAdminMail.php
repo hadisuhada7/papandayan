@@ -18,6 +18,7 @@ class NotificationAdminMail extends Mailable
     use Queueable, SerializesModels;
 
     public string $logoCid;
+    public string $logoSrc;
     protected string $logoPath;
 
     /**
@@ -27,6 +28,14 @@ class NotificationAdminMail extends Mailable
     {
         $this->logoPath = public_path('images/logo/favicon.png');
         $this->logoCid = 'papandayan-logo-'.Str::uuid().'@papandayan';
+
+        // if (app()->isProduction()) {
+        //     $this->logoSrc = 'https://www.test.papandayan.co.id/images/logo/favicon.png';
+        //     return;
+        // }
+
+        // $this->logoSrc = 'cid:'.$this->logoCid;
+        $this->logoSrc = 'https://www.test.papandayan.co.id/images/logo/favicon.png';
 
         $this->withSymfonyMessage(function ($message) {
             if (! is_file($this->logoPath)) {

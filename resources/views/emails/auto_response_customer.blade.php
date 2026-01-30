@@ -23,6 +23,18 @@
                                 <p style="margin: 0 0 8px; font-weight: 600;">Nomor Tiket</p>
                                 <p style="margin: 0; color: #111827; font-size: 18px;">{{ $ticket?->ticket_number ?? '-' }}</p>
                             </div>
+                            @if (($ticket?->status?->value ?? 'new') !== 'new' && filled($ticket?->response_message))
+                                <div style="background-color: #f9fafb; padding: 16px; border-radius: 6px; margin-bottom: 16px;">
+                                    <p style="margin: 0 0 8px; font-weight: 600;">Status Ticket</p>
+                                    <p style="margin: 0 0 12px; color: #111827; font-size: 16px;">
+                                        {{ ucfirst($ticket->status->value) }}
+                                    </p>
+                                    <p style="margin: 0 0 8px; font-weight: 600;">Response Message</p>
+                                    <p style="margin: 0; color: #4b5563; white-space: pre-line;">
+                                        {{ $ticket->response_message }}
+                                    </p>
+                                </div>
+                            @endif
                             <p style="margin: 0 0 8px; color: #4b5563;">
                                 <strong>Rangkuman pesan:</strong>
                             </p>

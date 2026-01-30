@@ -18,12 +18,14 @@ class LogEmailSender extends Model
         'template',
         'body',
         'status',
+        'fail_interval',
         'error_message',
         'sent_at',
     ];
 
     protected $casts = [
         'sent_at' => 'datetime',
+        'fail_interval' => 'integer',
     ];
 
     public function question()

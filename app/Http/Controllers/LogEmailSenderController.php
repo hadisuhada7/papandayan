@@ -14,8 +14,18 @@ class LogEmailSenderController extends Controller
         return view('admin.email-logs.index', compact('logs'));
     }
 
-    public function show(LogEmailSender $logEmailSender): View
+    public function show(LogEmailSender $email_log): View
     {
-        return view('admin.email-logs.show', ['log' => $logEmailSender]);
+        $email_log->load(['question', 'ticket']);
+        $bodyPreview = $email_log->body;
+
+        if ($bodyPreview) {
+            $bodyPreview = preg_replace('/cid:[^"\']+/', asset('images/logo/favicon.png'), $bodyPreview);
+        }
+
+        return view('admin.email-logs.show', [
+            'log' => $email_log,
+            'bodyPreview' => $bodyPreview,
+        ]);
     }
 }

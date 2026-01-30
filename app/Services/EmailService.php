@@ -105,6 +105,7 @@ class EmailService
             $log->update([
                 'status' => 'failed',
                 'error_message' => $exception->getMessage(),
+                'fail_interval' => ($log->fail_interval ?? 0) + 1,
             ]);
             report($exception);
             throw $exception;

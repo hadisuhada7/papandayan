@@ -6,6 +6,7 @@ use App\Enums\TicketStatus;
 use App\Helpers\TicketNumberHelper;
 use App\Models\Question;
 use App\Models\Ticket;
+use App\Services\EmailService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -62,8 +63,10 @@ class TicketController extends Controller
         return view('admin.tickets.edit', compact('ticket', 'questions'));
     }
 
-    public function update(Request $request, Ticket $ticket): RedirectResponse
+    public function update(Request $request, Ticket $ticket, EmailService $emailService): RedirectResponse
     {
+        $previousStatus = $ticket->status?->value;
+
         $validated = $request->validate([
             'question_id' => ['nullable', 'integer', 'exists:questions,id'],
             'subject' => ['required', 'string', 'max:255'],
@@ -82,6 +85,11 @@ class TicketController extends Controller
         }
 
         $ticket->update($validated);
+        $ticket->refresh();
+
+        if ($previousStatus !== $ticket->status?->value && $ticket->question) {
+            $emailService->sendAutoResponseCustomer($ticket->question, $ticket);
+        }
 
         return redirect()->route('admin.tickets.index')->with('toast', ['type' => 'success', 'message' => 'Ticket updated successfully.']);
     }

@@ -40,6 +40,9 @@
                         <dt class="col-sm-4">Status</dt>
                         <dd class="col-sm-8">{{ ucfirst($log->status) }}</dd>
 
+                        <dt class="col-sm-4">Fail Interval</dt>
+                        <dd class="col-sm-8">{{ $log->fail_interval ?? 0 }}</dd>
+
                         <dt class="col-sm-4">Sent At</dt>
                         <dd class="col-sm-8">{{ $log->sent_at?->format('d M Y H:i') ?? '-' }}</dd>
 
@@ -59,6 +62,22 @@
                 </div>
                 <div class="card-body">
                     <p class="mb-0" style="white-space: pre-line;">{{ $log->error_message ?? '-' }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-info card-outline">
+                <div class="card-header">
+                    <h3 class="card-title">Email Body</h3>
+                </div>
+                <div class="card-body">
+                    @if ($bodyPreview)
+                        <div class="border rounded p-3 bg-white">{!! $bodyPreview !!}</div>
+                    @else
+                        <p class="mb-0">-</p>
+                    @endif
                 </div>
             </div>
         </div>

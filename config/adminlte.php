@@ -488,17 +488,6 @@ return [
             'url' => 'admin/navigations',
             'icon' => 'fas fa-fw fa-bars',
         ],
-        ['header' => 'ACCOUNT SETTINGS'],
-        [
-            'text' => 'Users',
-            'url' => '#',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'Change Password',
-            'url' => '#',
-            'icon' => 'fas fa-fw fa-lock',
-        ],
         ['header' => 'TICKET SETTINGS'],
         [
             'text' => 'Email Configs',
@@ -509,6 +498,22 @@ return [
             'text' => 'Email Logs',
             'url' => 'admin/email-logs',
             'icon' => 'fas fa-fw fa-envelope',
+        ],
+        [
+            'text' => 'Download Logs',
+            'url' => 'admin/download-logs',
+            'icon' => 'fas fa-fw fa-download',
+        ],
+        ['header' => 'ACCOUNT SETTINGS'],
+        [
+            'text' => 'Users',
+            'url' => '#',
+            'icon' => 'fas fa-fw fa-user',
+        ],
+        [
+            'text' => 'Change Password',
+            'url' => '#',
+            'icon' => 'fas fa-fw fa-lock',
         ],
     ],
 

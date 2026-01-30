@@ -22,4 +22,9 @@ class StockReport extends Model
     {
         return $this->hasMany(LogDownloadReport::class);
     }
+
+    public function stockInformation()
+    {
+        return $this->belongsTo(StockInformation::class, 'stock_information_id');
+    }
 }

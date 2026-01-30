@@ -12,7 +12,8 @@ class LogDownloadReportController extends Controller
      */
     public function index()
     {
-        //
+        $logs = LogDownloadReport::orderBy('id')->get();
+        return view('admin.download-logs.index', compact('logs'));
     }
 
     /**

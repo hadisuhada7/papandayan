@@ -33,6 +33,7 @@ use App\Http\Controllers\MenuGroupController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\EmailConfigController;
 use App\Http\Controllers\LogEmailSenderController;
+use App\Http\Controllers\LogDownloadReportController;
 use App\Http\Controllers\FrontController;
 use Illuminate\Support\Facades\Route;
 
@@ -60,9 +61,17 @@ Route::get('/report', [FrontController::class, 'report'])->name('front.report');
 Route::get('/report/download/{id}', [FrontController::class, 'reportDownload'])->name('front.report.download');
 Route::post('/report/download-with-log/{id}', [FrontController::class, 'reportDownloadWithLog'])->name('front.report.download.with.log');
 Route::get('/financial', [FrontController::class, 'financial'])->name('front.financial');
+Route::get('/financial/download/{id}', [FrontController::class, 'financialDownload'])->name('front.financial.download');
+Route::post('/financial/download-with-log/{id}', [FrontController::class, 'financialDownloadWithLog'])->name('front.financial.download.with.log');
 Route::get('/investor', [FrontController::class, 'investor'])->name('front.investor');
+Route::get('/investor/download/{id}', [FrontController::class, 'investorDownload'])->name('front.investor.download');
+Route::post('/investor/download-with-log/{id}', [FrontController::class, 'investorDownloadWithLog'])->name('front.investor.download.with.log');
 Route::get('/stock', [FrontController::class, 'stock'])->name('front.stock');
+Route::get('/stock/download/{id}', [FrontController::class, 'stockDownload'])->name('front.stock.download');
+Route::post('/stock/download-with-log/{id}', [FrontController::class, 'stockDownloadWithLog'])->name('front.stock.download.with.log');
 Route::get('/shareholder', [FrontController::class, 'shareholder'])->name('front.shareholder');
+Route::get('/shareholder/download/{id}', [FrontController::class, 'shareholderDownload'])->name('front.shareholder.download');
+Route::post('/shareholder/download-with-log/{id}', [FrontController::class, 'shareholderDownloadWithLog'])->name('front.shareholder.download.with.log');
 
 Route::get('/home', function () {
     return redirect('/dashboard');
@@ -209,6 +218,10 @@ Route::middleware('auth')->group(function () {
 
         Route::middleware('can:manage email configs')->group(function () {
             Route::resource('email-configs', EmailConfigController::class);
+        });
+
+        Route::middleware('can:manage download logs')->group(function () {
+            Route::resource('download-logs', LogDownloadReportController::class);
         });
 
     });

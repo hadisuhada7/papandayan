@@ -45,6 +45,10 @@ class RolePermissionSeeder extends Seeder
             'manage shareholders',
             'manage menu navigations',
             'manage menu groups',
+            'manage tickets',
+            'manage email logs',
+            'manage email configs',
+            'manage download logs',
         ];
 
         foreach($permission as $permission){
@@ -89,6 +93,10 @@ class RolePermissionSeeder extends Seeder
             'manage shareholders',
             'manage menu navigations',
             'manage menu groups',
+            'manage tickets',
+            'manage email logs',
+            'manage email configs',
+            'manage download logs',
         ];
 
         $designManagerRole->syncPermissions($designManagerPermissions);

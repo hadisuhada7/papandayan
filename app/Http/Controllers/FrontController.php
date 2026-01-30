@@ -25,9 +25,13 @@ use App\Models\Initiative;
 use App\Models\DocumentReport;
 use App\Models\LogDownloadReport;
 use App\Models\AnnualReport;
+use App\Models\FinancialReport;
 use App\Models\FinancialStatement;
+use App\Models\InvestorReport;
 use App\Models\InvestorPresentation;
+use App\Models\StockReport;
 use App\Models\StockInformation;
+use App\Models\ShareholderReport;
 use App\Models\Shareholder;
 use App\Jobs\TicketingJob;
 use App\Http\Requests\StoreQuestionRequest;
@@ -243,9 +247,123 @@ class FrontController extends Controller
         return view('front.financial', compact('financials'));
     }
 
+    public function financialDownload($id) {
+        $financialReport = \App\Models\FinancialReport::findOrFail($id);
+        
+        // Return the file for download
+        $filePath = storage_path('app/public/' . $financialReport->report);
+        
+        if (file_exists($filePath)) {
+            return response()->download($filePath, $financialReport->name . '.' . pathinfo($financialReport->report, PATHINFO_EXTENSION));
+        }
+        
+        return redirect()->back()->with('error', 'File tidak ditemukan.');
+    }
+
+    public function financialDownloadWithLog(Request $request, $id) {
+        // Get real IP address from client (handles proxy/forwarded IPs)
+        $clientIp = $this->getClientIpAddress($request);
+        
+        // Debug incoming request
+        \Log::info('financialDownloadWithLog called', [
+            'id' => $id,
+            'request_data' => $request->all(),
+            'ip' => $clientIp
+        ]);
+        
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+        ]);
+
+        $financialReport = \App\Models\FinancialReport::findOrFail($id);
+        
+        // Create log entry with client IP address
+        $logData = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'type_report' => $financialReport->name,
+            'ip_address' => $clientIp, // IP dari PC/laptop yang download
+            'status' => 'success',
+            'downloaded_at' => now(),
+            'financial_report_id' => $financialReport->id,
+        ];
+        
+        \Log::info('Creating log entry', $logData);
+        
+        $log = LogDownloadReport::create($logData);
+        
+        \Log::info('Log entry created', ['log_id' => $log->id, 'client_ip' => $clientIp]);
+        
+        // Return success response with IP info
+        return response()->json([
+            'success' => true,
+            'message' => 'Data berhasil disimpan. File akan segera didownload.',
+            'log_id' => $log->id,
+            'ip_address' => $clientIp // IP dari PC/laptop yang download
+        ]);
+    }
+
     public function investor() {
         $investors = InvestorPresentation::orderByDesc('id')->take(5)->get();
         return view('front.investor', compact('investors'));
+    }
+
+    public function investorDownload($id) {
+        $investorReport = InvestorReport::findOrFail($id);
+        
+        // Return the file for download
+        $filePath = storage_path('app/public/' . $investorReport->report);
+        
+        if (file_exists($filePath)) {
+            return response()->download($filePath, $investorReport->name . '.' . pathinfo($investorReport->report, PATHINFO_EXTENSION));
+        }
+        
+        return redirect()->back()->with('error', 'File tidak ditemukan.');
+    }
+
+    public function investorDownloadWithLog(Request $request, $id) {
+        // Get real IP address from client (handles proxy/forwarded IPs)
+        $clientIp = $this->getClientIpAddress($request);
+        
+        // Debug incoming request
+        \Log::info('investorDownloadWithLog called', [
+            'id' => $id,
+            'request_data' => $request->all(),
+            'ip' => $clientIp
+        ]);
+        
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+        ]);
+
+        $investorReport = InvestorReport::findOrFail($id);
+        
+        // Create log entry with client IP address
+        $logData = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'type_report' => $investorReport->name,
+            'ip_address' => $clientIp, // IP dari PC/laptop yang download
+            'status' => 'success',
+            'downloaded_at' => now(),
+            'investor_report_id' => $investorReport->id,
+        ];
+        
+        \Log::info('Creating log entry', $logData);
+        
+        $log = LogDownloadReport::create($logData);
+        
+        \Log::info('Log entry created', ['log_id' => $log->id, 'client_ip' => $clientIp]);
+        
+        // Return success response with IP info
+        return response()->json([
+            'success' => true,
+            'message' => 'Data berhasil disimpan. File akan segera didownload.',
+            'log_id' => $log->id,
+            'ip_address' => $clientIp // IP dari PC/laptop yang download
+        ]);
     }
 
     public function stock() {
@@ -253,9 +371,123 @@ class FrontController extends Controller
         return view('front.stock', compact('stocks'));
     }
 
+    public function stockDownload($id) {
+        $stockReport = StockReport::findOrFail($id);
+        
+        // Return the file for download
+        $filePath = storage_path('app/public/' . $stockReport->report);
+        
+        if (file_exists($filePath)) {
+            return response()->download($filePath, $stockReport->name . '.' . pathinfo($stockReport->report, PATHINFO_EXTENSION));
+        }
+        
+        return redirect()->back()->with('error', 'File tidak ditemukan.');
+    }
+
+    public function stockDownloadWithLog(Request $request, $id) {
+        // Get real IP address from client (handles proxy/forwarded IPs)
+        $clientIp = $this->getClientIpAddress($request);
+        
+        // Debug incoming request
+        \Log::info('stockDownloadWithLog called', [
+            'id' => $id,
+            'request_data' => $request->all(),
+            'ip' => $clientIp
+        ]);
+        
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+        ]);
+
+        $stockReport = StockReport::findOrFail($id);
+        
+        // Create log entry with client IP address
+        $logData = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'type_report' => $stockReport->name,
+            'ip_address' => $clientIp, // IP dari PC/laptop yang download
+            'status' => 'success',
+            'downloaded_at' => now(),
+            'stock_report_id' => $stockReport->id,
+        ];
+        
+        \Log::info('Creating log entry', $logData);
+        
+        $log = LogDownloadReport::create($logData);
+        
+        \Log::info('Log entry created', ['log_id' => $log->id, 'client_ip' => $clientIp]);
+        
+        // Return success response with IP info
+        return response()->json([
+            'success' => true,
+            'message' => 'Data berhasil disimpan. File akan segera didownload.',
+            'log_id' => $log->id,
+            'ip_address' => $clientIp // IP dari PC/laptop yang download
+        ]);
+    }
+
     public function shareholder() {
         $shareholders = Shareholder::orderByDesc('id')->take(5)->get();
         return view('front.shareholder', compact('shareholders'));
+    }
+
+    public function shareholderDownload($id) {
+        $shareholderReport = ShareholderReport::findOrFail($id);
+        
+        // Return the file for download
+        $filePath = storage_path('app/public/' . $shareholderReport->report);
+        
+        if (file_exists($filePath)) {
+            return response()->download($filePath, $shareholderReport->name . '.' . pathinfo($shareholderReport->report, PATHINFO_EXTENSION));
+        }
+        
+        return redirect()->back()->with('error', 'File tidak ditemukan.');
+    }
+
+    public function shareholderDownloadWithLog(Request $request, $id) {
+        // Get real IP address from client (handles proxy/forwarded IPs)
+        $clientIp = $this->getClientIpAddress($request);
+        
+        // Debug incoming request
+        \Log::info('shareholderDownloadWithLog called', [
+            'id' => $id,
+            'request_data' => $request->all(),
+            'ip' => $clientIp
+        ]);
+        
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+        ]);
+
+        $shareholderReport = ShareholderReport::findOrFail($id);
+        
+        // Create log entry with client IP address
+        $logData = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'type_report' => $shareholderReport->name,
+            'ip_address' => $clientIp, // IP dari PC/laptop yang download
+            'status' => 'success',
+            'downloaded_at' => now(),
+            'shareholder_report_id' => $shareholderReport->id,
+        ];
+        
+        \Log::info('Creating log entry', $logData);
+        
+        $log = LogDownloadReport::create($logData);
+        
+        \Log::info('Log entry created', ['log_id' => $log->id, 'client_ip' => $clientIp]);
+        
+        // Return success response with IP info
+        return response()->json([
+            'success' => true,
+            'message' => 'Data berhasil disimpan. File akan segera didownload.',
+            'log_id' => $log->id,
+            'ip_address' => $clientIp // IP dari PC/laptop yang download
+        ]);
     }
 
     public function careerStore(StoreCareerApplicantRequest $request) {

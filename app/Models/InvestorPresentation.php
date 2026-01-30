@@ -26,4 +26,9 @@ class InvestorPresentation extends Model
     {
         return $this->hasMany(LogDownloadReport::class);
     }
+
+    public function investorReports()
+    {
+        return $this->hasMany(InvestorReport::class, 'investor_presentation_id');
+    }
 }

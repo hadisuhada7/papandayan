@@ -22,4 +22,9 @@ class ShareholderReport extends Model
     {
         return $this->hasMany(LogDownloadReport::class);
     }
+
+    public function shareholder()
+    {
+        return $this->belongsTo(Shareholder::class, 'shareholder_id');
+    }
 }

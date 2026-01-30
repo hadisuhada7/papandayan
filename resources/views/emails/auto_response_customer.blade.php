@@ -12,7 +12,7 @@
                     <tr>
                         <td style="padding: 24px;">
                             <div style="margin-bottom: 16px;">
-                                <img src="cid:{{ $logoCid }}" alt="Papandayan" style="height: 48px;">
+                                <img src="{{ $logoSrc }}" alt="Papandayan" style="height: 48px;">
                             </div>
                             <h2 style="margin: 0 0 12px; color: #2c3e50;">Terima kasih telah menghubungi PT Papandayan</h2>
                             <p style="margin: 0 0 16px; color: #4b5563;">Halo {{ $question->name }},</p>

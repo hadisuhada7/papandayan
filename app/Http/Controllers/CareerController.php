@@ -15,6 +15,9 @@ class CareerController extends Controller
      */
     public function index()
     {
+        // Update status careers before displaying
+        $this->updateStatusCareers();
+        
         $careers = Career::orderBy('id')->get();
         return view('admin.careers.index', compact('careers'));
     }
@@ -94,5 +97,24 @@ class CareerController extends Controller
         });
 
         return redirect()->route('admin.careers.index')->with('toast', ['type' => 'success', 'message' => 'Career deleted successfully.']);
+    }
+
+    /**
+     * Update careers status based on current date
+     */
+    private function updateStatusCareers()
+    {
+        $today = now()->startOfDay();
+        
+        // Change status from 'Private' to 'Published' if current date is between posting_at and closing_at
+        Career::where('status', 'Private')
+              ->whereDate('posting_at', '<=', $today)
+              ->whereDate('closing_at', '>=', $today)
+              ->update(['status' => 'Published']);
+        
+        // Change status from 'Published' to 'Private' if closing date has passed
+        Career::where('status', 'Published')
+              ->whereDate('closing_at', '<', $today)
+              ->update(['status' => 'Private']);
     }
 }

@@ -24,4 +24,12 @@ class Article extends Model
     protected $casts = [
         'publish_at' => 'date', // format method...
     ];
+
+    /**
+     * Get the tags for the article.
+     */
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'article_tag');
+    }
 }

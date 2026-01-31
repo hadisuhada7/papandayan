@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\HeroSection;
+use App\Models\MenuNavigation;
 use App\Models\CompanyStatistic;
 use App\Models\Product;
 use App\Models\Service;
@@ -33,6 +34,7 @@ use App\Models\StockReport;
 use App\Models\StockInformation;
 use App\Models\ShareholderReport;
 use App\Models\Shareholder;
+use App\Models\CoverageArea;
 use App\Jobs\TicketingJob;
 use App\Http\Requests\StoreQuestionRequest;
 use App\Http\Requests\StoreCareerApplicantRequest;
@@ -42,46 +44,86 @@ use Illuminate\Support\Facades\DB;
 
 class FrontController extends Controller
 {
+    /**
+     * Get banner by menu navigation name
+     */
+    private function getBannerByMenuName($menuName)
+    {
+        $menu = MenuNavigation::where('name', $menuName)->first();
+        if ($menu) {
+            return HeroSection::where('menu_navigation_id', $menu->id)->get();
+        }
+        
+        // Fallback to latest banner if menu not found
+        return HeroSection::orderByDesc('id')->take(1)->get();
+    }
+
     public function index() {
-        $banners = HeroSection::orderByDesc('id')->take(1)->get();
+        $banners = $this->getBannerByMenuName('Beranda');
         $statistics = CompanyStatistic::take(4)->get();
         $products = Product::orderByDesc('id')->take(1)->get();
         $services = Service::orderByDesc('id')->take(1)->get();
         $testimonials = Testimonial::take(5)->get();
-        $articles = Article::orderByDesc('id')->take(3)->get();
-        return view('front.index', compact('banners', 'statistics', 'products', 'services', 'testimonials', 'articles'));
+        $articles = Article::where('status', 'Published')->orderBy('id')->get();
+        $coverageAreas = CoverageArea::whereNotNull('latitude')
+                                    ->whereNotNull('longitude')
+                                    ->whereNotNull('partner_name')
+                                    ->get();
+        return view('front.index', compact('banners', 'statistics', 'products', 'services', 'testimonials', 'articles', 'coverageAreas'));
     }
 
     public function article() {
-        $articles = Article::orderByDesc('id')->take(3)->get();
-        return view('front.article', compact('articles'));
+        $banners = $this->getBannerByMenuName('Artikel');
+        $articles = Article::where('status', 'Published')->orderBy('id')->get();
+        return view('front.article', compact('banners', 'articles'));
     }
 
     public function articleDetail($id) {
-        $article = Article::findOrFail($id);
-        return view('front.article-detail', compact('article'));
+        $article = Article::with('tags')->findOrFail($id);
+        
+        // Increment viewer count
+        $article->increment('viewer');
+
+        // Get recent articles (excluding current article)
+        $recentArticles = Article::where('status', 'Published')
+            ->where('id', '!=', $id)
+            ->orderBy('created_at', 'desc')
+            ->limit(5)
+            ->get();
+        
+        return view('front.article-detail', compact('article', 'recentArticles'));
     }
 
     public function about() {
+        $banners = $this->getBannerByMenuName('Tentang Kami');
         $profiles = CompanyProfile::orderByDesc('id')->take(1)->get();
         $visions = CompanyAbout::where('type', 'visions')->orderBy('id')->take(1)->get();
         $missions = CompanyAbout::where('type', 'missions')->orderBy('id')->take(1)->get();
         $histories = TrackRecord::orderBy('track_record_at', 'asc')->take(5)->get();
         $organizations = OrganizationStructure::orderByDesc('id')->take(1)->get();
         $managements = OurManagement::orderBy('id')->take(10)->get();
-        return view('front.about', compact('profiles', 'visions', 'missions', 'histories', 'organizations', 'managements'));
+        return view('front.about', compact('banners', 'profiles', 'visions', 'missions', 'histories', 'organizations', 'managements'));
     }
 
     public function business() {
+        $banners = $this->getBannerByMenuName('Bisnis Kami');
         $products = Product::orderByDesc('id')->take(1)->get();
         $services = Service::orderByDesc('id')->take(1)->get();
         $testimonials = Testimonial::take(5)->get();
-        return view('front.business', compact('products', 'services', 'testimonials'));
+        return view('front.business', compact('banners', 'products', 'services', 'testimonials'));
     }
 
     public function career() {
-        $careers = Career::orderByDesc('id')->take(5)->get();
-        return view('front.career', compact('careers'));
+        $banners = $this->getBannerByMenuName('Karier');
+        // Update status careers before displaying
+        $this->updateStatusCareers();
+        
+        $careers = Career::where('status', 'Published')
+                        ->where('closing_at', '>=', now()->startOfDay())
+                        ->orderByDesc('id')
+                        ->take(5)
+                        ->get();
+        return view('front.career', compact('banners', 'careers'));
     }
 
     public function careerDetail($id) {
@@ -95,33 +137,58 @@ class FrontController extends Controller
     }
 
     public function safety() {
-        $safeties = SafetyManagement::orderByDesc('id')->take(1)->get();
-        return view('front.safety', compact('safeties'));
+        $banners = $this->getBannerByMenuName('K3');
+        $safeties = SafetyManagement::orderByDesc('id')->first();
+        return view('front.safety', compact('banners', 'safeties'));
     }
 
     public function social() {
-        $socials = CorporateSocial::orderByDesc('id')->take(1)->get();
-        return view('front.social', compact('socials'));
+        $banners = $this->getBannerByMenuName('CSR');
+        $socials = CorporateSocial::where('status', 'Published')->orderBy('id')->get();
+        return view('front.social', compact('banners', 'socials'));
     }
 
     public function socialDetail($id) {
         $social = CorporateSocial::findOrFail($id);
-        return view('front.social-detail', compact('social'));
+        
+        // Increment viewer count
+        $social->increment('viewer');
+        
+        // Get recent socials (excluding current social)
+        $recentSocials = CorporateSocial::where('status', 'Published')
+            ->where('id', '!=', $id)
+            ->orderBy('created_at', 'desc')
+            ->limit(5)
+            ->get();
+        
+        return view('front.social-detail', compact('social', 'recentSocials'));
     }
 
     public function initiative() {
+        $banners = $this->getBannerByMenuName('Inisiatif');
         $initiatives = Initiative::orderByDesc('id')->take(1)->get();
-        return view('front.initiative', compact('initiatives'));
+        return view('front.initiative', compact('banners', 'initiatives'));
     }
 
     public function initiativeDetail($id) {
         $initiative = Initiative::findOrFail($id);
-        return view('front.initiative-detail', compact('initiative'));
+        
+        // Increment viewer count
+        $initiative->increment('viewer');
+        
+        // Get recent initiatives (excluding current initiative)
+        $recentInitiatives = Initiative::where('id', '!=', $id)
+            ->orderBy('created_at', 'desc')
+            ->limit(5)
+            ->get();
+        
+        return view('front.initiative-detail', compact('initiative', 'recentInitiatives'));
     }
 
     public function document() {
+        $banners = $this->getBannerByMenuName('Laporan Dokumen');
         $documents = DocumentReport::orderByDesc('id')->take(5)->get();
-        return view('front.document', compact('documents'));
+        return view('front.document', compact('banners', 'documents'));
     }
 
     public function documentDownload($id) {
@@ -182,8 +249,9 @@ class FrontController extends Controller
     }
 
     public function report() {
+        $banners = $this->getBannerByMenuName('Laporan Tahunan');
         $reports = AnnualReport::orderByDesc('id')->take(5)->get();
-        return view('front.report', compact('reports'));
+        return view('front.report', compact('banners', 'reports'));
     }
 
     public function reportDownload($id) {
@@ -244,8 +312,9 @@ class FrontController extends Controller
     }
 
     public function financial() {
+        $banners = $this->getBannerByMenuName('Laporan Keuangan');
         $financials = FinancialStatement::orderByDesc('id')->take(5)->get();
-        return view('front.financial', compact('financials'));
+        return view('front.financial', compact('banners', 'financials'));
     }
 
     public function financialDownload($id) {
@@ -306,8 +375,9 @@ class FrontController extends Controller
     }
 
     public function investor() {
+        $banners = $this->getBannerByMenuName('Presentasi Investor');
         $investors = InvestorPresentation::orderByDesc('id')->take(5)->get();
-        return view('front.investor', compact('investors'));
+        return view('front.investor', compact('banners', 'investors'));
     }
 
     public function investorDownload($id) {
@@ -368,8 +438,9 @@ class FrontController extends Controller
     }
 
     public function stock() {
+        $banners = $this->getBannerByMenuName('Informasi Saham dan Obligasi');
         $stocks = StockInformation::orderByDesc('id')->take(5)->get();
-        return view('front.stock', compact('stocks'));
+        return view('front.stock', compact('banners', 'stocks'));
     }
 
     public function stockDownload($id) {
@@ -430,8 +501,9 @@ class FrontController extends Controller
     }
 
     public function shareholder() {
+        $banners = $this->getBannerByMenuName('Rapat Umum Pemegang Saham');
         $shareholders = Shareholder::orderByDesc('id')->take(5)->get();
-        return view('front.shareholder', compact('shareholders'));
+        return view('front.shareholder', compact('banners', 'shareholders'));
     }
 
     public function shareholderDownload($id) {
@@ -526,9 +598,10 @@ class FrontController extends Controller
     }
 
     public function contact() {
+        $banners = $this->getBannerByMenuName('Hubungi Kami');
         $contacts = Contact::take(3)->get();
         $types = QuestionType::all();
-        return view('front.contact', compact('contacts', 'types'));
+        return view('front.contact', compact('banners', 'contacts', 'types'));
     }
 
     public function questionStore(StoreQuestionRequest $request) {
@@ -588,5 +661,24 @@ class FrontController extends Controller
 
         // Fallback to Laravel's built-in method
         return $request->ip();
+    }
+
+    /**
+     * Update careers status based on current date
+     */
+    private function updateStatusCareers()
+    {
+        $today = now()->startOfDay();
+        
+        // Change status from 'Private' to 'Published' if current date is between posting_at and closing_at
+        Career::where('status', 'Private')
+              ->whereDate('posting_at', '<=', $today)
+              ->whereDate('closing_at', '>=', $today)
+              ->update(['status' => 'Published']);
+        
+        // Change status from 'Published' to 'Private' if closing date has passed
+        Career::where('status', 'Published')
+              ->whereDate('closing_at', '<', $today)
+              ->update(['status' => 'Private']);
     }
 }

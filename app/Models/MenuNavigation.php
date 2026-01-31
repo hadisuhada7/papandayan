@@ -27,4 +27,9 @@ class MenuNavigation extends Model
     {
         return $this->belongsTo(MenuGroup::class, 'menu_group_id');
     }
+
+    public function banner()
+    {
+        return $this->hasMany(HeroSection::class);
+    }
 }

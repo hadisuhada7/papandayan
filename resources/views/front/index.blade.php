@@ -16,7 +16,7 @@
                         <div class="poultryPerformanceHeading">
                             <h1>{{ $banner->heading }}</h1>
                             <p>{{ $banner->subheading }}</p>
-                            <a class="btn btn-1 hover-slide-down" href="javascript:void(0);">
+                            <a class="btn btn-1 hover-slide-down" href="{{ $banner->link }}">
                                 <span>Read More <img src="{{ asset('images/icon/icon-black-right.png') }}" alt="icon" class="img-fluid"></span>
                             </a>
                         </div>
@@ -93,14 +93,17 @@
                         </div>
                      </div>
                      <p>{{ $product->about }}</p>
-                     <p>We are uncompromising in our control and monitoring of the production cycle. From the arrival of chicks/raw material to dispatch to our customers, biosecurity measures are stringently followed.</p>
+                     <!-- <p>We are uncompromising in our control and monitoring of the production cycle. From the arrival of chicks/raw material to dispatch to our customers, biosecurity measures are stringently followed.</p>
                      <ul>
                         <li>it look like readable English. Many desktop publishing packages.</li>
                         <li>Richard McClintock, a Latin professor at Hampden-Sydney College</li>
                         <li>I will give you a complete account of the system</li>
                         <li>On the other hand, we denounce with righteous indignation and dislike men</li>
-                     </ul>
+                     </ul> -->
                   </div> 
+                  <a href="{{ $product->link_whatsapp }}" class="btnCustom5 btn-1 hover-slide-down">
+                              <span>Hubungi Kami <img src="{{ asset('images/icon/icon-right.png') }}" alt="right" class="img-fluid"></span>
+                           </a>
                </div> 
             </div>   
         </div>
@@ -139,19 +142,22 @@
                            <div class="broilerBreederPara">
                               <p>{{ $service->about }}</p>
 
-                              @forelse ($service->keypoints as $keypoint)
+                              @if($service->keypoints && count($service->keypoints) > 0)
                               <ul>
-                                 <li>it look like readable English. Many desktop publishing packages.</li>
-                                 <!-- <li>Richard McClintock, a Latin professor at Hampden-Sydney College</li>
-                                 <li>I will give you a complete account of the system</li>
-                                 <li>On the other hand, we denounce with righteous indignation and dislike men</li> -->
+                                 @foreach ($service->keypoints as $keypoint)
+                                    @if(!empty($keypoint->keypoint))
+                                    <li>{{ $keypoint->keypoint }}</li>
+                                    @endif
+                                 @endforeach
                               </ul>
-                              @empty
-                              <p>No keypoints available.</p>
-                              @endforelse
+                              @endif
 
-                              <p class="paraBold">We are uncompromising in our control and monitoring of the production cycle. From the arrival of chicks/raw material to dispatch to our customers, biosecurity measures are stringently followed.</p>
+                              <!-- <p class="paraBold">We are uncompromising in our control and monitoring of the production cycle. From the arrival of chicks/raw material to dispatch to our customers, biosecurity measures are stringently followed.</p> -->
                            </div>
+
+                           <a href="{{ $service->link_whatsapp }}" class="btnCustom5 btn-1 hover-slide-down">
+                              <span>Hubungi Kami <img src="{{ asset('images/icon/icon-right.png') }}" alt="right" class="img-fluid"></span>
+                           </a>
                         </div>
                      </div>
                   </div>
@@ -333,12 +339,13 @@
                            <div class="latestNewsList">
                               <div class="latestNewsUser">
                                  <a href="javascript:void(0);">
-                                    <img src="{{ asset('images/icon/user.png') }}" alt="icon" class="img-fluid"><span>{{ $article->author }}</span>
+                                    <i class="fa fa-user" style="color: #3c5fac;"></i><span>{{ $article->author }}</span>
                                  </a>
                               </div>
-                              <div class="latestNewsMessage">
+                              <div class="latestNewsUser">
                                  <a href="javascript:void(0);">
-                                    <img src="{{ asset('images/icon/message.png') }}" alt="icon" class="img-fluid"><span>{{ $article->viewer }}</span>
+                                    <i class="fa fa-eye" style="color: #3c5fac;"></i><span>{{ $article->viewer }}
+                                       </span>
                                  </a>
                               </div>
                            </div>
@@ -348,7 +355,7 @@
                            </div>
                            <div class="latestNewBtn">
                               <a class="btnCustom5 btn-1 hover-slide-down" href="{{ route('front.article-detail', $article->id) }}">
-                                 <span>Read More <img src="{{ asset('images/icon/icon-right.png') }}" alt="right"
+                                 <span>Selengkapnya <img src="{{ asset('images/icon/icon-right.png') }}" alt="right"
                                        class="img-fluid"></span>
                               </a>
                            </div>
@@ -411,16 +418,22 @@
       });
 
       // Initialize Leaflet Maps
-      var map = L.map('map').setView([51.505, -0.09], 13);
+      var map = L.map('map').setView([-6.9175, 107.6191], 10); // Center on Bandung, West Java
 
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
          maxZoom: 19,
          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       }).addTo(map);
 
-      L.marker([51.5, -0.09]).addTo(map)
-         .bindPopup('A pretty CSS popup.<br> Easily customizable.')
-         .openPopup();
+      // Add coverage area markers
+      @if(isset($coverageAreas) && count($coverageAreas) > 0)
+         @foreach($coverageAreas as $area)
+            @if($area->latitude && $area->longitude)
+            L.marker([{{ $area->latitude }}, {{ $area->longitude }}]).addTo(map)
+               .bindPopup('<b>{{ $area->partner_name }}</b><br/>Jumlah Kandang: {{ $area->number_of_cages }}');
+            @endif
+         @endforeach
+      @endif
 
    </script>
 @endpush

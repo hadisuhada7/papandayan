@@ -4,19 +4,22 @@
 
 @section('content')
 
-   <!--banner sec start-->
-   <section class="w-100 clearfix bannerSec" id="bannerSec" style="background-image: url('{{ asset('images/inner-banner.png') }}');">
-      <div class="container">
-         <div class="bannerContent">
-            <h1>K3</h1>
-            <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{ route('front.index') }}">Beranda</a></li>
-               <li class="breadcrumb-item active">K3</li>
-            </ul>
-         </div>
-      </div>
-   </section>
-   <!--banner sec end-->
+   <!--banner start-->
+    @forelse ($banners as $banner)
+        <section class="w-100 clearfix poultryPerformanceBanner" id="poultryPerformanceBanner"
+            style="background-image: url('{{ Storage::url($banner->banner) }}');">
+        </section>
+    @empty
+        
+    @endforelse
+    <!--banner end-->
+
+   <div class="breadcrumb">
+    <ul>
+        <li><a href="{{ route('front.index') }}">Beranda</a></li>
+         <li><a>K3</a></li>
+      </ul>
+   </div>
    
    <!--blog single start-->
    <section class="w-100 clearfix blogSingle" id="blogSingle">
@@ -26,7 +29,7 @@
                <div class="col-lg-8">
                   <div class="blogSingleBlog">
                      <div class="latestNewsCardInner">
-                        <div class="latestNewsCardImg">
+                        <!-- <div class="latestNewsCardImg">
                            <a href="javascript:void(0);"><img src="{{ asset('images/img38.png') }}" alt="img"
                                  class="w-100 img-fluid"></a>
                            <div class="latestNewsDate">
@@ -35,9 +38,9 @@
                                  <span>Mar</span>
                               </a>
                            </div>
-                        </div>
+                        </div> -->
                         <div class="latestNewsCardInnerContent">
-                           <div class="latestNewsList">
+                           <!-- <div class="latestNewsList">
                               <div class="latestNewsUser">
                                  <a href="javascript:void(0);">
                                     <img src="{{ asset('images/icon/user.png') }}" alt="icon" class="img-fluid"><span>by admin</span>
@@ -49,16 +52,15 @@
                                        comments</span>
                                  </a>
                               </div>
-                           </div>
+                           </div> -->
                            <div class="latestNewsTxt">
-                              <h4><a href="javascript:void(0);">Omega-3 chicken, egg may lower heart attack</a></h4>
-                              <p>Give lady of they such they sure it. Me contained explained my education. Vulgar as hearts by garret. Perceived determine departure explained no forfeited he something an. Contrasted dissimilar get joy you instrument out reasonably. Again keeps at no meant stuff. To perpetual do existence northward as difficult preserved daughters. Continued at up to zealously necessary breakfast. Surrounded sir motionless she end literature. Gay direction neglected but supported yet her.</p>
-                              <p>New had happen unable uneasy. Drawings can followed improved out sociable not. Earnestly so do instantly pretended. See general few civilly amiable pleased account carried. Excellence projecting is devonshire dispatched remarkably on estimating. Side in so life past. Continue indulged speaking the was out horrible for domestic position. Seeing rather her you not esteem men settle genius excuse. Deal say over you age from. Comparison new ham melancholy son themselves.</p>
+                              <h4><a href="javascript:void(0);">{{ $safeties->title }}</a></h4>
+                              <div>{!! $safeties->about !!}</div>
                            </div>
-                           <div class="queryBox">
+                           <!-- <div class="queryBox">
                               <p>Continually productize compelling quality for packed with Elated productize compelling quality for packed with all Elated Theme Setting up to website and creating pages. Continually productize compelling quality for packed with Elated productize compelling quality for packed with all Elated Theme Setting up to website and creating pages.</p>
                            </div>
-                           <p>Proactively unleash parallel outsourcing without equity invested systems.Convenientcocplume mkets For The backward-compatible models. Distinctively transition transparent sources after e-business scricly E-enablese bricks-and-clicks vortals with client-based outsourcing. Professionally drive one-to-oneitures Before worldwid e growth strategie Holisticly envisioneer highly efficient value before.</p>
+                           <p>Proactively unleash parallel outsourcing without equity invested systems.Convenientcocplume mkets For The backward-compatible models. Distinctively transition transparent sources after e-business scricly E-enablese bricks-and-clicks vortals with client-based outsourcing. Professionally drive one-to-oneitures Before worldwid e growth strategie Holisticly envisioneer highly efficient value before.</p> -->
                         </div>
                         <div class="tagShareGroup">
                            <div class="tagShareGroupInner">
@@ -90,7 +92,7 @@
                               </div>
                            </div>
                         </div>
-                        <div class="commentGroup">
+                        <!-- <div class="commentGroup">
                            <div class="commentLeft">
                               <div class="commentUserImg">
                                  <a href="javascript:void(0);">
@@ -114,9 +116,9 @@
                                  </ul>
                               </div>
                            </div>
-                        </div>
+                        </div> -->
                         <div class="coment">
-                           <div class="comentInner">
+                           <!-- <div class="comentInner">
                               <div class="comentHeading">
                                  <h2>Comments (2)</h2>
                               </div>
@@ -168,11 +170,11 @@
                                     </div>
                                  </div>
                               </div>
-                           </div>
+                           </div> -->
                         </div>
                         <!--comment box-->
                         <div class="commentBox">
-                           <div class="commentBoxInner">
+                           <!-- <div class="commentBoxInner">
                               <div class="commentBoxHeading">
                                  <h4>Leave Comment</h4>
                                  <p>Your email address will not be published. Required fields are marked *</p>
@@ -204,7 +206,7 @@
                                     <button type="submit" class="btnCustom5 btn-1 hover-slide-down"><span>Send <img src="{{ asset('images/icon/icon-right.png') }}" alt="right" class="img-fluid"></span></button>
                                  </form>
                                </div>
-                           </div>
+                           </div> -->
                         </div>
                      </div>
                   </div>

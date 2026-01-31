@@ -115,6 +115,20 @@
                                         <span class="error invalid-feedback">{{ $errors->first('status') }}</span>
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <label for="tags" class="col-sm-3 col-form-label">Tags</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control select2-tags" style="width: 100%;" id="tags" name="tags[]" multiple="multiple" data-placeholder="Select tags">
+                                            @foreach($tags as $tag)
+                                                <option value="{{ $tag->id }}" {{ $article->tags->contains($tag->id) ? 'selected' : '' }}>
+                                                    {{ $tag->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <small class="form-text text-muted">You can select multiple tags for this article</small>
+                                        <span class="error invalid-feedback">{{ $errors->first('tags') }}</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -156,9 +170,16 @@
             // Initialize bsCustomFileInput
             bsCustomFileInput.init();
 
-            //Initialize Select2 Elements
+            //Initialize Select2 Elements (for Status)
             $('.select2bs4').select2({
                 theme: 'bootstrap4'
+            });
+
+            // Initialize Select2 for tags (multiple)
+            $('.select2-tags').select2({
+                theme: 'bootstrap4',
+                placeholder: 'Select tags',
+                allowClear: true
             });
 
             // Initialize Summernote

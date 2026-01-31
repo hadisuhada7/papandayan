@@ -1,6 +1,6 @@
 @extends('front.layouts.app')
 
-@section('title', 'Social Detail')
+@section('title', 'Corporate Social Responsibility')
 
 @section('content')
 
@@ -8,10 +8,10 @@
    <section class="w-100 clearfix bannerSec" id="bannerSec" style="background-image: url('{{ asset('images/inner-banner.png') }}');">
       <div class="container">
          <div class="bannerContent">
-            <h1>Social Detail</h1>
+            <h1>Corporate Social Responsibility Detail</h1>
             <ul class="breadcrumb">
                <li class="breadcrumb-item"><a href="{{ route('front.index') }}">Beranda</a></li>
-               <li class="breadcrumb-item active">Social Detail</li>
+               <li class="breadcrumb-item active">Corporate Social Responsibility Detail</li>
             </ul>
          </div>
       </div>
@@ -27,12 +27,12 @@
                   <div class="blogSingleBlog">
                      <div class="latestNewsCardInner">
                         <div class="latestNewsCardImg">
-                           <a href="javascript:void(0);"><img src="{{ asset('images/img38.png') }}" alt="img"
+                           <a href="javascript:void(0);"><img src="{{ Storage::url($social->thumbnail) }}" alt="img"
                                  class="w-100 img-fluid"></a>
                            <div class="latestNewsDate">
                               <a href="javascript:void(0);">
-                                 <h5>25</h5>
-                                 <span>Mar</span>
+                                 <h5>{{ $social->created_at->format('d') }}</h5>
+                                 <span>{{ $social->created_at->format('M') }}</span>
                               </a>
                            </div>
                         </div>
@@ -40,29 +40,28 @@
                            <div class="latestNewsList">
                               <div class="latestNewsUser">
                                  <a href="javascript:void(0);">
-                                    <img src="{{ asset('images/icon/user.png') }}" alt="icon" class="img-fluid"><span>by admin</span>
+                                    <i class="fa fa-user" style="color: #3c5fac;"></i><span>{{ $social->author }}</span>
                                  </a>
                               </div>
-                              <div class="latestNewsMessage">
+                              <div class="latestNewsUser">
                                  <a href="javascript:void(0);">
-                                    <img src="{{ asset('images/icon/message.png') }}" alt="icon" class="img-fluid"><span>2
-                                       comments</span>
+                                    <i class="fa fa-eye" style="color: #3c5fac;"></i><span>{{ $social->viewer }}
+                                       </span>
                                  </a>
                               </div>
                            </div>
                            <div class="latestNewsTxt">
-                              <h4><a href="javascript:void(0);">Omega-3 chicken, egg may lower heart attack</a></h4>
-                              <p>Give lady of they such they sure it. Me contained explained my education. Vulgar as hearts by garret. Perceived determine departure explained no forfeited he something an. Contrasted dissimilar get joy you instrument out reasonably. Again keeps at no meant stuff. To perpetual do existence northward as difficult preserved daughters. Continued at up to zealously necessary breakfast. Surrounded sir motionless she end literature. Gay direction neglected but supported yet her.</p>
-                              <p>New had happen unable uneasy. Drawings can followed improved out sociable not. Earnestly so do instantly pretended. See general few civilly amiable pleased account carried. Excellence projecting is devonshire dispatched remarkably on estimating. Side in so life past. Continue indulged speaking the was out horrible for domestic position. Seeing rather her you not esteem men settle genius excuse. Deal say over you age from. Comparison new ham melancholy son themselves.</p>
+                              <h4><a href="javascript:void(0);">{{ $social->title }}</a></h4>
+                              <div>{!! $social->about !!}</div>
                            </div>
-                           <div class="queryBox">
+                           <!-- <div class="queryBox">
                               <p>Continually productize compelling quality for packed with Elated productize compelling quality for packed with all Elated Theme Setting up to website and creating pages. Continually productize compelling quality for packed with Elated productize compelling quality for packed with all Elated Theme Setting up to website and creating pages.</p>
                            </div>
-                           <p>Proactively unleash parallel outsourcing without equity invested systems.Convenientcocplume mkets For The backward-compatible models. Distinctively transition transparent sources after e-business scricly E-enablese bricks-and-clicks vortals with client-based outsourcing. Professionally drive one-to-oneitures Before worldwid e growth strategie Holisticly envisioneer highly efficient value before.</p>
+                           <p>Proactively unleash parallel outsourcing without equity invested systems.Convenientcocplume mkets For The backward-compatible models. Distinctively transition transparent sources after e-business scricly E-enablese bricks-and-clicks vortals with client-based outsourcing. Professionally drive one-to-oneitures Before worldwid e growth strategie Holisticly envisioneer highly efficient value before.</p> -->
                         </div>
                         <div class="tagShareGroup">
                            <div class="tagShareGroupInner">
-                              <div class="tagGroup">
+                              <!-- <div class="tagGroup">
                                  <ul class="nav">
                                     <li class="nav-item tagHeading">
                                        Tags :
@@ -74,23 +73,23 @@
                                     <a class="nav-link tag" href="javascript:void(0);">Travel</a>
                                     </li>
                                  </ul>
-                              </div>
+                              </div> -->
                               <div class="shareGroup">
                                  <ul class="nav">
                                     <li class="nav-item shareHeading">
                                        Share :
                                     </li>
                                     <li class="nav-item shareSocialIcon">
-                                       <a class="nav-link" href="javascript:void(0);"><img src="{{ asset('images/icon/fb.png') }}" alt="facebook" class="img-fluid"></a>
-                                       <a class="nav-link" href="javascript:void(0);"><img src="{{ asset('images/icon/insta.png') }}" alt="instagram" class="img-fluid"></a>
-                                       <a class="nav-link" href="javascript:void(0);"><img src="{{ asset('images/icon/twitter.png') }}" alt="twitter" class="img-fluid"></a>
-                                       <a class="nav-link" href="javascript:void(0);"><img src="{{ asset('images/icon/whatsapp.png') }}" alt="whatsapp" class="img-fluid"></a>
+                                       <a class="nav-link" href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->url()) }}" target="_blank" rel="noopener noreferrer"><img src="{{ asset('images/icon/fb.png') }}" alt="facebook" class="img-fluid"></a>
+                                       <a class="nav-link" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer"><img src="{{ asset('images/icon/insta.png') }}" alt="instagram" class="img-fluid"></a>
+                                       <a class="nav-link" href="https://twitter.com/intent/tweet?url={{ urlencode(request()->url()) }}&text={{ urlencode($social->title) }}" target="_blank" rel="noopener noreferrer"><img src="{{ asset('images/icon/twitter.png') }}" alt="twitter" class="img-fluid"></a>
+                                       <a class="nav-link" href="https://api.whatsapp.com/send?text={{ urlencode($social->title . ' - ' . request()->url()) }}" target="_blank" rel="noopener noreferrer"><img src="{{ asset('images/icon/whatsapp.png') }}" alt="whatsapp" class="img-fluid"></a>
                                     </li>
                                  </ul>
                               </div>
                            </div>
                         </div>
-                        <div class="commentGroup">
+                        <!-- <div class="commentGroup">
                            <div class="commentLeft">
                               <div class="commentUserImg">
                                  <a href="javascript:void(0);">
@@ -114,9 +113,9 @@
                                  </ul>
                               </div>
                            </div>
-                        </div>
+                        </div> -->
                         <div class="coment">
-                           <div class="comentInner">
+                           <!-- <div class="comentInner">
                               <div class="comentHeading">
                                  <h2>Comments (2)</h2>
                               </div>
@@ -168,11 +167,11 @@
                                     </div>
                                  </div>
                               </div>
-                           </div>
+                           </div> -->
                         </div>
                         <!--comment box-->
                         <div class="commentBox">
-                           <div class="commentBoxInner">
+                           <!-- <div class="commentBoxInner">
                               <div class="commentBoxHeading">
                                  <h4>Leave Comment</h4>
                                  <p>Your email address will not be published. Required fields are marked *</p>
@@ -204,7 +203,7 @@
                                     <button type="submit" class="btnCustom5 btn-1 hover-slide-down"><span>Send <img src="{{ asset('images/icon/icon-right.png') }}" alt="right" class="img-fluid"></span></button>
                                  </form>
                                </div>
-                           </div>
+                           </div> -->
                         </div>
                      </div>
                   </div>
@@ -226,60 +225,38 @@
                      <div class="recentPost customCard">
                         <h4>Recent Post</h4>
                         <div class="recentPostList">
+                           @forelse($recentSocials as $recentSocial)
                            <div class="recentPostGroupList">
-                              <a href="javascript:void(0);">
+                              <a href="{{ route('front.social-detail', $recentSocial->id) }}">
                                  <div class="recentPostImg">
-                                    <img src="{{ asset('images/img40.png') }}" alt="recentPost" class="img-fluid">
+                                    <img src="{{ Storage::url($recentSocial->thumbnail) }}" alt="recentPost" class="img-fluid">
                                  </div>
                                  <div class="recentPostTxt">
-                                    <p>Seamlessly fashion customiz before.</p>
-                                    <span><img src="{{ asset('images/icon/calendar.png') }}" alt="whatsapp" class="img-fluid"> 8 April 2023</span>
+                                    <p>{{ $recentSocial->title }}</p>
+                                    <span><img src="{{ asset('images/icon/calendar.png') }}" alt="whatsapp" class="img-fluid"> {{ $recentSocial->created_at->format('d F Y') }} </span>
                                  </div>
                               </a>
                            </div>
-                           <div class="recentPostGroupList">
-                              <a href="javascript:void(0);">
-                                 <div class="recentPostImg">
-                                    <img src="{{ asset('images/img41.png') }}" alt="recentPost" class="img-fluid">
-                                 </div>
-                                 <div class="recentPostTxt">
-                                    <p>Know the Benefit Of Boiled Egg</p>
-                                    <span><img src="{{ asset('images/icon/calendar.png') }}" alt="whatsapp" class="img-fluid"> 9 April 2023</span>
-                                 </div>
-                              </a>
-                           </div>
-                           <div class="recentPostGroupList">
-                              <a href="javascript:void(0);">
-                                 <div class="recentPostImg">
-                                    <img src="{{ asset('images/img42.png') }}" alt="recentPost" class="img-fluid">
-                                 </div>
-                                 <div class="recentPostTxt">
-                                    <p>Seamlessly fashion customiz before.</p>
-                                    <span><img src="{{ asset('images/icon/calendar.png') }}" alt="whatsapp" class="img-fluid"> 10 April 2023</span>
-                                 </div>
-                              </a>
-                           </div>
+                           @empty
+                           @endforelse
                         </div>
                      </div>
                      <div class="popularTags customCard">
                         <h4>Popular Tags</h4>
                         <div class="tagGroup">
                            <ul class="nav">
+                              @php
+                                 $allTags = \App\Models\Tag::withCount('articles')->orderBy('articles_count', 'desc')->limit(10)->get();
+                              @endphp
+                              @forelse($allTags as $tag)
                               <li class="nav-item">
-                                 <a class="nav-link tag tagActive" href="javascript:void(0);">Poultry</a>
+                                 <a class="nav-link tag" href="javascript:void(0);">{{ $tag->name }}</a>
                               </li>
+                              @empty
                               <li class="nav-item">
-                                 <a class="nav-link tag" href="javascript:void(0);">Travel</a>
-                              </li>  
-                              <li class="nav-item">
-                                 <a class="nav-link tag" href="javascript:void(0);">Breeder</a>
-                              </li>    
-                              <li class="nav-item">
-                                 <a class="nav-link tag" href="javascript:void(0);">Feed</a>
+                                 <span class="text-muted">No tags available</span>
                               </li>
-                              <li class="nav-item">
-                                 <a class="nav-link tag" href="javascript:void(0);">Chicks</a>
-                              </li>
+                              @endforelse
                            </ul>
                         </div>
                      </div>

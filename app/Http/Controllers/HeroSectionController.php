@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreHeroSectionRequest;
 use App\Http\Requests\UpdateHeroSectionRequest;
 use App\Models\HeroSection;
+use App\Models\MenuNavigation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -16,7 +17,8 @@ class HeroSectionController extends Controller
     public function index()
     {
         $banners = HeroSection::orderBy('id')->get();
-        return view('admin.banners.index', compact('banners'));
+        $navigations = MenuNavigation::all();
+        return view('admin.banners.index', compact('banners', 'navigations'));
     }
 
     /**
@@ -24,7 +26,8 @@ class HeroSectionController extends Controller
      */
     public function create()
     {
-        return view('admin.banners.create');
+        $navigations = MenuNavigation::all();
+        return view('admin.banners.create', compact('navigations'));
     }
 
     /**
@@ -60,7 +63,8 @@ class HeroSectionController extends Controller
      */
     public function edit(HeroSection $banner)
     {
-        return view('admin.banners.edit', compact('banner'));
+        $navigations = MenuNavigation::all();
+        return view('admin.banners.edit', compact('banner', 'navigations'));
     }
 
     /**

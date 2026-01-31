@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreArticleRequest;
 use App\Http\Requests\UpdateArticleRequest;
 use App\Models\Article;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -24,7 +25,8 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return view('admin.articles.create');
+        $tags = Tag::orderBy('name')->get();
+        return view('admin.articles.create', compact('tags'));
     }
 
     /**
@@ -42,6 +44,11 @@ class ArticleController extends Controller
             }
             
             $newDataRecord = Article::create($validated);
+            
+            // Sync tags
+            if ($request->has('tags')) {
+                $newDataRecord->tags()->sync($request->tags);
+            }
         });
         
         return redirect()->route('admin.articles.index')->with('toast', ['type' => 'success', 'message' => 'Article created successfully.']);
@@ -60,7 +67,9 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        return view('admin.articles.edit', compact('article'));
+        $article->load('tags');
+        $tags = Tag::orderBy('name')->get();
+        return view('admin.articles.edit', compact('article', 'tags'));
     }
 
     /**
@@ -78,6 +87,13 @@ class ArticleController extends Controller
             }
 
             $article->update($validated);
+            
+            // Sync tags
+            if ($request->has('tags')) {
+                $article->tags()->sync($request->tags);
+            } else {
+                $article->tags()->sync([]);
+            }
         });
 
         return redirect()->route('admin.articles.index')->with('toast', ['type' => 'success', 'message' => 'Article updated successfully.']);

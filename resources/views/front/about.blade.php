@@ -4,19 +4,22 @@
 
 @section('content')
 
-   <!--banner sec start-->
-   <section class="w-100 clearfix bannerSec" id="bannerSec" style="background-image: url('{{ asset('images/inner-banner.png') }}');">
-      <div class="container">
-         <div class="bannerContent">
-            <h1>Tentang Kami</h1>
-            <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="#">Beranda</a></li>
-               <li class="breadcrumb-item active">Tentang Kami</li>
-            </ul>
-         </div>
-      </div>
-   </section>
-   <!--banner sec end-->
+   <!--banner start-->
+    @forelse ($banners as $banner)
+        <section class="w-100 clearfix poultryPerformanceBanner" id="poultryPerformanceBanner"
+            style="background-image: url('{{ Storage::url($banner->banner) }}');">
+        </section>
+    @empty
+        
+    @endforelse
+    <!--banner end-->
+
+   <div class="breadcrumb">
+    <ul>
+        <li><a href="{{ route('front.index') }}">Beranda</a></li>
+         <li><a>Tentang Kami</a></li>
+      </ul>
+   </div>
    
    <!-- about us sec1 start-->
    <section class="w-100 clearfix aboutUsSec1" id="aboutUsSec1">
@@ -88,13 +91,15 @@
                            </div>
                            <div class="broilerBreederPara">
                               <p>{{ $vision->description }}</p>
-                              @forelse ($vision->keypoints as $keypoint)
+                              @if($vision->keypoints && count($vision->keypoints) > 0)
                               <ul>
-                                 <li>{{ $keypoint }}</li>
+                                 @foreach ($vision->keypoints as $keypoint)
+                                    @if(!empty($keypoint->keypoint))
+                                    <li>{{ $keypoint->keypoint }}</li>
+                                    @endif
+                                 @endforeach
                               </ul>
-                              @empty
-                              
-                              @endforelse
+                              @endif
                               <!-- <p class="paraBold">We are uncompromising in our control and monitoring of the production cycle. From the arrival of chicks/raw material to dispatch to our customers, biosecurity measures are stringently followed.</p> -->
                            </div>
                         </div>
@@ -119,13 +124,15 @@
                            </div>
                            <div class="broilerBreederPara">
                               <p>{{ $mission->description }}</p>
-                              @forelse ($mission->keypoints as $keypoint)
+                              @if($mission->keypoints && count($mission->keypoints) > 0)
                               <ul>
-                                 <li>{{ $keypoint }}</li>
+                                 @foreach ($mission->keypoints as $keypoint)
+                                    @if(!empty($keypoint->keypoint))
+                                    <li>{{ $keypoint->keypoint }}</li>
+                                    @endif
+                                 @endforeach
                               </ul>
-                              @empty
-                              
-                              @endforelse
+                              @endif
                               <!-- <p class="paraBold">We are uncompromising in our control and monitoring of the production cycle. From the arrival of chicks/raw material to dispatch to our customers, biosecurity measures are stringently followed.</p> -->
                            </div>
                         </div>

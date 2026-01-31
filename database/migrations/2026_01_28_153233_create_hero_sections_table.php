@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('hero_sections', function (Blueprint $table) {
             $table->id();
-            $table->string('heading');
-            $table->text('subheading');
-            $table->string('link');
+            $table->string('heading')->nullable();
+            $table->text('subheading')->nullable();
+            $table->string('link')->nullable();
             $table->string('banner');
+            $table->foreignId('menu_navigation_id')->constrained()->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

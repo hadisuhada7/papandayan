@@ -4,19 +4,22 @@
 
 @section('content')
 
-   <!--banner sec start-->
-   <section class="w-100 clearfix bannerSec" id="bannerSec" style="background-image: url('{{ asset('images/inner-banner.png') }}');">
-      <div class="container">
-         <div class="bannerContent">
-            <h1>Inisiatif</h1>
-            <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{ route('front.index') }}">Beranda</a></li>
-               <li class="breadcrumb-item active">Inisiatif</li>
-            </ul>
-         </div>
-      </div>
-   </section>
-   <!--banner sec end-->
+   <!--banner start-->
+    @forelse ($banners as $banner)
+        <section class="w-100 clearfix poultryPerformanceBanner" id="poultryPerformanceBanner"
+            style="background-image: url('{{ Storage::url($banner->banner) }}');">
+        </section>
+    @empty
+        
+    @endforelse
+    <!--banner end-->
+
+   <div class="breadcrumb">
+    <ul>
+        <li><a href="{{ route('front.index') }}">Beranda</a></li>
+         <li><a>Inisiatif</a></li>
+      </ul>
+   </div>
    
    <!--blog section start-->
    <section class="w-100 clearfix blogArticles blogPg" id="blogArticles">
@@ -29,7 +32,7 @@
                   <div class="col-md-12 col-lg-4 blogWithSidebarCol">
                      <div class="latestNewsCardInner mb-4">
                         <div class="latestNewsCardImg">
-                           <a href="blog-single.html"><img src="{{ Storage::url($initiative->thumbnail) }}" alt="img"
+                           <a href="{{ route('front.initiative-detail', $initiative->id) }}"><img src="{{ Storage::url($initiative->thumbnail) }}" alt="img"
                                  class="w-100 img-fluid"></a>
                            <div class="latestNewsDate">
                               <a href="javascript:void(0);">
@@ -42,22 +45,23 @@
                            <div class="latestNewsList">
                               <div class="latestNewsUser">
                                  <a href="javascript:void(0);">
-                                    <img src="{{ asset('images/icon/user.png') }}" alt="icon" class="img-fluid"><span>{{ $initiative->author }}</span>
+                                    <i class="fa fa-user" style="color: #3c5fac;"></i><span>{{ $initiative->author }}</span>
                                  </a>
                               </div>
-                              <div class="latestNewsMessage">
+                              <div class="latestNewsUser">
                                  <a href="javascript:void(0);">
-                                    <img src="{{ asset('images/icon/message.png') }}" alt="icon" class="img-fluid"><span>{{ $initiative->viewer }}</span>
+                                    <i class="fa fa-eye" style="color: #3c5fac;"></i><span>{{ $initiative->viewer }}
+                                       </span>
                                  </a>
                               </div>
                            </div>
                            <div class="latestNewsTxt">
-                              <h4><a href="blog-single.html">{{ $initiative->title }}</a></h4>
+                              <h4><a href="{{ route('front.initiative-detail', $initiative->id) }}">{{ $initiative->title }}</a></h4>
                               <p>{{ $initiative->subtitle }}</p>
                            </div>
                            <div class="latestNewBtn">
-                              <a class="btnCustom5 btn-1 hover-slide-down" href="blog-single.html">
-                                 <span>Read More <img src="{{ asset('images/icon/icon-right.png') }}" alt="right" class="img-fluid"></span>
+                              <a class="btnCustom5 btn-1 hover-slide-down" href="{{ route('front.initiative-detail', $initiative->id) }}">
+                                 <span>Selengkapnya <img src="{{ asset('images/icon/icon-right.png') }}" alt="right" class="img-fluid"></span>
                               </a>
                            </div>
                         </div>

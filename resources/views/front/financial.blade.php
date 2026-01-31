@@ -4,19 +4,22 @@
 
 @section('content')
 
-   <!--banner sec start-->
-   <section class="w-100 clearfix bannerSec" id="bannerSec" style="background-image: url('{{ asset('images/inner-banner.png') }}');">
-      <div class="container">
-         <div class="bannerContent">
-            <h1>Laporan Keuangan</h1>
-            <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{ route('front.index') }}">Beranda</a></li>
-               <li class="breadcrumb-item active">Laporan Keuangan</li>
-            </ul>
-         </div>
-      </div>
-   </section>
-   <!--banner sec end-->
+   <!--banner start-->
+    @forelse ($banners as $banner)
+        <section class="w-100 clearfix poultryPerformanceBanner" id="poultryPerformanceBanner"
+            style="background-image: url('{{ Storage::url($banner->banner) }}');">
+        </section>
+    @empty
+        
+    @endforelse
+    <!--banner end-->
+
+   <div class="breadcrumb">
+    <ul>
+        <li><a href="{{ route('front.index') }}">Beranda</a></li>
+         <li><a>Laporan Keuangan</a></li>
+      </ul>
+   </div>
    
    <!--blog section start-->
    <section class="w-100 clearfix blogArticles blogPg" id="blogArticles">

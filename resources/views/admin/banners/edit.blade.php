@@ -3,6 +3,7 @@
 @section('title', 'Papandayan | Edit Banner')
 
 @section('plugins.BsCustomFileInput', true)
+@section('plugins.Select2', true)
 @section('plugins.Toastr', true)
 
 @section('content_header')
@@ -47,17 +48,29 @@
                         <div class="row">
                             <div class="col-8">
                                 <div class="form-group row">
-                                    <label for="heading" class="col-sm-3 col-form-label">Heading <span class="text-danger">*</span></label>
+                                    <label for="heading" class="col-sm-3 col-form-label">Heading</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="heading" name="heading" value="{{ $banner->heading }}" maxlength="255" placeholder="Heading" required>
+                                        <input type="text" class="form-control" id="heading" name="heading" value="{{ $banner->heading }}" maxlength="255" placeholder="Heading">
                                         <span class="error invalid-feedback">{{ $errors->first('heading') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="subheading" class="col-sm-3 col-form-label">Subheading <span class="text-danger">*</span></label>
+                                    <label for="subheading" class="col-sm-3 col-form-label">Subheading</label>
                                     <div class="col-sm-9">
-                                        <textarea class="form-control" id="subheading" name="subheading" maxlength="65535" placeholder="Subheading" required>{{ $banner->subheading }}</textarea>
+                                        <textarea class="form-control" id="subheading" name="subheading" maxlength="65535" placeholder="Subheading">{{ $banner->subheading }}</textarea>
                                         <span class="error invalid-feedback">{{ $errors->first('subheading') }}</span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="menuNavigation" class="col-sm-3 col-form-label">Menu Navigation <span class="text-danger">*</span></label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control select2bs4" style="width: 100%;" id="menuNavigation" name="menu_navigation_id" required>
+                                            <option value="{{ $banner->menu_navigation_id }}">{{ $banner->menu_navigation->name ?? 'Select Navigation' }}</option>
+                                            @foreach ($navigations as $navigation)
+                                                <option value="{{ $navigation->id }}">{{ $navigation->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <span class="error invalid-feedback">{{ $errors->first('question_type_id') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -74,9 +87,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="link" class="col-sm-3 col-form-label">Link <span class="text-danger">*</span></label>
+                                    <label for="link" class="col-sm-3 col-form-label">Link</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="link" name="link" value="{{ $banner->link }}" maxlength="255" placeholder="Link" required>
+                                        <input type="text" class="form-control" id="link" name="link" value="{{ $banner->link }}" maxlength="255" placeholder="Link">
                                         <span class="error invalid-feedback">{{ $errors->first('link') }}</span>
                                     </div>
                                 </div>
@@ -102,6 +115,11 @@
     @include('partials.toastr')
     <script type="text/javascript">
         $(document).ready(function () {
+            //Initialize Select2 Elements
+            $('.select2bs4').select2({
+                theme: 'bootstrap4'
+            });
+
             // Initialize bsCustomFileInput
             bsCustomFileInput.init();
             

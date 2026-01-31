@@ -26,7 +26,7 @@ class AutoResponseCustomerMail extends Mailable
      */
     public function __construct(public Question $question, public ?Ticket $ticket = null)
     {
-        $this->logoPath = public_path('images/logo/favicon.png');
+        $this->logoPath = public_path('images/logo/logo6.png');
         $this->logoCid = 'papandayan-logo-'.Str::uuid().'@papandayan';
 
         // if (app()->isProduction()) {
@@ -35,7 +35,7 @@ class AutoResponseCustomerMail extends Mailable
         // }
 
         // $this->logoSrc = 'cid:'.$this->logoCid;
-        $this->logoSrc = 'https://www.test.papandayan.co.id/images/logo/favicon.png';
+        $this->logoSrc = 'https://www.test.papandayan.co.id/images/logo/logo6.png';
 
         $this->withSymfonyMessage(function ($message) {
             if (! is_file($this->logoPath)) {

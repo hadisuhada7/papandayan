@@ -22,10 +22,11 @@ class StoreHeroSectionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'heading' => ['required', 'string', 'max:255'],
-            'subheading' => ['required', 'string', 'max:65535'],
-            'link' => ['required', 'string', 'max:255'],
+            'heading' => ['nullable', 'string', 'max:255'],
+            'subheading' => ['nullable', 'string', 'max:65535'],
+            'link' => ['nullable', 'string', 'max:255'],
             'banner' => ['required', 'image', 'mimes:png,jpg,jpeg,svg', 'max:2048'],
+            'menu_navigation_id' => ['required', 'integer'],
         ];
     }
 }

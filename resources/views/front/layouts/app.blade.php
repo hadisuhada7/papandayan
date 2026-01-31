@@ -69,6 +69,73 @@
             background-color: #2e3192;
             color: #fff;
         }
+
+        
+      .breadcrumb {
+         margin: 0 0 40px;
+         padding: 20px 0;
+         border-radius: 8px;
+      }
+      
+      .breadcrumb ul {
+         list-style: none;
+         padding: 0;
+         margin: 0;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         flex-wrap: wrap;
+      }
+      
+      .breadcrumb ul li {
+         display: inline-flex;
+         align-items: center;
+         position: relative;
+         padding: 0 10px;
+      }
+      
+      .breadcrumb ul li:not(:last-child)::after {
+         content: '›';
+         position: absolute;
+         right: -5px;
+         color: #3c5fac;
+         font-size: 20px;
+         font-weight: bold;
+      }
+      
+      .breadcrumb ul li a {
+         color: #3c5fac;
+         text-decoration: none;
+         font-weight: 500;
+         transition: all 0.3s ease;
+         padding: 8px 12px;
+         border-radius: 5px;
+         display: inline-block;
+      }
+
+      .breadcrumb ul li:last-child a {
+         color: #6c757d;
+         font-weight: 500;
+         cursor: default;
+         pointer-events: none;
+      }
+      
+      @media (max-width: 768px) {
+         .breadcrumb ul {
+            justify-content: flex-start;
+            padding-left: 15px;
+         }
+         
+         .breadcrumb ul li {
+            padding: 0 10px;
+         }
+         
+         .breadcrumb ul li:not(:last-child)::after {
+            right: -3px;
+            font-size: 18px;
+         }
+      }
+   
     </style>
 
     @stack('after-styles')

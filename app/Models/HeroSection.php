@@ -15,5 +15,11 @@ class HeroSection extends Model
         'subheading',
         'link',
         'banner',
+        'menu_navigation_id',
     ];
+
+    public function menu_navigation()
+    {
+        return $this->belongsTo(MenuNavigation::class, 'menu_navigation_id');
+    }
 }

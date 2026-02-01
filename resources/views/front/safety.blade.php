@@ -15,10 +15,12 @@
     <!--banner end-->
 
    <div class="breadcrumb">
+      <div class="container">
     <ul>
         <li><a href="{{ route('front.index') }}">Beranda</a></li>
          <li><a>K3</a></li>
       </ul>
+      </div>
    </div>
    
    <!--blog single start-->
@@ -53,16 +55,20 @@
                                  </a>
                               </div>
                            </div> -->
+                           @if($safeties)
                            <div class="latestNewsTxt">
                               <h4><a href="javascript:void(0);">{{ $safeties->title }}</a></h4>
                               <div>{!! $safeties->about !!}</div>
                            </div>
+                           @else
+                           
+                           @endif
                            <!-- <div class="queryBox">
                               <p>Continually productize compelling quality for packed with Elated productize compelling quality for packed with all Elated Theme Setting up to website and creating pages. Continually productize compelling quality for packed with Elated productize compelling quality for packed with all Elated Theme Setting up to website and creating pages.</p>
                            </div>
                            <p>Proactively unleash parallel outsourcing without equity invested systems.Convenientcocplume mkets For The backward-compatible models. Distinctively transition transparent sources after e-business scricly E-enablese bricks-and-clicks vortals with client-based outsourcing. Professionally drive one-to-oneitures Before worldwid e growth strategie Holisticly envisioneer highly efficient value before.</p> -->
                         </div>
-                        <div class="tagShareGroup">
+                        <!-- <div class="tagShareGroup">
                            <div class="tagShareGroupInner">
                               <div class="tagGroup">
                                  <ul class="nav">
@@ -91,7 +97,7 @@
                                  </ul>
                               </div>
                            </div>
-                        </div>
+                        </div> -->
                         <!-- <div class="commentGroup">
                            <div class="commentLeft">
                               <div class="commentUserImg">
@@ -212,7 +218,7 @@
                   </div>
                </div>
                <div class="col-lg-4">
-                  <div class="blogSingleAside">
+                  <!-- <div class="blogSingleAside">
                      <div class="searchKeyword customCard">
                         <div class="searchKeywordInner">
                            <h4>Search Keyword</h4>
@@ -285,7 +291,7 @@
                            </ul>
                         </div>
                      </div>
-                  </div>
+                  </div> -->
                </div>
             </div>
          </div>

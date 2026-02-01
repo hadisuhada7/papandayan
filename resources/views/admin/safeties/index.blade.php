@@ -33,7 +33,6 @@
                                 <th style="width: 30px;">No</th>
                                 <th style="width: 150px;">Title</th>
                                 <th scope="col">About</th>
-                                <th scope="col">Thumbnail</th>
                                 <th style="width: 65px;">&nbsp;</th>
                             </tr>
                         </thead>
@@ -45,8 +44,7 @@
                                 <tr>
                                     <td scope="row">{{ $index }}</td>
                                     <td>{{ $safety->title }}</td>
-                                    <td>{{ $safety->about }}</td>
-                                    <td><img src="{{ Storage::url($safety->thumbnail) }}" alt="" style="max-width: 100px;"></td>
+                                    <td>{{ strip_tags($safety->about) }}</td>
                                     <td class="text-center">
                                         <a href="{{ route('admin.safeties.edit', $safety) }}" class="btn btn-sm btn-primary item-edit"><i class="fas fa-pencil-alt"></i></a>
                                         <a href="javascript:void(0)" class="btn btn-sm btn-danger item-remove" data-id="{{ $safety->id }}"><i class="fas fa-trash-alt"></i></a>
@@ -133,7 +131,7 @@
                 },
 
                 columnDefs: [
-                    { targets: 4, orderable: false }
+                    { targets: 3, orderable: false }
                 ],
 
                 initComplete: function(settings, json) {

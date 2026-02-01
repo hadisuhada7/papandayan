@@ -35,12 +35,6 @@ class SafetyManagementController extends Controller
         // Closure-based transaction
         DB::transaction(function () use ($request) {
             $validated = $request->validated();
-
-            if ($request->hasFile('thumbnail')) {
-                $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'public');
-                $validated['thumbnail'] = $thumbnailPath;
-            }
-
             $newDataRecord = SafetyManagement::create($validated);
         });
 
@@ -71,12 +65,6 @@ class SafetyManagementController extends Controller
         // Closure-based transaction
         DB::transaction(function () use ($request, $safety) {
             $validated = $request->validated();
-
-            if ($request->hasFile('thumbnail')) {
-                $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'public');
-                $validated['thumbnail'] = $thumbnailPath;
-            }
-
             $safety->update($validated);
         });
 

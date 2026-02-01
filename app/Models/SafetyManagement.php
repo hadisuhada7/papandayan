@@ -15,6 +15,5 @@ class SafetyManagement extends Model
     protected $fillable = [
         'title',
         'about',
-        'thumbnail',
     ];
 }

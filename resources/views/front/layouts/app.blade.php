@@ -29,11 +29,12 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/toastr/toastr.min.css') }}">
     <link rel="shortcut icon" type="image/png" href="{{ asset('images/logo/favicon.png') }}">
 
-    <style>
+    <style type="text/css">
         :root {
             --accent-color: #3c5fac;
         }
 
+        /* Modify Scroll Top Button */
         .scroll-top {
             position: fixed;
             visibility: hidden;
@@ -70,72 +71,71 @@
             color: #fff;
         }
 
-        
-      .breadcrumb {
-         margin: 0 0 40px;
-         padding: 20px 0;
-         border-radius: 8px;
-      }
+        /* Modify Breadcrumb Styles */
+        .breadcrumb {
+            /* margin: 0 0 40px;
+            padding: 20px 0; */
+            border-radius: 8px;
+        }
       
-      .breadcrumb ul {
-         list-style: none;
-         padding: 0;
-         margin: 0;
-         display: flex;
-         align-items: center;
-         justify-content: center;
-         flex-wrap: wrap;
-      }
-      
-      .breadcrumb ul li {
-         display: inline-flex;
-         align-items: center;
-         position: relative;
-         padding: 0 10px;
-      }
-      
-      .breadcrumb ul li:not(:last-child)::after {
-         content: '›';
-         position: absolute;
-         right: -5px;
-         color: #3c5fac;
-         font-size: 20px;
-         font-weight: bold;
-      }
-      
-      .breadcrumb ul li a {
-         color: #3c5fac;
-         text-decoration: none;
-         font-weight: 500;
-         transition: all 0.3s ease;
-         padding: 8px 12px;
-         border-radius: 5px;
-         display: inline-block;
-      }
-
-      .breadcrumb ul li:last-child a {
-         color: #6c757d;
-         font-weight: 500;
-         cursor: default;
-         pointer-events: none;
-      }
-      
-      @media (max-width: 768px) {
-         .breadcrumb ul {
+        .breadcrumb ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
             justify-content: flex-start;
-            padding-left: 15px;
-         }
-         
-         .breadcrumb ul li {
+            flex-wrap: wrap;
+        }
+      
+        .breadcrumb ul li {
+            display: inline-flex;
+            align-items: center;
+            position: relative;
             padding: 0 10px;
-         }
-         
-         .breadcrumb ul li:not(:last-child)::after {
-            right: -3px;
-            font-size: 18px;
-         }
-      }
-   
+        }
+      
+        .breadcrumb ul li:not(:last-child)::after {
+            content: '›';
+            position: absolute;
+            right: -5px;
+            color: #3c5fac;
+            font-size: 20px;
+            font-weight: bold;
+        }
+      
+        .breadcrumb ul li a {
+            color: #3c5fac;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        .breadcrumb ul li:last-child a {
+            color: #6c757d;
+            font-weight: 500;
+            cursor: default;
+            pointer-events: none;
+        }
+      
+        @media (max-width: 768px) {
+            .breadcrumb ul {
+                justify-content: flex-start;
+                padding-left: 15px;
+            }
+            
+            .breadcrumb ul li {
+                padding: 0 10px;
+            }
+            
+            .breadcrumb ul li:not(:last-child)::after {
+                right: -3px;
+                font-size: 18px;
+            }
+        }
     </style>
 
     @stack('after-styles')
@@ -216,11 +216,10 @@
                     <a class="navbar-brand" href="#"><img src="{{ asset('images/logo/logo1.png') }}" alt="loader" class="img-fluid"></a>
                     <div class="collapse navbar-collapse" id="collapsibleNavbar">
                         <ul class="navbar-nav">
+
                             @php
-                                // Gabungkan uncategorized menus dan groups, lalu urutkan berdasarkan order
                                 $allMenuItems = collect();
                                 
-                                // Tambahkan uncategorized menus
                                 foreach($uncategorizedMenus as $menu) {
                                     $allMenuItems->push([
                                         'type' => 'uncategorized',
@@ -229,7 +228,6 @@
                                     ]);
                                 }
                                 
-                                // Tambahkan group menus
                                 foreach($menuGroups as $group) {
                                     if($group->menu_navigations->count() > 0) {
                                         $allMenuItems->push([
@@ -240,11 +238,9 @@
                                     }
                                 }
                                 
-                                // Urutkan berdasarkan order
                                 $allMenuItems = $allMenuItems->sortBy('order');
                             @endphp
 
-                            {{-- Render menu sesuai urutan dari database --}}
                             @foreach($allMenuItems as $menuItem)
                                 @if($menuItem['type'] === 'uncategorized')
                                     @php $menu = $menuItem['data']; @endphp
@@ -259,7 +255,6 @@
                                 @elseif($menuItem['type'] === 'group')
                                     @php $group = $menuItem['data']; @endphp
                                     @if($group->menu_navigations->count() == 1)
-                                        {{-- Jika hanya ada 1 menu dalam grup, tampilkan sebagai menu biasa --}}
                                         @php $singleMenu = $group->menu_navigations->first(); @endphp
                                         <li class="nav-item">
                                             <a class="nav-link" href="{{ $singleMenu->url ?: '#' }}">
@@ -270,7 +265,6 @@
                                             </a>
                                         </li>
                                     @else
-                                        {{-- Jika ada lebih dari 1 menu dalam grup, tampilkan sebagai dropdown --}}
                                         <li class="nav-item dropdown">
                                             <a class="nav-link" href="#" data-bs-toggle="dropdown">
                                                 {{ $group->name }}
@@ -292,6 +286,7 @@
                                     @endif
                                 @endif
                             @endforeach
+
                         </ul>
                     </div>
                     <div class="rightMenu">
@@ -351,24 +346,6 @@
 
     <!--footer start-->
     <footer class="w-100 clearfix footer footerBg1" id="footer">
-        <div class="needOurSupport">
-            <div class="container">
-                <div class="needOurSupportInner">
-                    <div class="needOurSupportTxt">
-                        <h2 class="fadein">Still You Need Our Support</h2>
-                        <p class="fadein">There are many variations of passages of lorem ipsum available but the majority have
-                            suffered alteration in some form by injected humor.</p>
-                    </div>
-                    <div class="needOurSupportInput">
-                        <div class="input-group fadein">
-                            <input type="text" class="form-control" placeholder="Email Address">
-                            <a href="javascript:void(0);" class="input-group-text subscriptionBtn"><span>Subscription</span>
-                                <img src="{{ asset('images/icon/icon-right.png') }}" alt="btn-arrow" class="img-fluid"></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="footerGroup">
             <div class="footerInner">
                 <div class="container">
@@ -408,64 +385,6 @@
                             </div>
                             <div class="col-sm-6 col-md-4 col-lg-3">
                                 <div class="footerCol footerCol2">
-                                    <div class="footerMenuHeading">
-                                        <h4 class="fadein">Official Site Map</h4>
-                                    </div>
-                                    <div class="footerMenuLink">
-                                        <ul class="nav flex-column">
-                                            @php
-                                                // Gabungkan uncategorized menus dan groups, lalu urutkan berdasarkan order (sama seperti nav)
-                                                $allFooterMenuItems = collect();
-                                                
-                                                // Tambahkan uncategorized menus
-                                                foreach($uncategorizedMenus as $menu) {
-                                                    $allFooterMenuItems->push([
-                                                        'type' => 'uncategorized',
-                                                        'order' => $menu->order,
-                                                        'data' => $menu
-                                                    ]);
-                                                }
-                                                
-                                                // Tambahkan group menus
-                                                foreach($menuGroups as $group) {
-                                                    if($group->menu_navigations->count() > 0) {
-                                                        $allFooterMenuItems->push([
-                                                            'type' => 'group',
-                                                            'order' => $group->order,
-                                                            'data' => $group
-                                                        ]);
-                                                    }
-                                                }
-                                                
-                                                // Urutkan berdasarkan order
-                                                $allFooterMenuItems = $allFooterMenuItems->sortBy('order');
-                                            @endphp
-
-                                            @foreach($allFooterMenuItems as $menuItem)
-                                                @if($menuItem['type'] === 'uncategorized')
-                                                    @php $menu = $menuItem['data']; @endphp
-                                                    <li class="nav-item fadein">
-                                                        <a class="nav-link" href="{{ $menu->url ?: '#' }}">
-                                                            <i class="fa fa-caret-right" aria-hidden="true"></i>
-                                                            {{ $menu->name }}
-                                                        </a>
-                                                    </li>
-                                                @elseif($menuItem['type'] === 'group')
-                                                    @php $group = $menuItem['data']; @endphp
-                                                    <li class="nav-item fadein">
-                                                        <a class="nav-link" href="#">
-                                                            <i class="fa fa-caret-right" aria-hidden="true"></i>
-                                                            {{ $group->name }}
-                                                        </a>
-                                                    </li>
-                                                @endif
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-md-4 col-lg-3">
-                                <div class="footerCol footerCol3">
                                     @php
                                         // Ambil grup pertama yang memiliki menu atau default ke "Tentang Kami"
                                         $firstGroupWithMenus = $menuGroups->first(function($group) {
@@ -493,6 +412,54 @@
                                                     <a class="nav-link" href="javascript:void(0);">
                                                         <i class="fa fa-caret-right" aria-hidden="true"></i>
                                                         Profile Perusahaan
+                                                    </a>
+                                                </li>
+                                            @endif
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4 col-lg-3">
+                                <div class="footerCol footerCol3">
+                                    @php
+                                        // Ambil grup kedua yang memiliki menu atau default ke "Keberlanjutan"
+                                        $secondGroupWithMenus = $menuGroups->skip(1)->first(function($group) {
+                                            return $group->menu_navigations->count() > 0;
+                                        });
+                                        $groupTitleSustainability = $secondGroupWithMenus ? $secondGroupWithMenus->name : 'Keberlanjutan';
+                                    @endphp
+                                    <div class="footerMenuHeading">
+                                        <h4 class="fadein">{{ $groupTitleSustainability }}</h4>
+                                    </div>
+                                    <div class="footerMenuLink">
+                                        <ul class="nav flex-column">
+                                            @if($secondGroupWithMenus)
+                                                @foreach($secondGroupWithMenus->menu_navigations as $menu)
+                                                    <li class="nav-item fadein">
+                                                        <a class="nav-link" href="{{ $menu->url ?: 'javascript:void(0);' }}">
+                                                            <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                                            {{ $menu->name }}
+                                                        </a>
+                                                    </li>
+                                                @endforeach
+                                            @else
+                                                {{-- Fallback jika tidak ada menu --}}
+                                                <li class="nav-item fadein">
+                                                    <a class="nav-link" href="javascript:void(0);">
+                                                        <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                                        K3
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item fadein">
+                                                    <a class="nav-link" href="javascript:void(0);">
+                                                        <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                                        CSR
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item fadein">
+                                                    <a class="nav-link" href="javascript:void(0);">
+                                                        <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                                        Inisiatif
                                                     </a>
                                                 </li>
                                             @endif

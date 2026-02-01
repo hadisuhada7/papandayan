@@ -24,7 +24,6 @@ class StoreSafetyManagementRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'about' => ['required', 'string', 'max:65535'],
-            'thumbnail' => ['required', 'image', 'mimes:png,jpg,jpeg,svg', 'max:2048'],
         ];
     }
 }

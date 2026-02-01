@@ -19,10 +19,12 @@
     <!--banner end-->
 
    <div class="breadcrumb">
+    <div class="container">
     <ul>
         <li><a href="{{ route('front.index') }}">Beranda</a></li>
          <li><a>Hubungi Kami</a></li>
       </ul>
+      </div>
    </div>
 
     <!--contact start-->

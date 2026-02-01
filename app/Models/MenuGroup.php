@@ -17,6 +17,6 @@ class MenuGroup extends Model
 
     public function menu_navigations()
     {
-        return $this->hasMany(MenuNavigation::class);
+        return $this->hasMany(MenuNavigation::class)->orderBy('order');
     }
 }

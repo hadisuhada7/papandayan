@@ -123,18 +123,6 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="thumbnail" class="col-sm-3 col-form-label">Thumbnail <span class="text-danger">*</span></label>
-                                    <div class="col-sm-6">
-                                        <div class="input-group">
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="thumbnail" name="thumbnail" accept="image/*" required>
-                                                <label class="custom-file-label" for="thumbnail" data-browse="Browse">Choose file</label>
-                                            </div>
-                                        </div>
-                                        <span class="error invalid-feedback">{{ $errors->first('thumbnail') }}</span>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
                                     <label for="qualification" class="col-sm-3 col-form-label">Qualification <span class="text-danger">*</span></label>
                                     <div class="col-sm-9">
                                         <textarea class="form-control" id="qualification" name="qualification" maxlength="65535" placeholder="Qualification" required>{{ old('qualification') }}</textarea>

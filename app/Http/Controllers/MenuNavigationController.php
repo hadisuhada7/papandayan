@@ -16,7 +16,7 @@ class MenuNavigationController extends Controller
      */
     public function index()
     {
-        $navigations = MenuNavigation::with('menu_group')->orderBy('id')->get();
+        $navigations = MenuNavigation::with('menu_group')->orderBy('order')->get();
         return view('admin.navigations.index', compact('navigations'));
     }
 
@@ -37,6 +37,13 @@ class MenuNavigationController extends Controller
         // Closure-based transaction
         DB::transaction(function () use ($request) {
             $validated = $request->validated();
+            
+            // Auto-set order if not provided
+            if (!isset($validated['order']) || $validated['order'] === null || $validated['order'] === 0) {
+                $maxOrder = MenuNavigation::where('menu_group_id', $validated['menu_group_id'])->max('order');
+                $validated['order'] = $maxOrder ? $maxOrder + 1 : 1;
+            }
+            
             $newDataRecord = MenuNavigation::create($validated);
         });
 

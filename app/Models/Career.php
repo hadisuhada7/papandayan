@@ -19,8 +19,7 @@ class Career extends Model
         'description',
         'work_type',
         'work_experience',
-        'status',
-        'thumbnail'
+        'status'
     ];
 
     protected $casts = [

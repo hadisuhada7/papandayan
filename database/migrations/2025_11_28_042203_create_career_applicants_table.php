@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('career_applicants', function (Blueprint $table) {
             $table->id();
             $table->string('first_name');
-            $table->string('last_name');
+            $table->string('last_name')->nullable();
             $table->string('email');
             $table->string('phone_number');
             $table->date('bod');
             $table->string('education');
-            $table->string('major');
+            $table->string('major')->nullable();
             $table->string('experienced');
             $table->unsignedBigInteger('current_salary')->nullable();
             $table->unsignedBigInteger('expectation_salary')->nullable();

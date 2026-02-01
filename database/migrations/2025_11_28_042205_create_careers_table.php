@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('work_type');
             $table->string('work_experience');
             $table->string('status');
-            $table->string('thumbnail');
             $table->softDeletes();
             $table->timestamps();
         });

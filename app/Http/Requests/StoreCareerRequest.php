@@ -31,7 +31,6 @@ class StoreCareerRequest extends FormRequest
             'work_type' => ['required', 'string', 'max:255'],
             'work_experience' => ['required', 'string', 'max:255'],
             'status' => ['required', 'string', 'max:255'],
-            'thumbnail' => ['required', 'image', 'mimes:png,jpg,jpeg,svg', 'max:2048'],
         ];
     }
 }

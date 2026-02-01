@@ -2,7 +2,6 @@
 
 @section('title', 'Papandayan | Edit Job')
 
-@section('plugins.BsCustomFileInput', true)
 @section('plugins.TempusDominusBs4', true)
 @section('plugins.Summernote', true)
 @section('plugins.Select2', true)
@@ -124,19 +123,6 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="thumbnail" class="col-sm-3 col-form-label">Thumbnail <span class="text-danger">*</span></label>
-                                    <div class="col-sm-6">
-                                        <img src="{{ Storage::url($career->thumbnail) }}" alt="" style="max-width: 100px; margin-bottom: 15px;"> 
-                                        <div class="input-group">
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="thumbnail" name="thumbnail" accept="image/*">
-                                                <label class="custom-file-label" for="thumbnail" data-browse="Browse">Choose file</label>
-                                            </div>
-                                        </div>
-                                        <span class="error invalid-feedback">{{ $errors->first('thumbnail') }}</span>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
                                     <label for="qualification" class="col-sm-3 col-form-label">Qualification <span class="text-danger">*</span></label>
                                     <div class="col-sm-9">
                                         <textarea class="form-control" id="qualification" name="qualification" maxlength="65535" placeholder="Qualification" required>{{ $career->qualification }}</textarea>
@@ -187,9 +173,6 @@
             $('#postingAt, #closingAt').datetimepicker({
                 format: 'DD-MM-YYYY'
             });
-
-            // Initialize bsCustomFileInput
-            bsCustomFileInput.init();
 
             //Initialize Select2 Elements
             $('.select2bs4').select2({

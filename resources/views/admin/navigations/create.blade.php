@@ -93,7 +93,6 @@
                                             @foreach ($groups as $group)
                                                 <option value="{{ $group->id }}">{{ $group->name }}</option>
                                             @endforeach
-                                            <option value="Uncategorized">Uncategorized</option>
                                         </select>
                                         <span class="error invalid-feedback">{{ $errors->first('menu_group_id') }}</span>
                                     </div>

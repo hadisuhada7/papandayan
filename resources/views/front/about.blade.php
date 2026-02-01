@@ -15,10 +15,12 @@
     <!--banner end-->
 
    <div class="breadcrumb">
+      <div class="container">
     <ul>
         <li><a href="{{ route('front.index') }}">Beranda</a></li>
          <li><a>Tentang Kami</a></li>
       </ul>
+      </div>
    </div>
    
    <!-- about us sec1 start-->

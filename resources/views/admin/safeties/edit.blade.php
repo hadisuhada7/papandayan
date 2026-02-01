@@ -3,6 +3,7 @@
 @section('title', 'Papandayan | Edit Safety Management')
 
 @section('plugins.BsCustomFileInput', true)
+@section('plugins.Summernote', true)
 @section('plugins.Toastr', true)
 
 @section('content_header')
@@ -54,19 +55,6 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="thumbnail" class="col-sm-3 col-form-label">Thumbnail <span class="text-danger">*</span></label>
-                                    <div class="col-sm-6">
-                                        <img src="{{ Storage::url($safety->thumbnail) }}" alt="" style="max-width: 100px; margin-bottom: 15px;"> 
-                                        <div class="input-group">
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="thumbnail" name="thumbnail" accept="image/*">
-                                                <label class="custom-file-label" for="thumbnail" data-browse="Browse">Choose file</label>
-                                            </div>
-                                        </div>
-                                        <span class="error invalid-feedback">{{ $errors->first('thumbnail') }}</span>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
                                     <label for="about" class="col-sm-3 col-form-label">About <span class="text-danger">*</span></label>
                                     <div class="col-sm-9">
                                         <textarea class="form-control" id="about" name="about" maxlength="65535" placeholder="About" required>{{ $safety->about }}</textarea>
@@ -88,7 +76,12 @@
 @stop
 
 @section('css')
-    {{-- add stylesheets --}}
+    <style type="text/css">
+        /* Modify Summernote Editor */
+        .note-editor.card {
+            margin-bottom: 0px !important;
+        }
+    </style>
 @stop
 
 @section('js')
@@ -97,6 +90,9 @@
         $(document).ready(function () {
             // Initialize bsCustomFileInput
             bsCustomFileInput.init();
+
+            // Initialize Summernote Editor
+            $('#about').summernote();
             
             // Add file validation for the thumbnail input
             $('#thumbnail').on('change', function(e) {

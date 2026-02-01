@@ -505,14 +505,14 @@ return [
             'icon' => 'fas fa-fw fa-download',
         ],
         ['header' => 'ACCOUNT SETTINGS'],
-        [
-            'text' => 'Users',
-            'url' => '#',
-            'icon' => 'fas fa-fw fa-user',
-        ],
+        // [
+        //     'text' => 'Users',
+        //     'url' => '#',
+        //     'icon' => 'fas fa-fw fa-user',
+        // ],
         [
             'text' => 'Change Password',
-            'url' => '#',
+            'route' => 'account.password.edit',
             'icon' => 'fas fa-fw fa-lock',
         ],
     ],

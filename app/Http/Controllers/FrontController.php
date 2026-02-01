@@ -41,6 +41,7 @@ use App\Http\Requests\StoreCareerApplicantRequest;
 use App\Http\Requests\StoreExperiencedApplicantRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class FrontController extends Controller
 {
@@ -111,6 +112,32 @@ class FrontController extends Controller
         $services = Service::orderByDesc('id')->take(1)->get();
         $testimonials = Testimonial::take(5)->get();
         return view('front.business', compact('banners', 'products', 'services', 'testimonials'));
+    }
+
+    public function search(Request $request) {
+        $query = trim((string) $request->input('q', ''));
+        $query = mb_substr($query, 0, 120);
+
+        $hasSearched = $query !== '';
+        $results = collect();
+        $totalCount = 0;
+
+        if ($hasSearched) {
+            $results = $this->buildSearchSections($query);
+            $totalCount = $results->sum(function ($section) {
+                return $section['items']->count();
+            });
+        }
+
+        $quickSearchTerms = config('papandayan.search.quick_terms', []);
+
+        return view('front.search', [
+            'query' => $query,
+            'quickSearchTerms' => $quickSearchTerms,
+            'results' => $results,
+            'totalCount' => $totalCount,
+            'hasSearched' => $hasSearched,
+        ]);
     }
 
     public function career() {
@@ -623,6 +650,186 @@ class FrontController extends Controller
         }
 
         return redirect()->route('front.contact')->with('success', 'Your question has been submitted successfully.');
+    }
+
+    private function buildSearchSections(string $query)
+    {
+        $limit = (int) config('papandayan.search.per_section_limit', 5);
+        $pattern = '%' . $query . '%';
+
+        $sections = collect();
+
+        $pageMatches = $this->buildPageMatches($query);
+        if ($pageMatches->isNotEmpty()) {
+            $sections->push([
+                'key' => 'pages',
+                'label' => 'Halaman Terkait',
+                'items' => $pageMatches,
+            ]);
+        }
+
+        $articles = Article::where('status', 'Published')
+            ->where(function ($builder) use ($pattern) {
+                $builder->where('title', 'like', $pattern)
+                    ->orWhere('subtitle', 'like', $pattern)
+                    ->orWhere('about', 'like', $pattern);
+            })
+            ->orderByDesc('publish_at')
+            ->limit($limit)
+            ->get()
+            ->map(function ($article) {
+                return [
+                    'title' => $article->title,
+                    'excerpt' => Str::limit(strip_tags($article->subtitle ?? $article->about ?? ''), 150),
+                    'url' => route('front.article-detail', $article->id),
+                    'badge' => 'Artikel',
+                    'meta' => $article->publish_at ? $article->publish_at->format('d M Y') : null,
+                ];
+            });
+        if ($articles->isNotEmpty()) {
+            $sections->push([
+                'key' => 'articles',
+                'label' => 'Artikel',
+                'items' => $articles,
+            ]);
+        }
+
+        $csrItems = CorporateSocial::where('status', 'Published')
+            ->where(function ($builder) use ($pattern) {
+                $builder->where('title', 'like', $pattern)
+                    ->orWhere('subtitle', 'like', $pattern)
+                    ->orWhere('about', 'like', $pattern);
+            })
+            ->orderByDesc('publish_at')
+            ->limit($limit)
+            ->get()
+            ->map(function ($social) {
+                return [
+                    'title' => $social->title,
+                    'excerpt' => Str::limit(strip_tags($social->subtitle ?? $social->about ?? ''), 150),
+                    'url' => route('front.social-detail', $social->id),
+                    'badge' => 'CSR',
+                    'meta' => $social->publish_at ? $social->publish_at->format('d M Y') : null,
+                ];
+            });
+        if ($csrItems->isNotEmpty()) {
+            $sections->push([
+                'key' => 'csr',
+                'label' => 'Kegiatan CSR',
+                'items' => $csrItems,
+            ]);
+        }
+
+        $initiatives = Initiative::where('status', 'Published')
+            ->where(function ($builder) use ($pattern) {
+                $builder->where('title', 'like', $pattern)
+                    ->orWhere('subtitle', 'like', $pattern)
+                    ->orWhere('about', 'like', $pattern);
+            })
+            ->orderByDesc('publish_at')
+            ->limit($limit)
+            ->get()
+            ->map(function ($initiative) {
+                return [
+                    'title' => $initiative->title,
+                    'excerpt' => Str::limit(strip_tags($initiative->subtitle ?? $initiative->about ?? ''), 150),
+                    'url' => route('front.initiative-detail', $initiative->id),
+                    'badge' => 'Inisiatif',
+                    'meta' => $initiative->publish_at ? $initiative->publish_at->format('d M Y') : null,
+                ];
+            });
+        if ($initiatives->isNotEmpty()) {
+            $sections->push([
+                'key' => 'initiatives',
+                'label' => 'Inisiatif',
+                'items' => $initiatives,
+            ]);
+        }
+
+        $safetyItems = SafetyManagement::where(function ($builder) use ($pattern) {
+                $builder->where('title', 'like', $pattern)
+                    ->orWhere('about', 'like', $pattern);
+            })
+            ->limit($limit)
+            ->get()
+            ->map(function ($safety) {
+                return [
+                    'title' => $safety->title,
+                    'excerpt' => Str::limit(strip_tags($safety->about ?? ''), 150),
+                    'url' => route('front.safety'),
+                    'badge' => 'K3',
+                    'meta' => 'Halaman K3',
+                ];
+            });
+        if ($safetyItems->isNotEmpty()) {
+            $sections->push([
+                'key' => 'safety',
+                'label' => 'Program K3',
+                'items' => $safetyItems,
+            ]);
+        }
+
+        $documents = DocumentReport::where('name', 'like', $pattern)
+            ->orderByDesc('id')
+            ->limit($limit)
+            ->get()
+            ->map(function ($document) {
+                return [
+                    'title' => $document->name,
+                    'excerpt' => 'Dokumen perusahaan yang siap diunduh.',
+                    'url' => route('front.documents') . '#document-' . $document->id,
+                    'badge' => 'Dokumen',
+                    'meta' => 'Memerlukan formulir unduhan',
+                ];
+            });
+        if ($documents->isNotEmpty()) {
+            $sections->push([
+                'key' => 'documents',
+                'label' => 'Laporan Dokumen',
+                'items' => $documents,
+            ]);
+        }
+
+        return $sections;
+    }
+
+    private function buildPageMatches(string $query)
+    {
+        $matches = collect();
+        $quickTerms = config('papandayan.search.quick_terms', []);
+
+        foreach ($quickTerms as $term) {
+            if (empty($term['route'])) {
+                continue;
+            }
+
+            $keywords = $term['keywords'] ?? [$term['label']];
+            if ($this->queryMatchesKeywords($query, $keywords)) {
+                $matches->push([
+                    'title' => $term['label'],
+                    'excerpt' => $term['description'] ?? '',
+                    'url' => route($term['route']),
+                    'badge' => 'Halaman',
+                    'meta' => 'Akses cepat',
+                ]);
+            }
+        }
+
+        return $matches;
+    }
+
+    private function queryMatchesKeywords(string $query, array $keywords): bool
+    {
+        $normalizedQuery = Str::lower($query);
+
+        foreach ($keywords as $keyword) {
+            $normalizedKeyword = Str::lower((string) $keyword);
+            if ($normalizedKeyword !== '' && Str::contains($normalizedQuery, $normalizedKeyword)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Account\PasswordController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CompanyStatisticController;
 use App\Http\Controllers\TestimonialController;
@@ -39,6 +40,7 @@ use Illuminate\Support\Facades\Route;
 
 // Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/', [FrontController::class, 'index'])->name('front.index');
+Route::get('/search', [FrontController::class, 'search'])->name('front.search');
 Route::get('/articles', [FrontController::class, 'article'])->name('front.articles');
 Route::get('/article/{id}', [FrontController::class, 'articleDetail'])->name('front.article-detail');
 Route::get('/about', [FrontController::class, 'about'])->name('front.about');
@@ -87,6 +89,9 @@ Route::middleware('auth')->group(function () {
     // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     // Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/account/password', [PasswordController::class, 'edit'])->name('account.password.edit');
+    Route::put('/account/password', [PasswordController::class, 'update'])->name('account.password.update');
 
     Route::prefix('admin')->name('admin.')->group(function () {
 

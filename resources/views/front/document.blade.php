@@ -2,6 +2,16 @@
 
 @section('title', 'Laporan Dokumen')
 
+@push('before-styles')
+    <style>
+        .latestNewsCardInner:target {
+            outline: 2px solid var(--accent-color, #3c5fac);
+            border-radius: 18px;
+            box-shadow: 0 0 0 6px rgba(60, 95, 172, 0.08);
+        }
+    </style>
+@endpush
+
 @section('content')
 
     <!--banner start-->
@@ -32,7 +42,7 @@
 
                         @forelse ($documents as $document)
                             <div class="col-md-12 col-lg-3 blogWithSidebarCol">
-                                <div class="latestNewsCardInner mb-4">
+                                <div class="latestNewsCardInner mb-4" id="document-{{ $document->id }}">
                                     <div class="latestNewsCardImg">
                                         <a href="javascript:void(0);"><img src="{{ Storage::url($document->thumbnail) }}" alt="img" class="w-100 img-fluid"></a>
                                     </div>

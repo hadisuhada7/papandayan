@@ -324,14 +324,31 @@
                     <h4>Cari di Situs Kami</h4>
                 </div>
                 <div class="searchInput">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search">
-                        <a href="javascript:void(0);" class="input-group-text searchButton"><span>Search</span>
-                            <img src="{{ asset('images/icon/icon-right.png') }}" alt="btn-arrow" class="img-fluid"></a>
-                    </div>
+                    <form action="{{ route('front.search') }}" method="GET" class="w-100">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="q" value="{{ request('q') }}" placeholder="Search" aria-label="Cari konten">
+                            <button type="submit" class="input-group-text searchButton">
+                                <span>Search</span>
+                                <img src="{{ asset('images/icon/icon-right.png') }}" alt="btn-arrow" class="img-fluid">
+                            </button>
+                        </div>
+                    </form>
                 </div>
                 <div class="quickSearch">
-                    <p><span>Quick Search:</span>K3, CSR, Inisiatif, Laporan Dokumen</p>
+                    @php
+                        $quickSearchTerms = config('papandayan.search.quick_terms', []);
+                    @endphp
+                    <p>
+                        <span>Quick Search:</span>
+                        @if(!empty($quickSearchTerms))
+                            @foreach($quickSearchTerms as $term)
+                                @php $queryValue = $term['query'] ?? $term['label']; @endphp
+                                <a href="{{ route('front.search', ['q' => $queryValue]) }}">{{ $term['label'] }}</a>@if(!$loop->last), @endif
+                            @endforeach
+                        @else
+                            K3, CSR, Inisiatif, Laporan Dokumen
+                        @endif
+                    </p>
                 </div>
             </div>
         </div>

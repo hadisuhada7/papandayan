@@ -56,6 +56,7 @@ Route::get('/socials', [FrontController::class, 'social'])->name('front.socials'
 Route::get('/social/{id}', [FrontController::class, 'socialDetail'])->name('front.social-detail');
 Route::get('/initiatives', [FrontController::class, 'initiative'])->name('front.initiatives');
 Route::get('/initiative/{id}', [FrontController::class, 'initiativeDetail'])->name('front.initiative-detail');
+Route::post('/like', [FrontController::class, 'toggleLike'])->name('front.like.toggle');
 Route::get('/documents', [FrontController::class, 'document'])->name('front.documents');
 Route::get('/document/download/{id}', [FrontController::class, 'documentDownload'])->name('front.document.download');
 Route::post('/document/download-with-log/{id}', [FrontController::class, 'documentDownloadWithLog'])->name('front.document.download.with.log');

@@ -47,6 +47,7 @@
                                                 <i class="fa fa-eye" style="color: #3c5fac;"></i><span>{{ $social->viewer }} Viewers</span>
                                             </a>
                                         </div>
+                                        @include('front.partials.like-post', ['model' => $social, 'type' => 'social'])
                                     </div>
                                     <div class="latestNewsTxt">
                                         <h4><a href="javascript:void(0);">{{ $social->title }}</a></h4>

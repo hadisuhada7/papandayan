@@ -47,6 +47,7 @@
                                                 <i class="fa fa-eye" style="color: #3c5fac;"></i><span>{{ $initiative->viewer }} Viewers</span>
                                             </a>
                                         </div>
+                                        @include('front.partials.like-post', ['model' => $initiative, 'type' => 'initiative'])
                                     </div>
                                     <div class="latestNewsTxt">
                                         <h4><a href="javascript:void(0);">{{ $initiative->title }}</a></h4>

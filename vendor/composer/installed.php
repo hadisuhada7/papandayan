@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'laravel/laravel',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => null,
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => 'd05b8fde485908fa4293a99593c848a79b9b0335',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -421,6 +421,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'kilobyteno/laravel-user-guest-like' => array(
+            'pretty_version' => '1.4.0',
+            'version' => '1.4.0.0',
+            'reference' => '3b14c00720a10b91ce11f85c805fe2c7cfeb21bf',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../kilobyteno/laravel-user-guest-like',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'kodova/hamcrest-php' => array(
             'dev_requirement' => true,
             'replaced' => array(
@@ -437,9 +446,9 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => null,
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => 'd05b8fde485908fa4293a99593c848a79b9b0335',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -1081,6 +1090,15 @@
             'install_path' => __DIR__ . '/../sebastian/version',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'spatie/laravel-package-tools' => array(
+            'pretty_version' => '1.92.7',
+            'version' => '1.92.7.0',
+            'reference' => 'f09a799850b1ed765103a4f0b4355006360c49a5',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../spatie/laravel-package-tools',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'spatie/laravel-permission' => array(
             'pretty_version' => '6.23.0',

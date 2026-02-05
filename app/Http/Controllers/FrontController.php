@@ -78,7 +78,10 @@ class FrontController extends Controller
         $products = Product::orderByDesc('id')->take(1)->get();
         $services = Service::orderByDesc('id')->take(1)->get();
         $testimonials = Testimonial::take(5)->get();
-        $articles = Article::where('status', 'Published')->orderBy('id')->get();
+        $articles = Article::where('status', 'Published')
+            ->orderBy('id')
+            ->withCount('likes')
+            ->get();
         $coverageAreas = CoverageArea::whereNotNull('latitude')
                                     ->whereNotNull('longitude')
                                     ->whereNotNull('partner_name')
@@ -86,14 +89,24 @@ class FrontController extends Controller
         return view('front.index', compact('banners', 'statistics', 'products', 'services', 'testimonials', 'articles', 'coverageAreas'));
     }
 
-    public function article() {
+    public function article(Request $request) {
         $banners = $this->getBannerByMenuName('Artikel');
-        $articles = Article::where('status', 'Published')->orderBy('id')->get();
-        return view('front.article', compact('banners', 'articles'));
+        $search = trim((string) $request->query('q', ''));
+
+        $articles = Article::where('status', 'Published')
+            ->when($search !== '', function ($builder) use ($search) {
+                $builder->where('title', 'like', '%' . $search . '%');
+            })
+            ->orderBy('id')
+            ->withCount('likes')
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('front.article', compact('banners', 'articles', 'search'));
     }
 
     public function articleDetail($id) {
-        $article = Article::with('tags')->findOrFail($id);
+        $article = Article::with('tags')->withCount('likes')->findOrFail($id);
         
         // Increment viewer count
         $this->incrementViewerCount($article);
@@ -196,14 +209,24 @@ class FrontController extends Controller
         return view('front.safety', compact('banners', 'safeties'));
     }
 
-    public function social() {
+    public function social(Request $request) {
         $banners = $this->getBannerByMenuName('CSR');
-        $socials = CorporateSocial::where('status', 'Published')->orderBy('id')->get();
-        return view('front.social', compact('banners', 'socials'));
+        $search = trim((string) $request->query('q', ''));
+
+        $socials = CorporateSocial::where('status', 'Published')
+            ->when($search !== '', function ($builder) use ($search) {
+                $builder->where('title', 'like', '%' . $search . '%');
+            })
+            ->orderBy('id')
+            ->withCount('likes')
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('front.social', compact('banners', 'socials', 'search'));
     }
 
     public function socialDetail($id) {
-        $social = CorporateSocial::findOrFail($id);
+        $social = CorporateSocial::withCount('likes')->findOrFail($id);
         
         // Increment viewer count
         $this->incrementViewerCount($social);
@@ -218,14 +241,24 @@ class FrontController extends Controller
         return view('front.social-detail', compact('social', 'recentSocials'));
     }
 
-    public function initiative() {
+    public function initiative(Request $request) {
         $banners = $this->getBannerByMenuName('Inisiatif');
-        $initiatives = Initiative::where('status', 'Published')->orderBy('id')->get();
-        return view('front.initiative', compact('banners', 'initiatives'));
+        $search = trim((string) $request->query('q', ''));
+
+        $initiatives = Initiative::where('status', 'Published')
+            ->when($search !== '', function ($builder) use ($search) {
+                $builder->where('title', 'like', '%' . $search . '%');
+            })
+            ->orderBy('id')
+            ->withCount('likes')
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('front.initiative', compact('banners', 'initiatives', 'search'));
     }
 
     public function initiativeDetail($id) {
-        $initiative = Initiative::findOrFail($id);
+        $initiative = Initiative::withCount('likes')->findOrFail($id);
         
         // Increment viewer count
         $this->incrementViewerCount($initiative);
@@ -238,6 +271,41 @@ class FrontController extends Controller
             ->get();
         
         return view('front.initiative-detail', compact('initiative', 'recentInitiatives'));
+    }
+
+    public function toggleLike(Request $request) {
+        $validated = $request->validate([
+            'type' => 'required|in:article,initiative,social',
+            'id' => 'required|integer',
+        ]);
+
+        $modelMap = [
+            'article' => Article::class,
+            'initiative' => Initiative::class,
+            'social' => CorporateSocial::class,
+        ];
+
+        $modelClass = $modelMap[$validated['type']];
+        $model = $modelClass::findOrFail($validated['id']);
+        $user = auth()->check() ? auth()->user() : null;
+
+        if ($model->hasLiked($user)) {
+            $model->dislike($user);
+            $message = 'Like dibatalkan.';
+        } else {
+            $model->like($user);
+            $message = 'Terima kasih sudah menyukai.';
+        }
+
+        if ($request->expectsJson() || $request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'liked' => $model->hasLiked($user),
+                'likes_count' => $model->likes()->count(),
+                'message' => $message,
+            ]);
+        }
+
+        return redirect()->back()->with('success', $message);
     }
 
     public function document() {

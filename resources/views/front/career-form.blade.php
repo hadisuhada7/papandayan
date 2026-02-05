@@ -7,24 +7,21 @@
 @section('plugins.Select2', true)
 @section('plugins.Toastr', true)
 
-@section('content_header')
-@stop
-
 @section('content')
 
-   <!--banner sec start-->
-   <section class="w-100 clearfix bannerSec" id="bannerSec" style="background-image: url('{{ asset('images/inner-banner.png') }}');">
-      <div class="container">
-         <div class="bannerContent">
-            <h1>Form Karir</h1>
-            <ul class="breadcrumb">
-               <li class="breadcrumb-item"><a href="{{ route('front.index') }}">Beranda</a></li>
-               <li class="breadcrumb-item active">Form Karir</li>
-            </ul>
-         </div>
-      </div>
-   </section>
-   <!--banner sec end-->
+    <!--banner sec start-->
+    <section class="w-100 clearfix bannerSec" id="bannerSec" style="background-image: url('{{ asset('images/inner-banner.png') }}');">
+        <div class="container">
+            <div class="bannerContent">
+                <h1>Form Karir</h1>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ route('front.index') }}">Beranda</a></li>
+                    <li class="breadcrumb-item active">Form Karir</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!--banner sec end-->
 
     <!--FAQ start-->
     <section class="w-100 clearfix checkout" id="checkout">
@@ -34,11 +31,10 @@
                     <div class="col-lg-8 order-2 order-lg-1">
                         <div class="blogSingleBlog">
                             <div class="latestNewsCardInner">
-                                <!--checkout box-->
                                 <div class="commentBox">
                                     <div class="commentBoxInner">
                                         <div class="commentBoxForm">
-                                            <!--checkout form-->
+
                                             <form method="POST" action="{{ route('front.career.store') }}" enctype="multipart/form-data">
                                                 @csrf
 
@@ -46,20 +42,20 @@
                                                 <input type="hidden" name="career_id" value="{{ $career->id }}">
                                                 <input type="hidden" name="status" value="New">
 
-                                                 @if ($errors->any())
+                                                @if ($errors->any())
                                                     @foreach ($errors->all() as $error)
-                                                    <div class="row">
-                                                        <div class="col-12">
-                                                            <div class="alert alert-danger" role="alert">
-                                                                {{ $error }}
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div class="alert alert-danger" role="alert">
+                                                                    {{ $error }}
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
                                                     @endforeach
                                                 @endif
 
                                                 <div class="commentBoxHeading">
-                                                    <h4>Informasi Pribadi</h4>
+                                                    <h4>Informasi Dasar</h4>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-6">
@@ -77,7 +73,7 @@
                                                     <div class="col-md-6">
                                                         <div class="commentFormGroup">
                                                             <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control" id="email" name="email" maxlength="100" placeholder="" required>
+                                                            <input type="text" class="form-control" id="email" name="email" maxlength="50" placeholder="" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -97,6 +93,11 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                </div>
+                                                <div class="commentBoxHeading">
+                                                    <h4>Pendidikan</h4>
+                                                </div>
+                                                <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="commentFormGroup">
                                                             <label for="education" class="form-label">Pendidikan <span class="text-danger">*</span></label>
@@ -114,57 +115,27 @@
                                                     <div class="col-md-6">
                                                         <div class="commentFormGroup">
                                                             <label for="major" class="form-label">Jurusan</label>
-                                                            <input type="text" class="form-control" id="major" name="major" maxlength="100" placeholder="">
+                                                            <input type="text" class="form-control" id="major" name="major" maxlength="50" placeholder="">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="commentFormGroup">
-                                                            <label for="currentSalary" class="form-label">Gaji Saat Ini <span class="text-danger">*</span></label>
-                                                            <div class="input-group" id="currentSalaryGroup">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text">Rp</span>
-                                                                </div>
-                                                                <input type="text" class="form-control number-only" id="currentSalary" name="current_salary" value="{{ old('current_salary') }}" maxlength="20" placeholder="" required>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="commentFormGroup">
-                                                            <label for="expectationSalary" class="form-label">Gaji Harapan <span class="text-danger">*</span></label>
-                                                            <div class="input-group" id="expectationSalaryGroup">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text">Rp</span>
-                                                                </div>
-                                                                <input type="text" class="form-control number-only" id="expectationSalary" name="expectation_salary" value="{{ old('expectation_salary') }}" maxlength="20" placeholder="" required>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="commentFormGroup">
-                                                            <label for="curriculumVitae" class="form-label">Curriculum Vitae <span class="text-danger">*</span></label>
-                                                            <div class="input-group" id="curriculumVitaeGroup">
-                                                                <input type="file" class="form-control" id="curriculumVitae" name="curriculum_vitae" accept="application/pdf" required>
-                                                                <div class="input-group-append">
-                                                                    <span class="input-group-text">Browse</span>
+                                                            <label for="experiencedCheckbox" class="form-label">Pengalaman Kerja</label>
+                                                            <input type="hidden" id="experiencedValue" name="experienced" value="{{ old('experienced', 'No') }}">
+                                                            <div class="commentFormGroup mb-0">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" id="experiencedCheckbox" {{ old('experienced') === 'Yes' ? 'checked' : '' }}>
+                                                                    <label class="form-check-label" for="experiencedCheckbox">Saya memiliki pengalaman kerja</label>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="commentFormGroup">
-                                                            <label for="experienced" class="form-label">Berpengalaman <span class="text-danger">*</span></label>
-                                                            <select class="form-control select2bs4" style="width: 100%;" id="experienced" name="experienced" required>
-                                                                <option value="">-- Pilih Berpengalaman --</option>
-                                                                <option value="Yes">Ya</option>
-                                                                <option value="No">Tidak</option>
-                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>
+
                                                 <!-- Experienced Applicants -->
                                                 <div id="experiencedApplicants" style="display: none;">
                                                     <div class="commentBoxHeading">
-                                                        <h4>Pelamar Berpengalaman</h4>
+                                                        <h4>Pengalaman Kerja</h4>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-6">
@@ -196,17 +167,50 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="col-md-6">
+                                                            <div class="commentFormGroup">
+                                                                <label for="currentSalary" class="form-label">Gaji Saat Ini <span class="text-danger">*</span></label>
+                                                                <div class="input-group" id="currentSalaryGroup">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text">Rp</span>
+                                                                    </div>
+                                                                    <input type="text" class="form-control number-only" id="currentSalary" name="current_salary" value="{{ old('current_salary') }}" maxlength="20" placeholder="" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <!-- <div class="commentFormGroup mb-3">
-                                                    <div class="form-check">
-                                                        <label class="form-check-label">
-                                                        <input class="form-check-input" type="checkbox" name="remember"> Ship to a different address
-                                                        </label>
+
+                                                <div class="commentBoxHeading">
+                                                    <h4>Kelengkapan</h4>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="commentFormGroup">
+                                                            <label for="expectationSalary" class="form-label">Gaji Harapan <span class="text-danger">*</span></label>
+                                                            <div class="input-group" id="expectationSalaryGroup">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">Rp</span>
+                                                                </div>
+                                                                <input type="text" class="form-control number-only" id="expectationSalary" name="expectation_salary" value="{{ old('expectation_salary') }}" maxlength="20" placeholder="" required>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div> -->
+                                                    <div class="col-md-6">
+                                                        <div class="commentFormGroup">
+                                                            <label for="curriculumVitae" class="form-label">Curriculum Vitae <span class="text-danger">*</span></label>
+                                                            <div class="input-group" id="curriculumVitaeGroup">
+                                                                <input type="file" class="form-control" id="curriculumVitae" name="curriculum_vitae" accept="application/pdf" required>
+                                                                <div class="input-group-append">
+                                                                    <span class="input-group-text">Browse</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <button type="submit" class="btnCustom5 btn-1 hover-slide-down"><span>Kirim <img src="{{ asset('images/icon/icon-right.png') }}" alt="right" class="img-fluid"></span></button>
                                             </form>
+
                                         </div>
                                     </div>
                                 </div>
@@ -333,16 +337,13 @@
         </div>
     </section>
     <!--FAQ end-->
+
 @endsection
 
-@push('before-styles')
-    <link rel="stylesheet" href="{{ asset('vendor/toastr/toastr.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('vendor/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
-@endpush
-
-@push('before-scripts')
+@push('after-styles')
     <style type="text/css">
-         /* Modify Select2 to match form inputs */
+
+        /* Modify Select2 to match form inputs */
         .select2-container--bootstrap4 .select2-selection--single {
             height: auto !important;
             padding: 0 !important;
@@ -411,7 +412,7 @@
             color: #6c757d !important;
         }
 
-        /* Fix datetimepicker input group styling */
+        /* Modify datetimepicker input group styling */
         #bodDatepicker.input-group {
             position: relative;
             display: flex;
@@ -455,7 +456,7 @@
             cursor: pointer;
         }
 
-        /* Fix curriculum vitae input group styling */
+        /* Modify curriculum vitae input group styling */
         #curriculumVitaeGroup.input-group {
             position: relative;
             display: flex;
@@ -526,7 +527,7 @@
             cursor: pointer;
         }
 
-        /* Fix salary input groups styling */
+        /* Modify salary input groups styling */
         #currentSalaryGroup.input-group,
         #expectationSalaryGroup.input-group {
             position: relative;
@@ -573,7 +574,7 @@
             border-bottom-left-radius: 0 !important;
         }
 
-        /* Fix duration input group styling */
+        /* Modify duration input group styling */
         #durationGroup.input-group {
             position: relative;
             display: flex;
@@ -619,28 +620,7 @@
 @endpush
 
 @push('after-scripts')
-   <script src="{{ asset('js/jquery-3.6.4.min.js') }}"></script>
-   <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-   <script src="{{ asset('js/wow.min.js') }}"></script>
-   <script src="{{ asset('js/jquery.magnific-popup.js') }}"></script>
-   <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
-   <script src="{{ asset('js/slick.min.js') }}"></script>
-   <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
-   <script src="{{ asset('js/contact_form.js') }}"></script>
-   <script src="{{ asset('js/grt-youtube-popup.js') }}"></script>
-   <script src="{{ asset('js/jquery.fancybox.min.js') }}"></script>
-   <script src="{{ asset('js/custom.js') }}"></script>
-   <script src="{{ asset('vendor/jquery-timeline/js/timeline.min.js') }}"></script>
-   <script src="{{ asset('vendor/leaflet/dist/leaflet.js') }}"></script>
-   <script src="{{ asset('vendor/moment/moment.min.js') }}"></script>
-   <script src="{{ asset('vendor/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
-   <script src="{{ asset('vendor/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
-   <script src="{{ asset('vendor/select2/js/select2.full.min.js') }}"></script>
-   <script src="{{ asset('vendor/toastr/toastr.min.js') }}"></script>
-
-    @include('partials.toastr')
-
-   <script>
+    <script>
         $(document).ready(function () {
             // Initialize DatePicker
             $('#bodDatepicker').datetimepicker({
@@ -690,47 +670,56 @@
             });
             
             // Handle experienced applicants visibility
+            const experiencedCheckbox = $('#experiencedCheckbox');
+            const experiencedValueInput = $('#experiencedValue');
+
+            function syncExperiencedValue() {
+                experiencedValueInput.val(experiencedCheckbox.is(':checked') ? 'Yes' : 'No');
+            }
+
             function toggleExperiencedApplicants() {
-                const experiencedValue = $('#experienced').val();
                 const experiencedApplicants = $('#experiencedApplicants');
                 const experiencedInputs = experiencedApplicants.find('input');
-                
-                if (experiencedValue === 'Yes') {
+
+                if (experiencedCheckbox.is(':checked')) {
                     experiencedApplicants.slideDown();
-                    // Make experienced applicants required
                     experiencedInputs.attr('required', true);
                 } else {
                     experiencedApplicants.slideUp();
-                    // Remove required attribute and clear values
                     experiencedInputs.attr('required', false).val('');
                 }
             }
-            
-            // Initialize experienced applicants visibility on page load
+
+            // Initialize experienced applicants UI state on page load
+            syncExperiencedValue();
             toggleExperiencedApplicants();
-            
-            // Show/hide experienced applicants when the experienced dropdown changes
-            $('#experienced').on('change', toggleExperiencedApplicants);
-            
+
+            // Show/hide experienced applicants when the experienced checkbox changes
+            experiencedCheckbox.on('change', function() {
+                syncExperiencedValue();
+                toggleExperiencedApplicants();
+            });
+
             // Handle form reset to update experienced applicants visibility
             $('button[type="reset"]').on('click', function() {
                 setTimeout(function() {
+                    experiencedCheckbox.prop('checked', false);
+                    syncExperiencedValue();
                     toggleExperiencedApplicants();
                 }, 50);
             });
         });
 
-      // Header active class toggle on scroll
-      const header = document.querySelector(".headerOne");
-      const toggleClass = "headerActive";
-      window.addEventListener("scroll", () => {
-         const currentScroll = window.pageYOffset;
-         if (currentScroll > 150) {
-            header.classList.add(toggleClass);
-         } else {
-            header.classList.remove(toggleClass);
-         }
-      });
-
+        // Header active class toggle on scroll
+        const header = document.querySelector(".headerOne");
+        const toggleClass = "headerActive";
+        window.addEventListener("scroll", () => {
+            const currentScroll = window.pageYOffset;
+            if (currentScroll > 150) {
+                header.classList.add(toggleClass);
+            } else {
+                header.classList.remove(toggleClass);
+            }
+        });
    </script>
 @endpush

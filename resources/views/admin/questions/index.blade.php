@@ -72,8 +72,8 @@ function getStatusDisplayText($status) {
                                     <td>{{ $question->question_type->name }}</td>
                                     <td><span class="badge {{ getStatusBadgeClass($question->status) }}">{{ getStatusDisplayText($question->status) }}</span></td>
                                     <td class="text-center">
-                                        <a href="{{ route('admin.questions.edit', $question) }}" class="btn btn-sm btn-primary item-edit"><i class="fas fa-pencil-alt"></i></a>
-                                        <a href="javascript:void(0)" class="btn btn-sm btn-danger item-remove" data-id="{{ $question->id }}"><i class="fas fa-trash-alt"></i></a>
+                                        <!-- <a href="{{ route('admin.questions.edit', $question) }}" class="btn btn-sm btn-primary item-edit"><i class="fas fa-pencil-alt"></i></a>
+                                        <a href="javascript:void(0)" class="btn btn-sm btn-danger item-remove" data-id="{{ $question->id }}"><i class="fas fa-trash-alt"></i></a> -->
                                     </td>
                                 </tr>
                                 @php 
@@ -171,8 +171,8 @@ function getStatusDisplayText($status) {
                         .attr('name', 'datagrid_search')
                         .addClass('form-control input-sm');
                     
-                    $('<a href="{{ route('admin.questions.create') }}" class="btn btn-sm btn-primary" style="margin-left: 10px;">Add New</a>')
-                        .appendTo($('#datagrid_filter'));
+                    // $('<a href="{{ route('admin.questions.create') }}" class="btn btn-sm btn-primary" style="margin-left: 10px;">Add New</a>')
+                    //     .appendTo($('#datagrid_filter'));
                     
                     $('#datagrid_length label').contents().filter(function() {
                         return this.nodeType === 3;

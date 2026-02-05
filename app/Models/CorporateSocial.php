@@ -23,5 +23,6 @@ class CorporateSocial extends Model
 
     protected $casts = [
         'publish_at' => 'date', // format method...
+        'viewer' => 'integer',
     ];
 }

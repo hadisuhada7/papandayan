@@ -3,6 +3,7 @@
 @section('title', 'Papandayan | Add Product')
 
 @section('plugins.BsCustomFileInput', true)
+@section('plugins.Summernote', true)
 @section('plugins.Toastr', true)
 
 @section('content_header')
@@ -53,9 +54,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="about" class="col-sm-3 col-form-label">Description <span class="text-danger">*</span></label>
+                                    <label for="about" class="col-sm-3 col-form-label">About <span class="text-danger">*</span></label>
                                     <div class="col-sm-9">
-                                        <textarea class="form-control" id="about" name="about" maxlength="65535" placeholder="Description" required>{{ old('about') }}</textarea>
+                                        <textarea class="form-control" id="about" name="about" maxlength="65535" placeholder="About" required>{{ old('about') }}</textarea>
                                         <span class="error invalid-feedback">{{ $errors->first('about') }}</span>
                                     </div>
                                 </div>
@@ -93,7 +94,13 @@
 @stop
 
 @section('css')
-    {{-- add stylesheets --}}
+    <style type="text/css">
+
+        /* Modify Summernote Editor */
+        .note-editor.card {
+            margin-bottom: 0px !important;
+        }
+    </style>
 @stop
 
 @section('js')
@@ -102,6 +109,9 @@
         $(document).ready(function () {
             // Initialize bsCustomFileInput
             bsCustomFileInput.init();
+
+            // Initialize Summernote Editor
+            $('#about').summernote();
             
             // Add file validation for the thumbnail input
             $('#thumbnail').on('change', function(e) {

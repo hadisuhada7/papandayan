@@ -27,11 +27,12 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/leaflet/dist/leaflet.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/select2/css/select2.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/toastr/toastr.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('vendor/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
     <link rel="shortcut icon" type="image/png" href="{{ asset('images/logo/favicon.png') }}">
 
     <style type="text/css">
         :root {
-            --accent-color: #3c5fac;
+            --accent-color: #2e3192;
         }
 
         /* Modify Scroll Top Button */
@@ -42,7 +43,7 @@
             right: 15px;
             bottom: -15px;
             z-index: 99999;
-            background-color: var(--accent-color, #3c5fac);
+            background-color: var(--accent-color, #2e3192);
             width: 44px;
             height: 44px;
             border-radius: 50px;
@@ -67,14 +68,55 @@
         }
 
         .scroll-top:hover {
-            background-color: #2e3192;
+            background-color: #3c5fac;
             color: #fff;
         }
 
-        /* Modify Breadcrumb Styles */
+        .footerPara.officeInfo {
+            color: #fff;
+        }
+
+        /* Modify Footer Office Info */
+        .footerPara.officeInfo .officeHeading {
+            color: #fff;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 18px;
+            text-transform: uppercase;
+        }
+
+        .footerPara.officeInfo .officeInfoRow {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            margin-bottom: 18px;
+        }
+
+        .footerPara.officeInfo .officeInfoRow:last-child {
+            margin-bottom: 0;
+        }
+
+        .footerPara.officeInfo .officeInfoIcon {
+            font-size: 18px;
+            color: #fff;
+            line-height: 1.4;
+        }
+
+        .footerPara.officeInfo .officeInfoText p {
+            margin-bottom: 6px;
+            line-height: 1.5;
+        }
+
+        .footerPara.officeInfo .officeInfoText p:last-child {
+            margin-bottom: 0;
+        }
+
+        .footerPara.officeInfo .officeInfoText span {
+            color: #a0a0a0;
+        }
+
+        /* Modify Breadcrumb */
         .breadcrumb {
-            /* margin: 0 0 40px;
-            padding: 20px 0; */
             border-radius: 8px;
         }
       
@@ -120,6 +162,12 @@
             cursor: default;
             pointer-events: none;
         }
+
+        /* Modify Maps Section */
+        .mapsSection {
+            padding: 40px 0 0;
+            background-color: #fafafa;
+        }
       
         @media (max-width: 768px) {
             .breadcrumb ul {
@@ -135,13 +183,17 @@
                 right: -3px;
                 font-size: 18px;
             }
+
+            .mapsSection {
+                padding: 30px 0 0;
+                background-color: #fafafa;
+            }
         }
     </style>
 
     @stack('after-styles')
 
 </head>
-
 <body>
 
     <!--preloader start-->
@@ -149,7 +201,7 @@
         <div id="status">
             <div class="u-loading">
                 <div class="u-loading__symbol">
-                    <img src="{{ asset('images/logo/logo2.png') }}" alt="loader" class="img-fluid">
+                    <img src="{{ asset('images/logo/loader.png') }}" alt="loader" class="img-fluid">
                 </div>
             </div>
             <div class="loader" id="dotsLoader">
@@ -181,7 +233,7 @@
                         </a>
                     </div>
                     <div class="mail boxGroupHeader">
-                        <a href="javascript:void(0);">
+                        <a href="javascript:void(0);" class="copy-to-clipboard" data-copy-text="kontak@papandayan.co.id">
                             <div class="flexGroupHeader">
                                 <div class="icon">
                                     <i class="fa fa-envelope" style="color: white;"></i>
@@ -213,7 +265,7 @@
         <div class="mainHeader">
             <nav class="navbar navbar-expand-xl">
                 <div class="container">
-                    <a class="navbar-brand" href="#"><img src="{{ asset('images/logo/logo1.png') }}" alt="loader" class="img-fluid"></a>
+                    <a class="navbar-brand" href="https://papandayan.co.id/"><img src="{{ asset('images/logo/logo-header.png') }}" alt="logo-header" class="img-fluid"></a>
                     <div class="collapse navbar-collapse" id="collapsibleNavbar">
                         <ul class="navbar-nav">
 
@@ -292,7 +344,7 @@
                     <div class="rightMenu">
                         <ul class="nav">
                             <li class="nav-item searchBtn">
-                                <a class="nav-link" href="javascript:void(0);"><img src="{{ asset('images/icon/search.png') }}" alt="loader" class="img-fluid"></a>
+                                <a class="nav-link" href="javascript:void(0);"><img src="{{ asset('images/icon/search.png') }}" alt="search" class="img-fluid"></a>
                             </li>
                             <li class="nav-item loginBtn d-none d-md-block">
                                 <div class="btnGroup">
@@ -326,7 +378,7 @@
                 <div class="searchInput">
                     <form action="{{ route('front.search') }}" method="GET" class="w-100">
                         <div class="input-group">
-                            <input type="text" class="form-control" name="q" value="{{ request('q') }}" placeholder="Search" aria-label="Cari konten">
+                            <input type="text" class="form-control" name="q" value="{{ request('q') }}" placeholder="Search" aria-label="Cari Konten">
                             <button type="submit" class="input-group-text searchButton">
                                 <span>Search</span>
                                 <img src="{{ asset('images/icon/icon-right.png') }}" alt="btn-arrow" class="img-fluid">
@@ -335,11 +387,14 @@
                     </form>
                 </div>
                 <div class="quickSearch">
+
                     @php
                         $quickSearchTerms = config('papandayan.search.quick_terms', []);
                     @endphp
+
                     <p>
                         <span>Quick Search:</span>
+
                         @if(!empty($quickSearchTerms))
                             @foreach($quickSearchTerms as $term)
                                 @php $queryValue = $term['query'] ?? $term['label']; @endphp
@@ -348,6 +403,7 @@
                         @else
                             K3, CSR, Inisiatif, Laporan Dokumen
                         @endif
+
                     </p>
                 </div>
             </div>
@@ -371,30 +427,41 @@
                             <div class="col-md-12 col-lg-3">
                                 <div class="footerCol footerCol1">
                                     <div class="footerLogo fadein">
-                                        <img src="{{ asset('images/logo/logo-footer.png') }}" alt="footer-logo" class="img-fluid">
+                                        <img src="{{ asset('images/logo/logo-footer.png') }}" alt="logo-footer" class="img-fluid">
                                     </div>
-                                    <div class="footerPara fadein">
-                                        <p>Sukses Bersama Peternak</p>
-                                        <br>
-                                        <p>
-                                            Apartemen Permata Eksekutif Tower 1, Kantor Lt.2 <br>
-                                            Jl.Pos Pengumben RT.1 / RW.6 Kebon Jeruk, Jakarta Barat
-                                        </p>
+                                    <div class="footerPara fadein officeInfo">
+                                        <div class="officeHeading">Kantor Pusat</div>
+                                        <div class="officeInfoRow">
+                                            <div class="officeInfoIcon">
+                                                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                            </div>
+                                            <div class="officeInfoText">
+                                                <p style="font-weight: bold;">PT Papandayan Inti Plasma</p>
+                                                <p>Apartemen Permata Eksekutif Lt. 2</p>
+                                                <p>Jl. Pos Pengumben RT.01 / RW.06 </p>
+                                                <p>Kebon Jeruk, Jakarta Barat</p>
+                                            </div>
+                                        </div>
+                                        <div class="officeInfoRow">
+                                            <div class="officeInfoIcon">
+                                                <i class="fa fa-phone" aria-hidden="true"></i>
+                                            </div>
+                                            <div class="officeInfoText">
+                                                <p>(+62) 81400561146</p>
+                                            </div>
+                                        </div>
                                     </div>
                                     <hr class="hrLine fadein">
                                     <div class="socialMediaIcon fadein">
                                         <ul class="nav">
                                             <li class="nav-item">
-                                                <a class="nav-link" href="https://api.whatsapp.com/send/?phone=6281400561146&text=Halo%2C+saya+mau+tanya+seputar+Papandayan%2C+mohon+informasinya&2C+terima+kasih&type=phone_number&app_absent=0"><i class="fa fa-whatsapp"
-                                                    aria-hidden="true"></i></a>
+                                                <a class="nav-link" href="https://api.whatsapp.com/send/?phone=6281400561146&text=Halo%2C+saya+mau+tanya+seputar+Papandayan%2C+mohon+informasinya&2C+terima+kasih&type=phone_number&app_absent=0"><i class="fa fa-whatsapp" aria-hidden="true"></i></a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="https://www.instagram.com/papandayanintiplasma"><i class="fa fa-instagram"
-                                                    aria-hidden="true"></i></a>
+                                                <a class="nav-link" href="https://www.instagram.com/papandayanintiplasma"><i class="fa fa-instagram" aria-hidden="true"></i></a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="http://www.linkedin.com/in/pt-papandayan-inti-plasma-318256301;"><i class="fa fa-linkedin"
-                                                    aria-hidden="true"></i></a>
+                                                <a class="nav-link" href="http://www.linkedin.com/in/pt-papandayan-inti-plasma-318256301;"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
                                             </li>
                                         </ul>
                                     </div>
@@ -402,18 +469,21 @@
                             </div>
                             <div class="col-sm-6 col-md-4 col-lg-3">
                                 <div class="footerCol footerCol2">
+
                                     @php
-                                        // Ambil grup pertama yang memiliki menu atau default ke "Tentang Kami"
                                         $firstGroupWithMenus = $menuGroups->first(function($group) {
                                             return $group->menu_navigations->count() > 0;
                                         });
+
                                         $groupTitle = $firstGroupWithMenus ? $firstGroupWithMenus->name : 'Tentang Kami';
                                     @endphp
+
                                     <div class="footerMenuHeading">
                                         <h4 class="fadein">{{ $groupTitle }}</h4>
                                     </div>
                                     <div class="footerMenuLink">
                                         <ul class="nav flex-column">
+
                                             @if($firstGroupWithMenus)
                                                 @foreach($firstGroupWithMenus->menu_navigations as $menu)
                                                     <li class="nav-item fadein">
@@ -424,32 +494,65 @@
                                                     </li>
                                                 @endforeach
                                             @else
-                                                {{-- Fallback jika tidak ada menu --}}
                                                 <li class="nav-item fadein">
                                                     <a class="nav-link" href="javascript:void(0);">
                                                         <i class="fa fa-caret-right" aria-hidden="true"></i>
                                                         Profile Perusahaan
                                                     </a>
                                                 </li>
+                                                <li class="nav-item fadein">
+                                                    <a class="nav-link" href="javascript:void(0);">
+                                                        <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                                        Visi & Misi
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item fadein">
+                                                    <a class="nav-link" href="javascript:void(0);">
+                                                        <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                                        Jejak Langkah
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item fadein">
+                                                    <a class="nav-link" href="javascript:void(0);">
+                                                        <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                                        Struktur Organisasi
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item fadein">
+                                                    <a class="nav-link" href="javascript:void(0);">
+                                                        <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                                        Manajemen Kami
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item fadein">
+                                                    <a class="nav-link" href="javascript:void(0);">
+                                                        <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                                        Area Jangkauan
+                                                    </a>
+                                                </li>
                                             @endif
+
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-6 col-md-4 col-lg-3">
                                 <div class="footerCol footerCol3">
+
                                     @php
-                                        // Ambil grup kedua yang memiliki menu atau default ke "Keberlanjutan"
                                         $secondGroupWithMenus = $menuGroups->skip(1)->first(function($group) {
                                             return $group->menu_navigations->count() > 0;
                                         });
+
                                         $groupTitleSustainability = $secondGroupWithMenus ? $secondGroupWithMenus->name : 'Keberlanjutan';
                                     @endphp
+
                                     <div class="footerMenuHeading">
                                         <h4 class="fadein">{{ $groupTitleSustainability }}</h4>
                                     </div>
                                     <div class="footerMenuLink">
                                         <ul class="nav flex-column">
+
                                             @if($secondGroupWithMenus)
                                                 @foreach($secondGroupWithMenus->menu_navigations as $menu)
                                                     <li class="nav-item fadein">
@@ -460,7 +563,6 @@
                                                     </li>
                                                 @endforeach
                                             @else
-                                                {{-- Fallback jika tidak ada menu --}}
                                                 <li class="nav-item fadein">
                                                     <a class="nav-link" href="javascript:void(0);">
                                                         <i class="fa fa-caret-right" aria-hidden="true"></i>
@@ -479,7 +581,14 @@
                                                         Inisiatif
                                                     </a>
                                                 </li>
+                                                <li class="nav-item fadein">
+                                                    <a class="nav-link" href="javascript:void(0);">
+                                                        <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                                        Laporan Dokumen
+                                                    </a>
+                                                </li>
                                             @endif
+
                                         </ul>
                                     </div>
                                 </div>
@@ -492,7 +601,7 @@
                                     <div class="footerMenuLink footerContactInfo">
                                         <ul class="nav flex-column">
                                             <li class="nav-item fadein">
-                                                <a class="nav-link" href="javascript:void(0);">
+                                                <a class="nav-link" href="https://api.whatsapp.com/send/?phone=6281400561146&text=Halo%2C+saya+mau+tanya+seputar+Papandayan%2C+mohon+informasinya&2C+terima+kasih&type=phone_number&app_absent=0">
                                                 <div class="contactInfo">
                                                     <div class="contactInfoIcon">
                                                         <i class="fa fa-phone" aria-hidden="true"></i>
@@ -505,7 +614,7 @@
                                                 </a>
                                             </li>
                                             <li class="nav-item fadein">
-                                                <a class="nav-link" href="javascript:void(0);">
+                                                <a class="nav-link copy-to-clipboard" href="javascript:void(0);" data-copy-text="kontak@papandayan.co.id">
                                                 <div class="contactInfo">
                                                     <div class="contactInfoIcon">
                                                         <i class="fa fa-envelope-o" aria-hidden="true"></i>
@@ -541,8 +650,7 @@
             <div class="footerCopyRight">
                 <div class="container">
                     <div class="footerCopyRightInner">
-                        <p class="mb-0 fadein">Copyright © 2026 <a href="javascript:void(0);">Papandayan Inti Plasma</a>. All Rights
-                            Reserved.</p>
+                        <p class="mb-0 fadein">Copyright © 2026 <a href="https://papandayan.co.id/">Papandayan Inti Plasma</a>. All Rights Reserved.</p>
                     </div>
                 </div>
             </div>
@@ -550,7 +658,9 @@
     </footer>
     <!--footer end-->
 
+    <!--scroll to top start-->
     <a href="#" id="scroll-top" class="scroll-top"><i class="fa fa-arrow-up"></i></a>
+    <!--scroll to top end-->
     
     @stack('before-scripts')
     
@@ -569,6 +679,9 @@
     <script src="{{ asset('vendor/leaflet/dist/leaflet.js') }}"></script>
     <script src="{{ asset('vendor/select2/js/select2.min.js') }}"></script>
     <script src="{{ asset('vendor/toastr/toastr.min.js') }}"></script>
+    <script src="{{ asset('vendor/moment/moment.min.js') }}"></script>
+    <script src="{{ asset('vendor/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+    <script src="{{ asset('vendor/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
 
     <script>
         // Scroll to top button
@@ -585,7 +698,50 @@
             $('html, body').animate({scrollTop: 0}, 600);
             return false;
         });
+
+        // Copy email text into the clipboard with a gracefull fallback
+        $(document).on('click', '.copy-to-clipboard', function(e) {
+            e.preventDefault();
+            var copyText = $(this).data('copy-text');
+
+            if (!copyText) {
+                return;
+            }
+
+            var notify = function() {
+                if (typeof toastr !== 'undefined') {
+                    toastr.success('Alamat email berhasil disalin.');
+                }
+            };
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(copyText)
+                    .then(notify)
+                    .catch(function() {
+                        fallbackCopy(copyText, notify);
+                    });
+            } else {
+                fallbackCopy(copyText, notify);
+            }
+        });
+
+        function fallbackCopy(text, callback) {
+            var tempInput = $('<input type="text" readonly>');
+            $('body').append(tempInput);
+            tempInput.val(text).select();
+
+            try {
+                document.execCommand('copy');
+                if (typeof callback === 'function') {
+                    callback();
+                }
+            } finally {
+                tempInput.remove();
+            }
+        }
     </script>
+
+    @include('partials.toastr')
 
     @stack('after-scripts')
 

@@ -3,6 +3,7 @@
 @section('title', 'Papandayan | Add Service')
 
 @section('plugins.BsCustomFileInput', true)
+@section('plugins.Summernote', true)
 @section('plugins.Toastr', true)
 
 @section('content_header')
@@ -78,7 +79,7 @@
                                         <span class="error invalid-feedback">{{ $errors->first('link_whatsapp') }}</span>
                                     </div>
                                 </div>
-                                @for ($i = 0; $i < 5; $i++)
+                                @for ($i = 0; $i < 6; $i++)
                                     <div class="form-group row">
                                         <label for="keypoint" class="col-sm-3 col-form-label">Keypoint {{ $i + 1 }}</label>
                                         <div class="col-sm-9">
@@ -103,11 +104,15 @@
 
 @section('css')
     <style type="text/css">
-
         /* Modify Select2 */
         .select2-container--bootstrap4 .select2-selection--single:focus,
         .select2-container--bootstrap4.select2-container--focus .select2-selection--single {
             box-shadow: none !important;
+        }
+
+        /* Modify Summernote Editor */
+        .note-editor.card {
+            margin-bottom: 0px !important;
         }
     </style>
 @stop
@@ -118,6 +123,9 @@
         $(document).ready(function () {
             // Initialize bsCustomFileInput
             bsCustomFileInput.init();
+
+            // Initialize Summernote Editor
+            $('#about').summernote();
             
             // Add file validation for the thumbnail input
             $('#thumbnail').on('change', function(e) {

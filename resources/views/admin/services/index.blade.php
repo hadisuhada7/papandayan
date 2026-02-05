@@ -45,7 +45,7 @@
                                 <tr>
                                     <td scope="row">{{ $index }}</td>
                                     <td>{{ $service->name }}</td>
-                                    <td>{{ $service->about }}</td>
+                                    <td>{!! $service->about !!}</td>
                                     <td><img src="{{ Storage::url($service->thumbnail) }}" alt="" style="max-width: 100px;"></td>
                                     <td class="text-center">
                                         <a href="{{ route('admin.services.edit', $service) }}" class="btn btn-sm btn-primary item-edit"><i class="fas fa-pencil-alt"></i></a>

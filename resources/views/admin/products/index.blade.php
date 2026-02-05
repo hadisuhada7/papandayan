@@ -45,7 +45,7 @@
                                 <tr>
                                     <td scope="row">{{ $index }}</td>
                                     <td>{{ $product->name }}</td>
-                                    <td>{{ $product->about }}</td>
+                                    <td>{!! $product->about !!}</td>
                                     <td><img src="{{ Storage::url($product->thumbnail) }}" alt="" style="max-width: 100px;"></td>
                                     <td class="text-center">
                                         <a href="{{ route('admin.products.edit', $product) }}" class="btn btn-sm btn-primary item-edit"><i class="fas fa-pencil-alt"></i></a>

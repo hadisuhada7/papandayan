@@ -3,6 +3,7 @@
 @section('title', 'Papandayan | Edit Product')
 
 @section('plugins.BsCustomFileInput', true)
+@section('plugins.Summernote', true)
 @section('plugins.Toastr', true)
 
 @section('content_header')
@@ -95,7 +96,13 @@
 @stop
 
 @section('css')
-    {{-- add stylesheets --}}
+    <style type="text/css">
+
+        /* Modify Summernote Editor */
+        .note-editor.card {
+            margin-bottom: 0px !important;
+        }
+    </style>
 @stop
 
 @section('js')
@@ -104,6 +111,9 @@
         $(document).ready(function () {
             // Initialize bsCustomFileInput
             bsCustomFileInput.init();
+
+            // Initialize Summernote Editor
+            $('#about').summernote();
             
             // Add file validation for the thumbnail input
             $('#thumbnail').on('change', function(e) {

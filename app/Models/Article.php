@@ -22,7 +22,8 @@ class Article extends Model
     ];
 
     protected $casts = [
-        'publish_at' => 'date', // format method...
+        'publish_at' => 'date',
+        'viewer' => 'integer',
     ];
 
     /**

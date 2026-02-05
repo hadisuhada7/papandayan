@@ -45,7 +45,7 @@
                                 <tr>
                                     <td scope="row">{{ $index }}</td>
                                     <td>{{ $profile->name }}</td>
-                                    <td>{{ strip_tags($profile->description) }}</td>
+                                    <td>{!! $profile->description !!}</td>
                                     <td><img src="{{ Storage::url($profile->thumbnail) }}" alt="" style="max-width: 100px;"></td>
                                     <td class="text-center">
                                         <a href="{{ route('admin.profiles.edit', $profile) }}" class="btn btn-sm btn-primary item-edit"><i class="fas fa-pencil-alt"></i></a>

@@ -2,36 +2,26 @@
 
 @section('title', 'Laporan Dokumen')
 
-@push('before-styles')
-    <style>
-        .latestNewsCardInner:target {
-            outline: 2px solid var(--accent-color, #3c5fac);
-            border-radius: 18px;
-            box-shadow: 0 0 0 6px rgba(60, 95, 172, 0.08);
-        }
-    </style>
-@endpush
-
 @section('content')
 
     <!--banner start-->
     @forelse ($banners as $banner)
-        <section class="w-100 clearfix poultryPerformanceBanner" id="poultryPerformanceBanner"
-            style="background-image: url('{{ Storage::url($banner->banner) }}');">
+        <section class="w-100 clearfix poultryPerformanceBanner" id="poultryPerformanceBanner" style="background-image: url('{{ Storage::url($banner->banner) }}');">
         </section>
     @empty
-        
     @endforelse
     <!--banner end-->
 
-   <div class="breadcrumb">
-    <div class="container">
-    <ul>
-        <li><a href="{{ route('front.index') }}">Beranda</a></li>
-         <li><a>Laporan Dokumen</a></li>
-      </ul>
-      </div>
-   </div>
+   <!--breadcrumb start-->
+    <div class="breadcrumb">
+        <div class="container">
+            <ul>
+                <li><a href="{{ route('front.index') }}">Beranda</a></li>
+                <li><a>Laporan Dokumen</a></li>
+            </ul>
+        </div>
+    </div>
+    <!--breadcrumb end-->
    
     <!--blog articles start-->
     <section class="w-100 clearfix blogArticles blogPg" id="blogArticles">
@@ -50,22 +40,23 @@
                                         <div class="latestNewsTxt" style="margin-top: 20px; margin-bottom: 15px;">
                                             <h4><a href="javascript:void(0);">{{ $document->name }}</a></h4>
                                         </div>
-                                    <div class="latestNewBtn">
-                                        <a class="btnCustom5 btn-1 item-download" href="javascript:void(0);" data-id="{{ $document->id }}">
-                                            <span>Download <i class="fa fa-download"></i></span>
-                                        </a>
-                                    </div>
+                                        <div class="latestNewBtn">
+                                            <a class="btnCustom2 btn-1 item-download" href="javascript:void(0);" data-id="{{ $document->id }}">
+                                                <span>Download <i class="fa fa-download"></i></span>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         @empty
                         @endforelse
+                        
                     </div>
                 </div>
                 
                 <!-- Download Modal -->
-                <div class="modal fade" id="modal-download" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog modal-md" role="document">
+                <div class="modal fade" id="modal-download" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-md">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title">Download Dokumen</h4>
@@ -128,6 +119,16 @@
     <!--blog section end-->
 
 @endsection
+
+@push('after-styles')
+    <style>
+        .latestNewsCardInner:target {
+            outline: 2px solid var(--accent-color, #3c5fac);
+            border-radius: 18px;
+            box-shadow: 0 0 0 6px rgba(60, 95, 172, 0.08);
+        }
+    </style>
+@endpush
 
 @push('after-scripts')
     <script>

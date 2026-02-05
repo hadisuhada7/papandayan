@@ -8,24 +8,25 @@
 @section('plugins.Toastr', true)
    
 @section('content')
+
     <!--banner start-->
     @forelse ($banners as $banner)
-        <section class="w-100 clearfix poultryPerformanceBanner" id="poultryPerformanceBanner"
-            style="background-image: url('{{ Storage::url($banner->banner) }}');">
+        <section class="w-100 clearfix poultryPerformanceBanner" id="poultryPerformanceBanner" style="background-image: url('{{ Storage::url($banner->banner) }}');">
         </section>
     @empty
-        
     @endforelse
     <!--banner end-->
 
-   <div class="breadcrumb">
-    <div class="container">
-    <ul>
-        <li><a href="{{ route('front.index') }}">Beranda</a></li>
-         <li><a>Hubungi Kami</a></li>
-      </ul>
-      </div>
-   </div>
+    <!--breadcrumb start-->
+    <div class="breadcrumb">
+        <div class="container">
+            <ul>
+                <li><a href="{{ route('front.index') }}">Beranda</a></li>
+                <li><a>Hubungi Kami</a></li>
+            </ul>
+        </div>
+    </div>
+    <!--breadcrumb end-->
 
     <!--contact start-->
     <section class="w-100 clearfix contactSec" id="contactSec">
@@ -42,18 +43,17 @@
                             @forelse ($contacts as $contact)
                                 <a href="javascript:void(0);">
                                     <div class="infoGroupItem">
-                                    <div class="infoIcon">
-                                        <span><img src="{{ Storage::url($contact->icon) }}" alt="location" class="img-fluid"></span>
-                                    </div>
-                                    <div class="infoTxt">
-                                        <h4>{{ $contact->name }}</h4>
-                                        <p class="mb-0">{{ $contact->description }}</p>
-                                        <p class="mb-0">{{ $contact->other_description }}</p>
-                                    </div>
+                                        <div class="infoIcon">
+                                            <span><img src="{{ Storage::url($contact->icon) }}" alt="location" class="img-fluid"></span>
+                                        </div>
+                                        <div class="infoTxt">
+                                            <h4>{{ $contact->name }}</h4>
+                                            <p class="mb-0">{{ $contact->description }}</p>
+                                            <p class="mb-0">{{ $contact->other_description }}</p>
+                                        </div>
                                     </div>
                                 </a>
                             @empty
-                                
                             @endforelse
 
                         </div>
@@ -72,7 +72,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="formControlGroup">
-                                        <input type="text" class="form-control" id="email" name="email" maxlength="255" placeholder="Email" required>
+                                        <input type="email" class="form-control" id="email" name="email" maxlength="255" placeholder="Email" required>
                                     </div>
                                 </div>
                             </div>
@@ -106,10 +106,10 @@
         </div>
     </section>
     <!--contact end-->
+
 @endsection
 
-@push('before-scripts')
-    <link rel="stylesheet" href="{{ asset('vendor/toastr/toastr.min.css') }}">
+@push('after-styles')
     <style type="text/css">
 
         /* Modify Select2 to match form inputs */
@@ -160,7 +160,7 @@
             border: none !important;
         }
 
-        /* Match dropdown styling */
+        /* Modify match Dropdown Styling */
         .select2-container--bootstrap4 .select2-dropdown {
             border: 1px solid #ced4da !important;
             border-radius: 0.25rem !important;
@@ -184,10 +184,8 @@
 @endpush
 
 @push('after-scripts')
-   @include('partials.toastr')
-
    <script>
-      $(document).ready(function ($) {
+        $(document).ready(function ($) {
             //Initialize Select2 Elements
             $('.select2bs4').select2({
                 theme: 'bootstrap4'
@@ -197,19 +195,18 @@
             $(document).on("keypress", ".number-only", function (e) {
                 return ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"].includes(e.key)
             });
-      });
+        });
 
-      // Header active class toggle on scroll
-      const header = document.querySelector(".headerOne");
-      const toggleClass = "headerActive";
-      window.addEventListener("scroll", () => {
-         const currentScroll = window.pageYOffset;
-         if (currentScroll > 150) {
-            header.classList.add(toggleClass);
-         } else {
-            header.classList.remove(toggleClass);
-         }
-      });
-
-   </script>
+        // Header active class toggle on scroll
+        const header = document.querySelector(".headerOne");
+        const toggleClass = "headerActive";
+        window.addEventListener("scroll", () => {
+            const currentScroll = window.pageYOffset;
+            if (currentScroll > 150) {
+                header.classList.add(toggleClass);
+            } else {
+                header.classList.remove(toggleClass);
+            }
+        });
+    </script>
 @endpush

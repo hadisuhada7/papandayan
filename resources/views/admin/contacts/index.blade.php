@@ -147,8 +147,8 @@
                         .attr('name', 'datagrid_search')
                         .addClass('form-control input-sm');
                     
-                    // $('<a href="{{ route('admin.contacts.create') }}" class="btn btn-sm btn-primary" style="margin-left: 10px;">Add New</a>')
-                    //     .appendTo($('#datagrid_filter'));
+                    $('<a href="{{ route('admin.contacts.create') }}" class="btn btn-sm btn-primary" style="margin-left: 10px;">Add New</a>')
+                        .appendTo($('#datagrid_filter'));
                     
                     $('#datagrid_length label').contents().filter(function() {
                         return this.nodeType === 3;

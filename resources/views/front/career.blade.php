@@ -1,121 +1,193 @@
 @extends('front.layouts.app')
 
-@section('title', 'Career')
+@section('title', 'Karir')
 
 @section('plugins.Toastr', true)
 
 @section('content')
 
-   <!--banner start-->
+    <!--banner start-->
     @forelse ($banners as $banner)
-        <section class="w-100 clearfix poultryPerformanceBanner" id="poultryPerformanceBanner"
-            style="background-image: url('{{ Storage::url($banner->banner) }}');">
+        <section class="w-100 clearfix poultryPerformanceBanner" id="poultryPerformanceBanner" style="background-image: url('{{ Storage::url($banner->banner) }}');">
         </section>
     @empty
-        
     @endforelse
     <!--banner end-->
 
-   <div class="breadcrumb">
-      <div class="container">
-         <ul>
-            <li><a href="{{ route('front.index') }}">Beranda</a></li>
-            <li><a>Karir</a></li>
-         </ul>
-      </div>
-   </div>
+    <!--breadcrumb start-->
+    <div class="breadcrumb">
+        <div class="container">
+            <ul>
+                <li><a href="{{ route('front.index') }}">Beranda</a></li>
+                <li><a>Karir</a></li>
+            </ul>
+        </div>
+    </div>
+    <!--breadcrumb end-->
 
-   <!--blog section start-->
-   <section class="w-100 clearfix blogArticles blogPg" id="blogArticles">
-      <div class="container">
-         <div class="blogArticlesInner">
-            <div class="latestNewsCard">
-               <div class="row blogWithSidebarRow">
+    <!--blog section start-->
+    <section class="w-100 clearfix blogArticles blogPg" id="blogArticles">
+        <div class="container">
+            <div class="blogArticlesInner">
+                <div class="latestNewsCard">
+                    <div class="row blogWithSidebarRow">
 
-                  @forelse($careers as $career)
-                  <div class="col-md-12 col-lg-4 blogWithSidebarCol">
-                     <div class="latestNewsCardInner mb-4">
-                        <!-- <div class="latestNewsCardImg">
-                           <a href="blog-single.html"><img src="{{ asset('images/img22.png') }}" alt="img"
-                                 class="w-100 img-fluid"></a>
-                           <div class="latestNewsDate">
-                              <a href="javascript:void(0);">
-                                 <h5>{{ $career->created_at->format('d') }}</h5>
-                                 <span>{{ $career->created_at->format('M') }}</span>
-                              </a>
-                           </div>
-                        </div> -->
-                        <div class="latestNewsCardInnerContent">
-                           <div class="latestNewsList">
-                              <div class="latestNewsUser">
-                                 <a href="javascript:void(0);">
-                                    <i class="fa fa-briefcase" style="color: #3c5fac;"></i><span>{{ $career->work_type }}</span>
-                                 </a>
-                              </div>
-                              <div class="latestNewsUser">
-                                 <a href="javascript:void(0);">
-                                    <i class="fa fa-user" style="color: #3c5fac;"></i><span>{{ $career->work_experience }}
-                                       </span>
-                                 </a>
-                              </div>
-                           </div>
-                           <div class="latestNewsTxt">
-                              <h4><a href="{{ route('front.career-detail', $career->id) }}">{{ $career->position }}</a></h4>
-                              <p>Penempatan: {{ $career->location }}
-                              <br>Batas Waktu: {{ $career->closing_at->locale('id')->isoFormat('D MMMM Y') }}</p>
-                           </div>
-                           <div class="latestNewBtn">
-                              <a class="btnCustom5 btn-1 hover-slide-down" href="{{ route('front.career-detail', $career->id) }}">
-                                 <span>Selengkapnya <img src="{{ asset('images/icon/icon-right.png') }}" alt="right" class="img-fluid"></span>
-                              </a>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-                  @empty
-                  
-                  @endforelse
-                  
-               </div>
+                        @forelse($careers as $career)
+                            <div class="col-md-12 col-lg-4 blogWithSidebarCol">
+                                <div class="latestNewsCardInner mb-4">
+                                    <div class="latestNewsCardInnerContent">
+                                        <div class="latestNewsTxt">
+                                            <div class="careerDetailHeading">
+                                                <div class="careerTitle">
+                                                    <span class="careerBadge">Lowongan Aktif</span>
+                                                    <h3><a href="{{ route('front.career-detail', $career->id) }}">{{ $career->position }}</a></h3>
+                                                    <h6>PT. Papandayan Inti Plasma</h6>
+                                                </div>
+                                                <ul class="careerMeta">
+                                                    <li>
+                                                        <div class="careerMetaLabelRow">
+                                                            <i class="fa fa-map-marker"></i>
+                                                            <span>Penempatan</span>
+                                                        </div>
+                                                        <strong>{{ $career->location }}</strong>
+                                                    </li>
+                                                    <li>
+                                                        <div class="careerMetaLabelRow">
+                                                            <i class="fa fa-calendar"></i>
+                                                            <span>Batas Waktu</span>
+                                                        </div>
+                                                        <strong>{{ $career->closing_at->locale('id')->isoFormat('D MMMM Y') }}</strong>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="latestNewBtn">
+                                            <a class="btnCustom2 btn-1 hover-slide-down" href="{{ route('front.career-detail', $career->id) }}">
+                                                <span>Selengkapnya <img src="{{ asset('images/icon/icon-right.png') }}" alt="right" class="img-fluid"></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                        @endforelse
+                        
+                    </div>
+                </div>
+                <div class="paginationGroup">
+                    <ul class="pagination">
+                        <li class="page-item"><a class="page-link pageLinkPrev" href="#"><img src="{{ asset('images/icon/arrow-left.png') }}" alt="arrow left" class="img-fluid"></a></li>
+                        <li class="page-item"><a class="page-link active" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">4</a></li>
+                        <li class="page-item"><a class="page-link" href="#">5</a></li>
+                        <li class="page-item"><a class="page-link" href="#">6</a></li>
+                        <li class="page-item"><a class="page-link pageLinkNext" href="#"><img src="{{ asset('images/icon/arrow-right.png') }}" alt="arrow right" class="img-fluid"></a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="paginationGroup">
-               <ul class="pagination">
-                  <li class="page-item"><a class="page-link pageLinkPrev" href="#"><img src="{{ asset('images/icon/arrow-left.png') }}" alt="arrow left" class="img-fluid"></a></li>
-                  <li class="page-item"><a class="page-link active" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item"><a class="page-link" href="#">4</a></li>
-                  <li class="page-item"><a class="page-link" href="#">5</a></li>
-                  <li class="page-item"><a class="page-link" href="#">6</a></li>
-                  <li class="page-item"><a class="page-link pageLinkNext" href="#"><img src="{{ asset('images/icon/arrow-right.png') }}" alt="arrow right" class="img-fluid"></a></li>
-               </ul>
-            </div>
-         </div>
-      </div>
-   </section>
-   <!--blog section end-->
+        </div>
+    </section>
+    <!--blog section end-->
 
 @endsection
 
+@push('after-styles')
+    <style type="text/css">
+        
+        /* Modify Career Detail */
+        .careerDetailHeading {
+            padding: 0px;
+            border-radius: 18px;
+        }
+
+        .careerTitle {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+
+        .careerTitle h3 {
+            margin: 0;
+            font-weight: 700;
+            color: #0f1b49;
+        }
+
+        .careerBadge {
+            align-self: flex-start;
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            background-color: rgba(60, 95, 172, 0.15);
+            color: #3c5fac;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .careerMeta {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 24px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .careerMetaLabelRow {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .careerMeta li {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            background-color: rgba(60, 95, 172, 0.05);
+            color: #566089;
+            font-size: 14px;
+        }
+
+        .careerMeta li i {
+            color: #3c5fac;
+            font-size: 16px;
+        }
+
+        .careerMeta li span {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .careerMeta li strong {
+            color: #0f1b49;
+            font-size: 15px;
+        }
+    </style>
+@endpush
+
 @push('after-scripts')
-   @include('partials.toastr')
+    <script>
+        $(document).ready(function ($) {
+            // Script here
+        });
 
-   <script>
-      $(document).ready(function ($) {
-         
-      });
-
-      // Header active class toggle on scroll
-      const header = document.querySelector(".headerOne");
-      const toggleClass = "headerActive";
-      window.addEventListener("scroll", () => {
-         const currentScroll = window.pageYOffset;
-         if (currentScroll > 150) {
-            header.classList.add(toggleClass);
-         } else {
-            header.classList.remove(toggleClass);
-         }
-      });
-
-   </script>
+        // Header active class toggle on scroll
+        const header = document.querySelector(".headerOne");
+        const toggleClass = "headerActive";
+        window.addEventListener("scroll", () => {
+            const currentScroll = window.pageYOffset;
+            if (currentScroll > 150) {
+                header.classList.add(toggleClass);
+            } else {
+                header.classList.remove(toggleClass);
+            }
+        });
+    </script>
 @endpush

@@ -52,28 +52,28 @@
                                 <div class="form-group row">
                                     <label for="title" class="col-sm-3 col-form-label">Title <span class="text-danger">*</span></label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="title" name="title" value="{{ $article->title }}" maxlength="255" placeholder="Title" required>
+                                        <input type="text" class="form-control" id="title" name="title" value="{{ $initiative->title }}" maxlength="255" placeholder="Title" required>
                                         <span class="error invalid-feedback">{{ $errors->first('title') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="subtitle" class="col-sm-3 col-form-label">Subtitle <span class="text-danger">*</span></label>
                                     <div class="col-sm-9">
-                                        <textarea class="form-control" id="subtitle" name="subtitle" maxlength="65535" placeholder="Subtitle"  required>{{ $article->subtitle }}</textarea>
+                                        <textarea class="form-control" id="subtitle" name="subtitle" maxlength="65535" placeholder="Subtitle"  required>{{ $initiative->subtitle }}</textarea>
                                         <span class="error invalid-feedback">{{ $errors->first('subtitle') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="about" class="col-sm-3 col-form-label">About <span class="text-danger">*</span></label>
                                     <div class="col-sm-9">
-                                        <textarea class="form-control" id="about" name="about" maxlength="65535" placeholder="About" required>{{ $article->about }}</textarea>
+                                        <textarea class="form-control" id="about" name="about" maxlength="65535" placeholder="About" required>{{ $initiative->about }}</textarea>
                                         <span class="error invalid-feedback">{{ $errors->first('about') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="author" class="col-sm-3 col-form-label">Author <span class="text-danger">*</span></label>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" id="author" name="author" value="{{ $article->author }}" maxlength="255" placeholder="Author" required>
+                                        <input type="text" class="form-control" id="author" name="author" value="{{ $initiative->author }}" maxlength="255" placeholder="Author" required>
                                         <span class="error invalid-feedback">{{ $errors->first('author') }}</span>
                                     </div>
                                 </div>
@@ -81,7 +81,7 @@
                                     <label for="publishAt" class="col-sm-3 col-form-label">Publish At <span class="text-danger">*</span></label>
                                     <div class="col-sm-6">
                                         <div class="input-group date" id="publishAt" data-target-input="nearest">
-                                            <input type="text" class="form-control datetimepicker-input" name="publish_at" value="{{ $article->publish_at ? $article->publish_at->format('d-m-Y') : '' }}" data-target="#publishAt" placeholder="dd-MM-yyyy" required/>
+                                            <input type="text" class="form-control datetimepicker-input" name="publish_at" value="{{ $initiative->publish_at ? $initiative->publish_at->format('d-m-Y') : '' }}" data-target="#publishAt" placeholder="dd-MM-yyyy" required/>
                                             <div class="input-group-append" data-target="#publishAt" data-toggle="datetimepicker">
                                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                             </div>
@@ -92,7 +92,7 @@
                                 <div class="form-group row">
                                     <label for="thumbnail" class="col-sm-3 col-form-label">Thumbnail <span class="text-danger">*</span></label>
                                     <div class="col-sm-6">
-                                        <img src="{{ Storage::url($article->thumbnail) }}" alt="" style="max-width: 100px; margin-bottom: 15px;"> 
+                                        <img src="{{ Storage::url($initiative->thumbnail) }}" alt="" style="max-width: 100px; margin-bottom: 15px;"> 
                                         <div class="input-group">
                                             <div class="custom-file">
                                                 <input type="file" class="custom-file-input" id="thumbnail" name="thumbnail" accept="image/*">

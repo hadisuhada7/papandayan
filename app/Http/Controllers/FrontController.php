@@ -39,6 +39,7 @@ use App\Jobs\TicketingJob;
 use App\Http\Requests\StoreQuestionRequest;
 use App\Http\Requests\StoreCareerApplicantRequest;
 use App\Http\Requests\StoreExperiencedApplicantRequest;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -57,6 +58,18 @@ class FrontController extends Controller
         
         // Fallback to latest banner if menu not found
         return HeroSection::orderByDesc('id')->take(1)->get();
+    }
+
+    /**
+     * Make sure viewer counters behave consistently across content types.
+     */
+    private function incrementViewerCount(Model $record): void
+    {
+        if (is_null($record->getAttribute('viewer'))) {
+            $record->forceFill(['viewer' => 0])->saveQuietly();
+        }
+
+        $record->increment('viewer');
     }
 
     public function index() {
@@ -83,7 +96,7 @@ class FrontController extends Controller
         $article = Article::with('tags')->findOrFail($id);
         
         // Increment viewer count
-        $article->increment('viewer');
+        $this->incrementViewerCount($article);
 
         // Get recent articles (excluding current article)
         $recentArticles = Article::where('status', 'Published')
@@ -103,7 +116,11 @@ class FrontController extends Controller
         $histories = TrackRecord::orderBy('track_record_at', 'asc')->take(5)->get();
         $organizations = OrganizationStructure::orderByDesc('id')->take(1)->get();
         $managements = OurManagement::orderBy('id')->take(10)->get();
-        return view('front.about', compact('banners', 'profiles', 'visions', 'missions', 'histories', 'organizations', 'managements'));
+        $coverageAreas = CoverageArea::whereNotNull('latitude')
+                                    ->whereNotNull('longitude')
+                                    ->whereNotNull('partner_name')
+                                    ->get();
+        return view('front.about', compact('banners', 'profiles', 'visions', 'missions', 'histories', 'organizations', 'managements', 'coverageAreas'));
     }
 
     public function business() {
@@ -154,8 +171,18 @@ class FrontController extends Controller
     }
 
     public function careerDetail($id) {
+        $this->updateStatusCareers();
+
         $career = Career::findOrFail($id);
-        return view('front.career-detail', compact('career'));
+
+        $recentCareers = Career::where('status', 'Published')
+            ->where('closing_at', '>=', now()->startOfDay())
+            ->where('id', '!=', $career->id)
+            ->orderByDesc('posting_at')
+            ->limit(5)
+            ->get();
+
+        return view('front.career-detail', compact('career', 'recentCareers'));
     }
 
     public function careerForm($id) {
@@ -179,7 +206,7 @@ class FrontController extends Controller
         $social = CorporateSocial::findOrFail($id);
         
         // Increment viewer count
-        $social->increment('viewer');
+        $this->incrementViewerCount($social);
         
         // Get recent socials (excluding current social)
         $recentSocials = CorporateSocial::where('status', 'Published')
@@ -193,7 +220,7 @@ class FrontController extends Controller
 
     public function initiative() {
         $banners = $this->getBannerByMenuName('Inisiatif');
-        $initiatives = Initiative::orderByDesc('id')->take(1)->get();
+        $initiatives = Initiative::where('status', 'Published')->orderBy('id')->get();
         return view('front.initiative', compact('banners', 'initiatives'));
     }
 
@@ -201,10 +228,11 @@ class FrontController extends Controller
         $initiative = Initiative::findOrFail($id);
         
         // Increment viewer count
-        $initiative->increment('viewer');
+        $this->incrementViewerCount($initiative);
         
         // Get recent initiatives (excluding current initiative)
-        $recentInitiatives = Initiative::where('id', '!=', $id)
+        $recentInitiatives = Initiative::where('status', 'Published')
+            ->where('id', '!=', $id)
             ->orderBy('created_at', 'desc')
             ->limit(5)
             ->get();
@@ -214,7 +242,7 @@ class FrontController extends Controller
 
     public function document() {
         $banners = $this->getBannerByMenuName('Laporan Dokumen');
-        $documents = DocumentReport::orderByDesc('id')->take(5)->get();
+        $documents = DocumentReport::where('status', 'Published')->orderByDesc('id')->get();
         return view('front.document', compact('banners', 'documents'));
     }
 

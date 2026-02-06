@@ -265,7 +265,7 @@
         <div class="mainHeader">
             <nav class="navbar navbar-expand-xl">
                 <div class="container">
-                    <a class="navbar-brand" href="https://papandayan.co.id/"><img src="{{ asset('images/logo/logo-header.png') }}" alt="logo-header" class="img-fluid"></a>
+                    <a class="navbar-brand" href="{{ route('front.index') }}"><img src="{{ asset('images/logo/logo-header.png') }}" alt="logo-header" class="img-fluid"></a>
                     <div class="collapse navbar-collapse" id="collapsibleNavbar">
                         <ul class="navbar-nav">
 
@@ -650,7 +650,7 @@
             <div class="footerCopyRight">
                 <div class="container">
                     <div class="footerCopyRightInner">
-                        <p class="mb-0 fadein">Copyright © 2026 <a href="https://papandayan.co.id/">Papandayan Inti Plasma</a>. All Rights Reserved.</p>
+                        <p class="mb-0 fadein">Copyright © 2026 <a href="{{ route('front.index') }}">Papandayan Inti Plasma</a>. All Rights Reserved.</p>
                     </div>
                 </div>
             </div>

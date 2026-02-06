@@ -22,8 +22,8 @@ class StoreOrganizationStructureRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string', 'max:65535'],
+            'name' => ['nullable', 'string', 'max:255'],
+            'description' => ['nullable', 'string', 'max:65535'],
             'thumbnail' => ['required', 'image', 'mimes:png,jpg,jpeg,svg', 'max:2048'],
         ];
     }

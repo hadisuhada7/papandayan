@@ -33,6 +33,7 @@
                                 <th style="width: 30px;">No</th>
                                 <th style="width: 150px;">Name</th>
                                 <th scope="col">About</th>
+                                <th scope="col">Icon</th>
                                 <th scope="col">Thumbnail</th>
                                 <th style="width: 65px;">&nbsp;</th>
                             </tr>
@@ -46,6 +47,7 @@
                                     <td scope="row">{{ $index }}</td>
                                     <td>{{ $product->name }}</td>
                                     <td>{!! $product->about !!}</td>
+                                    <td><img src="{{ Storage::url($product->icon) }}" alt="" style="max-width: 100px;"></td>
                                     <td><img src="{{ Storage::url($product->thumbnail) }}" alt="" style="max-width: 100px;"></td>
                                     <td class="text-center">
                                         <a href="{{ route('admin.products.edit', $product) }}" class="btn btn-sm btn-primary item-edit"><i class="fas fa-pencil-alt"></i></a>
@@ -133,7 +135,7 @@
                 },
 
                 columnDefs: [
-                    { targets: 4, orderable: false }
+                    { targets: 5, orderable: false }
                 ],
 
                 initComplete: function(settings, json) {

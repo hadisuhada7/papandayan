@@ -68,6 +68,10 @@
 	<!--about us sec1 end-->
 
 	<!--broiler breeder start-->
+	@php
+		$visionThumbnail = optional($visions->first())->thumbnail;
+		$missionThumbnail = optional($missions->first())->thumbnail;
+	@endphp
 	<section class="w-100 clearfix broilerBreeder" id="broilerBreeder">
 		<div class="broilerBreederInner">
 			<div class="pigFactsTopics">
@@ -275,6 +279,23 @@
     <!--maps section end-->
 
 @endsection
+
+@push('after-styles')
+	@if($visionThumbnail || $missionThumbnail)
+		<style>
+			@if($visionThumbnail)
+			.broilerBreeder .pigFactsTopics .pigFactsTopicsRow .pigFactsTopicsCol1 .pigFactsTxt.layerBreeders::before {
+				background-image: url('{{ Storage::url($visionThumbnail) }}');
+			}
+			@endif
+			@if($missionThumbnail)
+			.broilerBreeder .pigFactsTopics .pigFactsTopicsRow .pigFactsTopicsCol2 .pigFactsTxt.broilerBreeders::before {
+				background-image: url('{{ Storage::url($missionThumbnail) }}');
+			}
+			@endif
+		</style>
+	@endif
+@endpush
 
 @push('after-scripts')
 	<script>

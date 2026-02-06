@@ -33,6 +33,7 @@
                                 <th style="width: 30px;">No</th>
                                 <th style="width: 200px;">Name</th>
                                 <th style="width: 300px;">About</th>
+                                <th scope="col">Icon</th>
                                 <th scope="col">Thumbnail</th>
                                 <th style="width: 65px;">&nbsp;</th>
                             </tr>
@@ -46,6 +47,7 @@
                                     <td scope="row">{{ $index }}</td>
                                     <td>{{ $service->name }}</td>
                                     <td>{!! $service->about !!}</td>
+                                    <td><img src="{{ Storage::url($service->icon) }}" alt="" style="max-width: 100px;"></td>
                                     <td><img src="{{ Storage::url($service->thumbnail) }}" alt="" style="max-width: 100px;"></td>
                                     <td class="text-center">
                                         <a href="{{ route('admin.services.edit', $service) }}" class="btn btn-sm btn-primary item-edit"><i class="fas fa-pencil-alt"></i></a>
@@ -133,7 +135,7 @@
                 },
 
                 columnDefs: [
-                    { targets: 4, orderable: false }
+                    { targets: 5, orderable: false }
                 ],
 
                 initComplete: function(settings, json) {

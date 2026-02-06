@@ -25,6 +25,7 @@ class UpdateProductRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'about' => ['required', 'string', 'max:65535'],
             'link_whatsapp' => ['required', 'string', 'max:255'],
+            'icon' => ['sometimes', 'image', 'mimes:png,jpg,jpeg,svg', 'max:2048'],
             'thumbnail' => ['sometimes', 'image', 'mimes:png,jpg,jpeg,svg', 'max:2048'],
         ];
     }

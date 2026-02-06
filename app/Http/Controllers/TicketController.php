@@ -15,7 +15,7 @@ class TicketController extends Controller
 {
     public function index(): View
     {
-        $tickets = Ticket::with('question')->latest('id')->paginate(10);
+        $tickets = Ticket::with('question')->latest('id')->get();
         $stats = [
             'new' => Ticket::where('status', TicketStatus::New)->count(),
             'open' => Ticket::where('status', TicketStatus::Open)->count(),

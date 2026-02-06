@@ -23,7 +23,7 @@ class UpdateCompanyAboutRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string', 'max:65535'],
+            'description' => ['nullable', 'string', 'max:65535'],
             'type' => ['required', 'string', 'max:255'],
             'icon' => ['sometimes', 'image', 'mimes:png,jpg,jpeg,svg', 'max:2048'],
             'thumbnail' => ['sometimes', 'image', 'mimes:png,jpg,jpeg,svg', 'max:2048'],

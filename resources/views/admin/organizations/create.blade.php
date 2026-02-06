@@ -46,9 +46,9 @@
                         <div class="row">
                             <div class="col-8">
                                 <div class="form-group row">
-                                    <label for="name" class="col-sm-3 col-form-label">Name <span class="text-danger">*</span></label>
+                                    <label for="name" class="col-sm-3 col-form-label">Name</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" maxlength="255" placeholder="Name" required>
+                                        <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" maxlength="255" placeholder="Name">
                                         <span class="error invalid-feedback">{{ $errors->first('name') }}</span>
                                     </div>
                                 </div>
@@ -65,9 +65,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="description" class="col-sm-3 col-form-label">Description <span class="text-danger">*</span></label>
+                                    <label for="description" class="col-sm-3 col-form-label">Description</label>
                                     <div class="col-sm-9">
-                                        <textarea class="form-control" id="description" name="description" maxlength="65535" placeholder="Description" required>{{ old('description') }}</textarea>
+                                        <textarea class="form-control" id="description" name="description" maxlength="65535" placeholder="Description">{{ old('description') }}</textarea>
                                         <span class="error invalid-feedback">{{ $errors->first('description') }}</span>
                                     </div>
                                 </div>

@@ -62,6 +62,19 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
+                                    <label for="icon" class="col-sm-3 col-form-label">Icon <span class="text-danger">*</span></label>
+                                    <div class="col-sm-6">
+                                        <img src="{{ Storage::url($product->icon) }}" alt="" style="max-width: 100px; margin-bottom: 15px;"> 
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="icon" name="icon" accept="image/*">
+                                                <label class="custom-file-label" for="icon" data-browse="Browse">Choose file</label>
+                                            </div>
+                                        </div>
+                                        <span class="error invalid-feedback">{{ $errors->first('icon') }}</span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
                                     <label for="thumbnail" class="col-sm-3 col-form-label">Thumbnail <span class="text-danger">*</span></label>
                                     <div class="col-sm-6">
                                         <img src="{{ Storage::url($product->thumbnail) }}" alt="" style="max-width: 100px; margin-bottom: 15px;"> 
@@ -115,8 +128,8 @@
             // Initialize Summernote Editor
             $('#about').summernote();
             
-            // Add file validation for the thumbnail input
-            $('#thumbnail').on('change', function(e) {
+            // Add file validation for the thumbnail and icon input
+            $('#thumbnail, #icon').on('change', function(e) {
                 const file = this.files[0];
                 
                 if (file) {

@@ -22,7 +22,7 @@ class StoreTrackRecordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['nullable', 'string', 'max:255'],
             'description' => ['required', 'string', 'max:65535'],
             'track_record_at' => ['required', 'date'],
         ];

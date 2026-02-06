@@ -79,7 +79,7 @@
                             <div class="aboutUsSec1Para">
                                 <div class="broilerBreederHeadGroup">
                                     <div class="broilBreederImg">
-                                        <img src="{{ asset('images/icon7.png') }}" alt="Broiler-Breeder" class="img-fluid">
+                                        <img src="{{ Storage::url($product->icon) }}" alt="Broiler-Breeder" class="img-fluid">
                                     </div>
                                     <div class="broilBreederHeading">
                                         <h2 class="mb-0">{{ $product->name }}</h2>
@@ -121,7 +121,7 @@
                                     <div class="broilerBreederContent">
                                         <div class="broilerBreederHeadGroup">
                                             <div class="broilBreederImg">
-                                                <img src="{{ asset('images/icon8.png') }}" alt="Broiler-Breeder" class="img-fluid">
+                                                <img src="{{ Storage::url($service->icon) }}" alt="Broiler-Breeder" class="img-fluid">
                                             </div>
                                             <div class="broilBreederHeading">
                                                 <h2 class="mb-0">{{ $service->name }}</h2>

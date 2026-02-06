@@ -12,7 +12,7 @@ class EmailConfigController extends Controller
 {
     public function index(): View
     {
-        $configs = EmailConfig::orderByDesc('id')->paginate(10);
+        $configs = EmailConfig::orderByDesc('id')->get();
 
         return view('admin.email-configs.index', compact('configs'));
     }

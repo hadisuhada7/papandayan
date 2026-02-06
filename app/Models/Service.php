@@ -14,6 +14,7 @@ class Service extends Model
         'name',
         'about',
         'link_whatsapp',
+        'icon',
         'thumbnail',
     ];
 

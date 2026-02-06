@@ -9,7 +9,7 @@ class LogEmailSenderController extends Controller
 {
     public function index(): View
     {
-        $logs = LogEmailSender::with(['question', 'ticket'])->latest('id')->paginate(10);
+        $logs = LogEmailSender::with(['question', 'ticket'])->latest('id')->get();
 
         return view('admin.email-logs.index', compact('logs'));
     }

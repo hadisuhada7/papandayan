@@ -46,9 +46,9 @@
                         <div class="row">
                             <div class="col-8">
                                 <div class="form-group row">
-                                    <label for="name" class="col-sm-3 col-form-label">Name <span class="text-danger">*</span></label>
+                                    <label for="name" class="col-sm-3 col-form-label">Name</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" maxlength="255" placeholder="Name" required>
+                                        <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" maxlength="255" placeholder="Name">
                                         <span class="error invalid-feedback">{{ $errors->first('name') }}</span>
                                     </div>
                                 </div>

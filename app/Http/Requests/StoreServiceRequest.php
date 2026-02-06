@@ -25,6 +25,7 @@ class StoreServiceRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'about' => ['required', 'string', 'max:65535'],
             'link_whatsapp' => ['required', 'string', 'max:255'],
+            'icon' => ['required', 'image', 'mimes:png,jpg,jpeg,svg', 'max:2048'],
             'thumbnail' => ['required', 'image', 'mimes:png,jpg,jpeg,svg', 'max:2048'],
             'keypoint.*' => ['nullable', 'string', 'max:255'],
         ];

@@ -89,9 +89,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="description" class="col-sm-3 col-form-label">Description <span class="text-danger">*</span></label>
+                                    <label for="description" class="col-sm-3 col-form-label">Description</label>
                                     <div class="col-sm-9">
-                                        <textarea class="form-control" id="description" name="description" maxlength="65535" placeholder="Description" required>{{ old('description') }}</textarea>
+                                        <textarea class="form-control" id="description" name="description" maxlength="65535" placeholder="Description">{{ old('description') }}</textarea>
                                         <span class="error invalid-feedback">{{ $errors->first('description') }}</span>
                                     </div>
                                 </div>

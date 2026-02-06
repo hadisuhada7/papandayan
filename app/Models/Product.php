@@ -14,6 +14,7 @@ class Product extends Model
         'name',
         'about',
         'link_whatsapp',
+        'icon',
         'thumbnail',
     ];
 }

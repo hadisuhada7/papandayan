@@ -302,10 +302,10 @@ class FrontController extends Controller
             'ip_address' => $clientIp // IP dari PC/laptop yang download
         ]);
     }
-
+    
     public function report() {
         $banners = $this->getBannerByMenuName('Laporan Tahunan');
-        $reports = AnnualReport::orderByDesc('id')->take(5)->get();
+        $reports = AnnualReport::where('status', 'Published')->orderByDesc('id')->get();
         return view('front.report', compact('banners', 'reports'));
     }
 
@@ -368,7 +368,7 @@ class FrontController extends Controller
 
     public function financial() {
         $banners = $this->getBannerByMenuName('Laporan Keuangan');
-        $financials = FinancialStatement::orderByDesc('id')->take(5)->get();
+        $financials = FinancialStatement::where('status', 'Published')->orderByDesc('id')->get();
         return view('front.financial', compact('banners', 'financials'));
     }
 
@@ -431,7 +431,7 @@ class FrontController extends Controller
 
     public function investor() {
         $banners = $this->getBannerByMenuName('Presentasi Investor');
-        $investors = InvestorPresentation::orderByDesc('id')->take(5)->get();
+        $investors = InvestorPresentation::where('status', 'Published')->orderByDesc('id')->get();
         return view('front.investor', compact('banners', 'investors'));
     }
 
@@ -494,7 +494,7 @@ class FrontController extends Controller
 
     public function stock() {
         $banners = $this->getBannerByMenuName('Informasi Saham dan Obligasi');
-        $stocks = StockInformation::orderByDesc('id')->take(5)->get();
+        $stocks = StockInformation::where('status', 'Published')->orderByDesc('id')->get();
         return view('front.stock', compact('banners', 'stocks'));
     }
 
@@ -557,7 +557,7 @@ class FrontController extends Controller
 
     public function shareholder() {
         $banners = $this->getBannerByMenuName('Rapat Umum Pemegang Saham');
-        $shareholders = Shareholder::orderByDesc('id')->take(5)->get();
+        $shareholders = Shareholder::where('status', 'Published')->orderByDesc('id')->get();
         return view('front.shareholder', compact('banners', 'shareholders'));
     }
 

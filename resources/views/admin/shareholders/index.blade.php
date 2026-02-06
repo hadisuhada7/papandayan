@@ -5,6 +5,32 @@
 @section('plugins.Datatables', true)
 @section('plugins.Toastr', true)
 
+@php
+    function getJobStatusBadgeClass($status) {
+        $status = strtolower(trim($status ?? ''));
+        
+        return match($status) {
+            'published' => 'bg-success',
+            'private' => 'bg-info',
+            'pending review' => 'bg-warning',
+            'draft' => 'bg-danger',
+            default => 'bg-secondary'
+        };
+    }
+
+    function getJobStatusDisplayText($status) {
+        $status = strtolower(trim($status ?? ''));
+        
+        return match($status) {
+            'published' => 'Published',
+            'private' => 'Private',
+            'pending review' => 'Pending Review',
+            'draft' => 'Draft',
+            default => ucfirst($status ?: 'Unknown')
+        };
+    }
+@endphp
+
 @section('content_header')
     <div class="row mb-2">
         <div class="col-sm-6">
@@ -33,6 +59,7 @@
                                 <th style="width: 30px;">No</th>
                                 <th style="width: 300px;">Title</th>
                                 <th scope="col">Publish At</th>
+                                <th style="width: 100px;">Status</th>
                                 <th style="width: 65px;">&nbsp;</th>
                             </tr>
                         </thead>
@@ -45,6 +72,11 @@
                                     <td scope="row">{{ $index }}</td>
                                     <td>{{ $shareholder->title }}</td>
                                     <td>{{ $shareholder->publish_at->format('d F Y') }}</td>
+                                    <td>
+                                        <span class="badge {{ getJobStatusBadgeClass($shareholder->status) }}">
+                                            {{ getJobStatusDisplayText($shareholder->status) }}
+                                        </span>
+                                    </td>
                                     <td class="text-center">
                                         <a href="{{ route('admin.shareholders.edit', $shareholder) }}" class="btn btn-sm btn-primary item-edit"><i class="fas fa-pencil-alt"></i></a>
                                         <a href="javascript:void(0)" class="btn btn-sm btn-danger item-remove" data-id="{{ $shareholder->id }}"><i class="fas fa-trash-alt"></i></a>
@@ -131,7 +163,7 @@
                 },
 
                 columnDefs: [
-                    { targets: 3, orderable: false }
+                    { targets: 4, orderable: false }
                 ],
 
                 initComplete: function(settings, json) {

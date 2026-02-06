@@ -58,7 +58,7 @@
                                     <label for="status" class="col-sm-3 col-form-label">Status <span class="text-danger">*</span></label>
                                     <div class="col-sm-3">
                                         <select class="form-control select2bs4" style="width: 100%;" id="status" name="status" required>
-                                            <option value="{{ $article->status }}">{{ $article->status }}</option>
+                                            <option value="{{ $stock->status }}">{{ $stock->status }}</option>
                                             <option value="Draft">Draft</option>
                                             <option value="Pending Review">Pending Review</option>
                                             <option value="Private">Private</option>

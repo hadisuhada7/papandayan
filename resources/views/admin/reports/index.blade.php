@@ -5,6 +5,32 @@
 @section('plugins.Datatables', true)
 @section('plugins.Toastr', true)
 
+@php
+    function getJobStatusBadgeClass($status) {
+        $status = strtolower(trim($status ?? ''));
+        
+        return match($status) {
+            'published' => 'bg-success',
+            'private' => 'bg-info',
+            'pending review' => 'bg-warning',
+            'draft' => 'bg-danger',
+            default => 'bg-secondary'
+        };
+    }
+
+    function getJobStatusDisplayText($status) {
+        $status = strtolower(trim($status ?? ''));
+        
+        return match($status) {
+            'published' => 'Published',
+            'private' => 'Private',
+            'pending review' => 'Pending Review',
+            'draft' => 'Draft',
+            default => ucfirst($status ?: 'Unknown')
+        };
+    }
+@endphp
+
 @section('content_header')
     <div class="row mb-2">
         <div class="col-sm-6">
@@ -31,7 +57,8 @@
                         <thead>
                             <tr>
                                 <th style="width: 30px;">No</th>
-                                <th style="width: 150px;">Name</th>
+                                <th style="width: 300px;">Name</th>
+                                <th style="width: 100px;">Status</th>
                                 <th scope="col">Thumbnail</th>
                                 <th style="width: 65px;">&nbsp;</th>
                             </tr>
@@ -44,6 +71,11 @@
                                 <tr>
                                     <td scope="row">{{ $index }}</td>
                                     <td>{{ $report->name }}</td>
+                                    <td>
+                                        <span class="badge {{ getJobStatusBadgeClass($report->status) }}">
+                                            {{ getJobStatusDisplayText($report->status) }}
+                                        </span>
+                                    </td>
                                     <td><img src="{{ Storage::url($report->thumbnail) }}" alt="" style="max-width: 100px;"></td>
                                     <td class="text-center">
                                         <a href="{{ route('admin.reports.edit', $report) }}" class="btn btn-sm btn-primary item-edit"><i class="fas fa-pencil-alt"></i></a>
@@ -131,7 +163,7 @@
                 },
 
                 columnDefs: [
-                    { targets: 3, orderable: false }
+                    { targets: 4, orderable: false }
                 ],
 
                 initComplete: function(settings, json) {

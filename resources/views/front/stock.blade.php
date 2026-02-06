@@ -154,194 +154,215 @@
          justify-content: space-between;
          margin-bottom: 12px;
       }
+
+      /* Modal close button styling */
+      #modal-download .modal-header .close {
+         padding: 0.5rem 1rem;
+         margin: -0.5rem -1rem -0.5rem auto;
+         font-size: 1.5rem;
+         font-weight: 700;
+         line-height: 1;
+         color: #000;
+         text-shadow: 0 1px 0 #fff;
+         opacity: .5;
+         background: transparent;
+         border: 0;
+         cursor: pointer;
+      }
+
+      #modal-download .modal-header .close:hover,
+      #modal-download .modal-header .close:focus {
+         color: #000;
+         text-decoration: none;
+         opacity: .75;
+         outline: none;
+      }
+
+      #modal-download .modal-header .close span {
+         display: block;
+         font-size: 2rem;
+         line-height: 1;
+      }
+
+      #modal-download .modal-header {
+         display: flex;
+         align-items: center;
+         justify-content: space-between;
+         padding: 1rem;
+         border-bottom: 1px solid #dee2e6;
+      }
    </style>
 @endpush
 
 @push('after-scripts')
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js" integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
    <script>
-      $(document).ready(function () {
-          console.log('=== Stock information download modal initialized ===');
-          
-          let selectedReportId = null;
-          let selectedReportName = '';
+      $(function () {
+         const $modal = $('#modal-download');
+         const $form = $('#download-form');
+         const $nameInput = $('#modal-name');
+         const $emailInput = $('#modal-email');
+         const $submitButton = $('#btn-modal-download');
+         const $documentName = $('#document-name');
 
-          // Open modal when download button clicked
-          $(document).on("click", ".item-download", function(e){
-              e.preventDefault();
-              
-              selectedReportId = $(this).data("id");
-              selectedReportName = $(this).data("name");
-              
-              console.log('Download clicked - ID:', selectedReportId, 'Name:', selectedReportName);
-              
-              $("#document-name").text(selectedReportName);
-              $('#download-form')[0].reset();
-              $('.invalid-feedback').text('');
-              $('.form-control').removeClass('is-invalid');
-              
-              $("#modal-download").modal("show");
-          });
+         let selectedReport = { id: null, name: '' };
 
-          // Submit form and download
-          $(document).on("click", "#btn-modal-download", function(e){
-              e.preventDefault();
-              console.log('\n=== SUBMIT BUTTON CLICKED ===');
-              console.log('Report ID:', selectedReportId);
-              
-              if(!selectedReportId) {
-                  console.error('ERROR: No report ID');
-                  alert('Error: Tidak ada dokumen yang dipilih');
-                  return;
-              }
-              
-              // Get values
-              var name = $('#modal-name').val().trim();
-              var email = $('#modal-email').val().trim();
-              
-              console.log('Form values:', {name: name, email: email});
-              
-              // Basic validation
-              if(!name) {
-                  console.log('Validation failed: name empty');
-                  $('#modal-name').addClass('is-invalid');
-                  $('#name-error').text('Nama harus diisi').show();
-                  return;
-              }
-              
-              if(!email) {
-                  console.log('Validation failed: email empty');
-                  $('#modal-email').addClass('is-invalid');
-                  $('#email-error').text('Email harus diisi').show();
-                  return;
-              }
-              
-              console.log('Validation passed');
-              
-              // Disable button
-              var $btn = $(this);
-              $btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Processing...');
-              
-              // Get CSRF token
-              var csrfToken = $('meta[name="csrf-token"]').attr('content');
-              if (!csrfToken) {
-                  csrfToken = $('#download-form input[name="_token"]').val();
-              }
-              console.log('CSRF Token:', csrfToken ? 'Found' : 'NOT FOUND');
-              
-              // Build URL - menggunakan route stock report
-              var submitUrl = "{{ route('front.stock.download.with.log', ':id') }}".replace(':id', selectedReportId);
-              console.log('Submit URL:', submitUrl);
-              
-              // Prepare data
-              var formData = {
-                  _token: csrfToken,
-                  name: name,
-                  email: email
-              };
-              console.log('Sending data:', formData);
-              
-              // Send AJAX
-              console.log('Sending AJAX request...');
-              $.ajax({
+         const getCsrfToken = function () {
+            return $('meta[name="csrf-token"]').attr('content') || $form.find('input[name="_token"]').val();
+         };
+
+         const resetFormState = function () {
+            $form.trigger('reset');
+            $form.find('.is-invalid').removeClass('is-invalid');
+            $form.find('.invalid-feedback').text('').hide();
+            $submitButton.prop('disabled', false).text('Kirim');
+         };
+
+         $('.item-download').on('click', function (e) {
+            e.preventDefault();
+
+            selectedReport.id = $(this).data('id');
+            selectedReport.name = $(this).data('name');
+
+            $documentName.text(selectedReport.name);
+            resetFormState();
+            $modal.modal('show');
+         });
+
+         $modal.on('hidden.bs.modal', function () {
+            resetFormState();
+            selectedReport = { id: null, name: '' };
+         });
+
+         // Custom email validation method
+         $.validator.addMethod("emailDomain", function(value, element) {
+            return this.optional(element) || /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value);
+         }, "Gunakan format email yang valid dengan domain lengkap (contoh: nama@domain.com)");
+
+         $form.validate({
+            errorClass: 'is-invalid',
+            ignore: [],
+            rules: {
+               name: {
+                  required: true,
+                  maxlength: 255
+               },
+               email: {
+                  required: true,
+                  email: true,
+                  emailDomain: true,
+                  maxlength: 255
+               }
+            },
+            messages: {
+               name: {
+                  required: 'Nama harus diisi',
+                  maxlength: 'Nama maksimal 255 karakter'
+               },
+               email: {
+                  required: 'Email harus diisi',
+                  email: 'Gunakan format email yang valid',
+                  maxlength: 'Email maksimal 255 karakter'
+               }
+            },
+            highlight: function (element) {
+               $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element) {
+               $(element).removeClass('is-invalid');
+               $(element).siblings('.invalid-feedback').text('').hide();
+            },
+            errorPlacement: function (error, element) {
+               const $feedback = element.siblings('.invalid-feedback');
+               if ($feedback.length) {
+                  $feedback.text(error.text()).show();
+               }
+            },
+            submitHandler: function () {
+               if (!selectedReport.id) {
+                  Toast.error('Error: Tidak ada dokumen yang dipilih');
+                  return false;
+               }
+
+               const payload = {
+                  _token: getCsrfToken(),
+                  name: $nameInput.val().trim(),
+                  email: $emailInput.val().trim()
+               };
+
+               const submitUrl = "{{ route('front.stock.download.with.log', ':id') }}".replace(':id', selectedReport.id);
+
+               $submitButton.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Processing...');
+
+               $.ajax({
                   url: submitUrl,
                   type: 'POST',
-                  data: formData,
-                  dataType: 'json',
-                  success: function(response) {
-                      console.log('\n=== SUCCESS ===');
-                      console.log('Response:', response);
-                      console.log('IP Address tersimpan:', response.ip_address);
-                      console.log('Log ID:', response.log_id);
-                      
-                      // Hide modal
-                      $("#modal-download").modal("hide");
-                      
-                      // Show success message with IP
-                      console.log('Data saved! Starting download...');
-                      console.log('Your IP:', response.ip_address);
-                      
-                      // Trigger download
-                      var downloadUrl = "{{ route('front.stock.download', ':id') }}".replace(':id', selectedReportId);
-                      console.log('Download URL:', downloadUrl);
-                      
-                      // Create hidden iframe for download
-                      var iframe = document.createElement('iframe');
-                      iframe.style.display = 'none';
-                      iframe.src = downloadUrl;
-                      document.body.appendChild(iframe);
-                      
-                      setTimeout(function() {
-                          document.body.removeChild(iframe);
-                      }, 5000);
-                      
-                      // Reset button
-                      $btn.prop('disabled', false).html('Kirim');
-                  },
-                  error: function(xhr, status, error) {
-                      console.log('\n=== ERROR ===');
-                      console.log('Status:', xhr.status);
-                      console.log('Response:', xhr.responseText);
-                      console.log('Error:', error);
-                      
-                      var errorMsg = 'Terjadi kesalahan!';
-                      
-                      if (xhr.status === 422) {
-                          console.log('Validation error from server');
-                          try {
-                              var errors = JSON.parse(xhr.responseText);
-                              if (errors.errors) {
-                                  errorMsg = Object.values(errors.errors).flat().join('\n');
-                              }
-                          } catch(e) {
-                              console.log('Error parsing response:', e);
-                          }
-                      } else if (xhr.status === 419) {
-                          errorMsg = 'CSRF token mismatch. Silakan refresh halaman.';
-                      } else if (xhr.status === 404) {
-                          errorMsg = 'Dokumen tidak ditemukan.';
-                      } else if (xhr.status === 500) {
-                          errorMsg = 'Server error. Silakan coba lagi.';
-                      } else {
-                          errorMsg = 'Error ' + xhr.status + ': ' + error;
-                      }
-                      
-                      alert(errorMsg);
-                      
-                      // Reset button
-                      $btn.prop('disabled', false).html('Kirim');
+                  data: payload,
+                  dataType: 'json'
+               }).done(function () {
+                  $modal.modal('hide');
+                  Toast.success('Download informasi saham & obligasi dimulai...');
+
+                  const downloadUrl = "{{ route('front.stock.download', ':id') }}".replace(':id', selectedReport.id);
+                  const iframe = document.createElement('iframe');
+                  iframe.style.display = 'none';
+                  iframe.src = downloadUrl;
+                  document.body.appendChild(iframe);
+
+                  setTimeout(function () {
+                     if (iframe.parentNode) {
+                        document.body.removeChild(iframe);
+                     }
+                  }, 5000);
+               }).fail(function (xhr, status, error) {
+                  let errorMsg = 'Terjadi kesalahan!';
+
+                  if (xhr.status === 422) {
+                     try {
+                        const response = xhr.responseJSON || JSON.parse(xhr.responseText);
+                        if (response && response.errors) {
+                           const errors = Object.values(response.errors).flat();
+                           errors.forEach(function(err) {
+                              Toast.error(err);
+                           });
+                           return;
+                        }
+                     } catch (err) {
+                        errorMsg = 'Input tidak valid.';
+                     }
+                  } else if (xhr.status === 419) {
+                     errorMsg = 'CSRF token mismatch. Silakan refresh halaman.';
+                  } else if (xhr.status === 404) {
+                     errorMsg = 'Dokumen tidak ditemukan.';
+                  } else if (xhr.status === 500) {
+                     errorMsg = 'Server error. Silakan coba lagi.';
+                  } else if (xhr.status) {
+                     errorMsg = 'Error ' + xhr.status + ': ' + error;
                   }
-              });
-          });
 
-          // Clear errors on input
-          $('#modal-name, #modal-email').on('input', function() {
-              $(this).removeClass('is-invalid');
-              $(this).siblings('.invalid-feedback').hide();
-          });
+                  Toast.error(errorMsg);
+               }).always(function () {
+                  $submitButton.prop('disabled', false).text('Kirim');
+               });
 
-          // Reset on modal close
-          $('#modal-download').on('hidden.bs.modal', function () {
-              $('#download-form')[0].reset();
-              $('.invalid-feedback').text('').hide();
-              $('.form-control').removeClass('is-invalid');
-              $('#btn-modal-download').prop('disabled', false).html('Kirim');
-          });
+               return false;
+            }
+         });
 
-          // Modal shown event
-          $('#modal-download').on('shown.bs.modal', function () {
-              console.log('Modal is now visible');
-              $('#modal-name').focus();
-          });
+         $submitButton.on('click', function (e) {
+            e.preventDefault();
+            $form.submit();
+         });
 
-          // Modal hidden event
-          $('#modal-download').on('hidden.bs.modal', function () {
-              console.log('Modal is now hidden');
-              // Reset form
-              $('#download-form')[0].reset();
-              $('.invalid-feedback').text('');
-              $('.form-control').removeClass('is-invalid');
-              $('#btn-modal-download').prop('disabled', false).text('Kirim');
-          });
+         // Handle cancel button click
+         $('.btn-secondary[data-dismiss="modal"]').on('click', function() {
+            $modal.modal('hide');
+         });
+
+         // Handle close (X) button click
+         $modal.find('.close[data-dismiss="modal"]').on('click', function() {
+            $modal.modal('hide');
+         });
       });
 
       // Header active class toggle on scroll

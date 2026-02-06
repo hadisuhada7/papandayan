@@ -47,6 +47,7 @@
                                                 <i class="fa fa-eye" style="color: #3c5fac;"></i><span>{{ $article->viewer }} Viewers</span>
                                             </a>
                                         </div>
+                                        @include('front.partials.like-post', ['model' => $article, 'type' => 'article'])
                                     </div>
                                     <div class="latestNewsTxt">
                                         <h4><a href="javascript:void(0);">{{ $article->title }}</a></h4>
@@ -129,17 +130,6 @@
                     </div>
                     <div class="col-lg-4">
                         <div class="blogSingleAside">
-                            <div class="searchKeyword customCard">
-                                <div class="searchKeywordInner">
-                                <h4>Temukan Artikel</h4>
-                                    <form>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Search" value="">
-                                            <button type="submit" class="input-group-text"><img src="{{ asset('images/icon/search.png') }}" alt="search" class="img-fluid"></button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
                             <div class="recentPost customCard">
                                 <h4>Postingan Terbaru</h4>
                                 <div class="recentPostList">

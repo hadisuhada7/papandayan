@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6dffb6990e8849f2083c9a4de62258ab",
+    "content-hash": "598e2913d108fc92aae41f5af1f44026",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -1370,6 +1370,80 @@
                 "source": "https://github.com/jeroennoten/Laravel-AdminLTE/tree/v3.15.2"
             },
             "time": "2025-08-12T18:28:10+00:00"
+        },
+        {
+            "name": "kilobyteno/laravel-user-guest-like",
+            "version": "1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kilobyteno/laravel-user-guest-like.git",
+                "reference": "3b14c00720a10b91ce11f85c805fe2c7cfeb21bf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kilobyteno/laravel-user-guest-like/zipball/3b14c00720a10b91ce11f85c805fe2c7cfeb21bf",
+                "reference": "3b14c00720a10b91ce11f85c805fe2c7cfeb21bf",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^11.0|^12.0",
+                "php": "^8.0",
+                "spatie/laravel-package-tools": "^1.92.0"
+            },
+            "require-dev": {
+                "nunomaduro/collision": "^7.0|^8.0",
+                "orchestra/testbench": "^9.0|^10.0",
+                "pestphp/pest": "^2.0|^3.0",
+                "pestphp/pest-plugin-laravel": "^2.0|^3.0",
+                "phpunit/phpunit": "^11.0|^12.0",
+                "spatie/laravel-ray": "^1.40"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Kilobyteno\\LaravelUserGuestLike\\LaravelUserGuestLikeServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Kilobyteno\\LaravelUserGuestLike\\": "src",
+                    "Kilobyteno\\LaravelUserGuestLike\\Database\\Factories\\": "database/factories"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel S. Billing",
+                    "email": "daniel@kilobyte.no",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A Laravel package to allow guests and users to like models",
+            "homepage": "https://github.com/kilobyteno/laravel-user-guest-like",
+            "keywords": [
+                "guest",
+                "kilobyte",
+                "kilobyteno",
+                "laravel",
+                "like",
+                "user"
+            ],
+            "support": {
+                "issues": "https://github.com/kilobyteno/laravel-user-guest-like/issues",
+                "source": "https://github.com/kilobyteno/laravel-user-guest-like/tree/1.4.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/danielrtrd",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-04-08T10:51:54+00:00"
         },
         {
             "name": "laravel/framework",
@@ -4040,6 +4114,67 @@
                 "source": "https://github.com/ramsey/uuid/tree/4.9.1"
             },
             "time": "2025-09-04T20:59:21+00:00"
+        },
+        {
+            "name": "spatie/laravel-package-tools",
+            "version": "1.92.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-package-tools.git",
+                "reference": "f09a799850b1ed765103a4f0b4355006360c49a5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-package-tools/zipball/f09a799850b1ed765103a4f0b4355006360c49a5",
+                "reference": "f09a799850b1ed765103a4f0b4355006360c49a5",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^9.28|^10.0|^11.0|^12.0",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.5",
+                "orchestra/testbench": "^7.7|^8.0|^9.0|^10.0",
+                "pestphp/pest": "^1.23|^2.1|^3.1",
+                "phpunit/php-code-coverage": "^9.0|^10.0|^11.0",
+                "phpunit/phpunit": "^9.5.24|^10.5|^11.5",
+                "spatie/pest-plugin-test-time": "^1.1|^2.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\LaravelPackageTools\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Tools for creating Laravel packages",
+            "homepage": "https://github.com/spatie/laravel-package-tools",
+            "keywords": [
+                "laravel-package-tools",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/laravel-package-tools/issues",
+                "source": "https://github.com/spatie/laravel-package-tools/tree/1.92.7"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-07-17T15:46:43+00:00"
         },
         {
             "name": "spatie/laravel-permission",
@@ -9200,5 +9335,5 @@
         "php": "^8.2"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.6.0"
 }

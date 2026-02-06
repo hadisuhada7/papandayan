@@ -22,62 +22,65 @@
     <section class="w-100 clearfix blogArticles blogPg" id="blogArticles">
         <div class="container">
             <div class="blogArticlesInner">
-                <div class="latestNewsCard">
-                    <div class="row blogWithSidebarRow">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="latestNewsCard">
+                            <div class="row blogWithSidebarRow">
 
-                        @forelse ($articles as $article)
-                            <div class="col-md-12 col-lg-4 blogWithSidebarCol">
-                                <div class="latestNewsCardInner mb-4">
-                                    <div class="latestNewsCardImg">
-                                        <a href="{{ route('front.article-detail', $article->id) }}"><img src="{{ Storage::url($article->thumbnail) }}" alt="img" class="w-100 img-fluid"></a>
-                                        <div class="latestNewsDate">
-                                            <a href="javascript:void(0);">
-                                                <h5>{{ $article->publish_at->format('d') }}</h5>
-                                                <span>{{ $article->publish_at->format('M') }}</span>
-                                            </a>
+                                @forelse ($articles as $article)
+                                    <div class="col-md-12 col-lg-6 blogWithSidebarCol">
+                                        <div class="latestNewsCardInner mb-4">
+                                            <div class="latestNewsCardImg">
+                                                <a href="{{ route('front.article-detail', $article->id) }}"><img src="{{ Storage::url($article->thumbnail) }}" alt="img" class="w-100 img-fluid"></a>
+                                                <div class="latestNewsDate">
+                                                    <a href="javascript:void(0);">
+                                                        <h5>{{ $article->publish_at->format('d') }}</h5>
+                                                        <span>{{ $article->publish_at->format('M') }}</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="latestNewsCardInnerContent">
+                                                <div class="latestNewsList">
+                                                    <div class="latestNewsUser">
+                                                        <a href="javascript:void(0);">
+                                                            <i class="fa fa-user" style="color: #3c5fac;"></i><span>{{ $article->author }}</span>
+                                                        </a>
+                                                    </div>
+                                                    <div class="latestNewsUser">
+                                                        <a href="javascript:void(0);">
+                                                            <i class="fa fa-eye" style="color: #3c5fac;"></i><span>{{ $article->viewer }} Viewers</span>
+                                                        </a>
+                                                    </div>
+                                                    @include('front.partials.like-post', ['model' => $article, 'type' => 'article'])
+                                                </div>
+                                                <div class="latestNewsTxt">
+                                                    <h4><a href="{{ route('front.article-detail', $article->id) }}">{{ $article->title }}</a></h4>
+                                                    <p>{{ $article->subtitle }}</p>
+                                                </div>
+                                                <div class="latestNewBtn">
+                                                    <a class="btnCustom2 btn-1 hover-slide-down" href="{{ route('front.article-detail', $article->id) }}">
+                                                        <span>Selengkapnya <img src="{{ asset('images/icon/icon-right.png') }}" alt="right" class="img-fluid"></span>
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="latestNewsCardInnerContent">
-                                        <div class="latestNewsList">
-                                            <div class="latestNewsUser">
-                                                <a href="javascript:void(0);">
-                                                    <i class="fa fa-user" style="color: #3c5fac;"></i><span>{{ $article->author }}</span>
-                                                </a>
-                                            </div>
-                                            <div class="latestNewsUser">
-                                                <a href="javascript:void(0);">
-                                                    <i class="fa fa-eye" style="color: #3c5fac;"></i><span>{{ $article->viewer }} Viewers</span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="latestNewsTxt">
-                                            <h4><a href="{{ route('front.article-detail', $article->id) }}">{{ $article->title }}</a></h4>
-                                            <p>{{ $article->subtitle }}</p>
-                                        </div>
-                                        <div class="latestNewBtn">
-                                            <a class="btnCustom2 btn-1 hover-slide-down" href="{{ route('front.article-detail', $article->id) }}">
-                                                <span>Selengkapnya <img src="{{ asset('images/icon/icon-right.png') }}" alt="right" class="img-fluid"></span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
+                                @empty
+                                @endforelse
+
                             </div>
-                        @empty
-                        @endforelse
-
+                        </div>
+                        {{ $articles->links('front.partials.pagination') }}
                     </div>
-                </div>
-                <div class="paginationGroup">
-                    <ul class="pagination">
-                        <li class="page-item"><a class="page-link pageLinkPrev" href="#"><img src="{{ asset('images/icon/arrow-left.png') }}" alt="arrow left" class="img-fluid"></a></li>
-                        <li class="page-item"><a class="page-link active" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">4</a></li>
-                        <li class="page-item"><a class="page-link" href="#">5</a></li>
-                        <li class="page-item"><a class="page-link" href="#">6</a></li>
-                        <li class="page-item"><a class="page-link pageLinkNext" href="#"><img src="{{ asset('images/icon/arrow-right.png') }}" alt="arrow right" class="img-fluid"></a></li>
-                    </ul>
+                    <div class="col-lg-4">
+                        <div class="blogSingleAside">
+                            @include('front.partials.search-post', [
+                                'title' => 'Temukan Artikel',
+                                'placeholder' => 'Cari judul artikel',
+                                'action' => route('front.articles'),
+                            ])
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

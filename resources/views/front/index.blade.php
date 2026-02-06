@@ -236,6 +236,7 @@
                                                     <i class="fa fa-eye" style="color: #3c5fac;"></i><span>{{ $article->viewer }} Viewers</span>
                                                 </a>
                                             </div>
+                                            @include('front.partials.like-post', ['model' => $article, 'type' => 'article'])
                                         </div>
                                         <div class="latestNewsTxt">
                                             <h4><a href="{{ route('front.article-detail', $article->id) }}">{{ $article->title }}</a></h4>

@@ -6716,6 +6716,41 @@ body, html {
 .blogSingle .blogSingleInner .blogSingleAside .searchKeyword .searchKeywordInner form .input-group .input-group-text img {
   width: 18px;
 }
+.blogArticles .blogArticlesInner .blogSingleAside .customCard {
+  background: #FFFFFF;
+  box-shadow: 0px 7px 32px rgba(0, 0, 0, 0.04);
+  border-radius: 5px;
+  padding: 30px;
+  margin-bottom: 20px;
+}
+.blogArticles .blogArticlesInner .blogSingleAside .searchKeyword .searchKeywordInner h4 {
+  font-weight: 700;
+  font-size: 30px;
+  margin-bottom: 20px;
+}
+.blogArticles .blogArticlesInner .blogSingleAside .searchKeyword .searchKeywordInner h6 {
+  font-weight: 700;
+  font-size: 16px;
+}
+.blogArticles .blogArticlesInner .blogSingleAside .searchKeyword .searchKeywordInner form .input-group {
+  background-color: #F9F5F3;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.blogArticles .blogArticlesInner .blogSingleAside .searchKeyword .searchKeywordInner form .input-group .form-control {
+  background-color: transparent;
+  border-color: #f9f5f3;
+  border-radius: 0;
+  height: 50px;
+}
+.blogArticles .blogArticlesInner .blogSingleAside .searchKeyword .searchKeywordInner form .input-group .input-group-text {
+  background-color: transparent;
+  border-color: #f9f5f3;
+  border-radius: 0;
+}
+.blogArticles .blogArticlesInner .blogSingleAside .searchKeyword .searchKeywordInner form .input-group .input-group-text img {
+  width: 18px;
+}
 .blogSingle .blogSingleInner .blogSingleAside .postCategories h4 {
   font-weight: 700;
   font-size: 30px;
@@ -15547,7 +15582,6 @@ ul {
   font-weight: 400;
   font-size: 16px;
 }/*# sourceMappingURL=style.css.map */
-
 
 
 

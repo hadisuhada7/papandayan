@@ -310,7 +310,10 @@ class FrontController extends Controller
 
     public function document() {
         $banners = $this->getBannerByMenuName('Laporan Dokumen');
-        $documents = DocumentReport::where('status', 'Published')->orderByDesc('id')->get();
+        $documents = DocumentReport::where('status', 'Published')
+            ->orderByDesc('id')
+            ->paginate(8)
+            ->withQueryString();
         return view('front.document', compact('banners', 'documents'));
     }
 
@@ -373,7 +376,10 @@ class FrontController extends Controller
     
     public function report() {
         $banners = $this->getBannerByMenuName('Laporan Tahunan');
-        $reports = AnnualReport::where('status', 'Published')->orderByDesc('id')->get();
+        $reports = AnnualReport::where('status', 'Published')
+            ->orderByDesc('id')
+            ->paginate(8)
+            ->withQueryString();
         return view('front.report', compact('banners', 'reports'));
     }
 
@@ -434,10 +440,23 @@ class FrontController extends Controller
         ]);
     }
 
-    public function financial() {
+    public function financial(Request $request) {
         $banners = $this->getBannerByMenuName('Laporan Keuangan');
-        $financials = FinancialStatement::where('status', 'Published')->orderByDesc('id')->get();
-        return view('front.financial', compact('banners', 'financials'));
+        $yearOptions = $this->getReportYearOptions();
+        $selectedYear = $this->normalizeReportYearFilter($request->query('year'), $yearOptions);
+        $selectedSort = $this->normalizeReportSortFilter($request->query('sort'));
+
+        $financialQuery = FinancialStatement::where('status', 'Published');
+        if ($selectedYear !== null) {
+            $financialQuery->whereYear('publish_at', $selectedYear);
+        }
+
+        $financials = $financialQuery
+            ->orderBy('publish_at', $selectedSort)
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('front.financial', compact('banners', 'financials', 'yearOptions', 'selectedYear', 'selectedSort'));
     }
 
     public function financialDownload($id) {
@@ -497,10 +516,23 @@ class FrontController extends Controller
         ]);
     }
 
-    public function investor() {
+    public function investor(Request $request) {
         $banners = $this->getBannerByMenuName('Presentasi Investor');
-        $investors = InvestorPresentation::where('status', 'Published')->orderByDesc('id')->get();
-        return view('front.investor', compact('banners', 'investors'));
+        $yearOptions = $this->getReportYearOptions();
+        $selectedYear = $this->normalizeReportYearFilter($request->query('year'), $yearOptions);
+        $selectedSort = $this->normalizeReportSortFilter($request->query('sort'));
+
+        $investorQuery = InvestorPresentation::where('status', 'Published');
+        if ($selectedYear !== null) {
+            $investorQuery->whereYear('publish_at', $selectedYear);
+        }
+
+        $investors = $investorQuery
+            ->orderBy('publish_at', $selectedSort)
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('front.investor', compact('banners', 'investors', 'yearOptions', 'selectedYear', 'selectedSort'));
     }
 
     public function investorDownload($id) {
@@ -560,10 +592,23 @@ class FrontController extends Controller
         ]);
     }
 
-    public function stock() {
+    public function stock(Request $request) {
         $banners = $this->getBannerByMenuName('Informasi Saham dan Obligasi');
-        $stocks = StockInformation::where('status', 'Published')->orderByDesc('id')->get();
-        return view('front.stock', compact('banners', 'stocks'));
+        $yearOptions = $this->getReportYearOptions();
+        $selectedYear = $this->normalizeReportYearFilter($request->query('year'), $yearOptions);
+        $selectedSort = $this->normalizeReportSortFilter($request->query('sort'));
+
+        $stockQuery = StockInformation::where('status', 'Published');
+        if ($selectedYear !== null) {
+            $stockQuery->whereYear('publish_at', $selectedYear);
+        }
+
+        $stocks = $stockQuery
+            ->orderBy('publish_at', $selectedSort)
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('front.stock', compact('banners', 'stocks', 'yearOptions', 'selectedYear', 'selectedSort'));
     }
 
     public function stockDownload($id) {
@@ -623,10 +668,53 @@ class FrontController extends Controller
         ]);
     }
 
-    public function shareholder() {
+    public function shareholder(Request $request) {
         $banners = $this->getBannerByMenuName('Rapat Umum Pemegang Saham');
-        $shareholders = Shareholder::where('status', 'Published')->orderByDesc('id')->get();
-        return view('front.shareholder', compact('banners', 'shareholders'));
+        $yearOptions = $this->getReportYearOptions();
+        $selectedYear = $this->normalizeReportYearFilter($request->query('year'), $yearOptions);
+        $selectedSort = $this->normalizeReportSortFilter($request->query('sort'));
+
+        $shareholderQuery = Shareholder::where('status', 'Published');
+        if ($selectedYear !== null) {
+            $shareholderQuery->whereYear('publish_at', $selectedYear);
+        }
+
+        $shareholders = $shareholderQuery
+            ->orderBy('publish_at', $selectedSort)
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('front.shareholder', compact('banners', 'shareholders', 'yearOptions', 'selectedYear', 'selectedSort'));
+    }
+
+    private function getReportYearOptions(): array
+    {
+        $currentYear = now()->year;
+        return range($currentYear, $currentYear - 9);
+    }
+
+    private function normalizeReportYearFilter($year, array $yearOptions): ?int
+    {
+        if ($year === null || $year === '' || $year === 'all') {
+            return null;
+        }
+
+        $yearString = (string) $year;
+        if (!preg_match('/^\d{4}$/', $yearString)) {
+            return null;
+        }
+
+        $yearValue = (int) $yearString;
+        if (!in_array($yearValue, $yearOptions, true)) {
+            return null;
+        }
+
+        return $yearValue;
+    }
+
+    private function normalizeReportSortFilter($sort): string
+    {
+        return $sort === 'asc' ? 'asc' : 'desc';
     }
 
     public function shareholderDownload($id) {

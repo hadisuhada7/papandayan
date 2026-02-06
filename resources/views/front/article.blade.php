@@ -24,6 +24,12 @@
             <div class="blogArticlesInner">
                 <div class="row">
                     <div class="col-lg-8">
+                        @if(isset($selectedTag) && $selectedTag)
+                            <div class="alert alert-info d-flex justify-content-between align-items-center mb-4">
+                                <span>Menampilkan artikel dengan tag: <strong>{{ $selectedTag->name }}</strong></span>
+                                <a href="{{ route('front.articles') }}" class="btn btn-sm btn-outline-primary">Tampilkan Semua</a>
+                            </div>
+                        @endif
                         <div class="latestNewsCard">
                             <div class="row blogWithSidebarRow">
 
@@ -79,6 +85,29 @@
                                 'placeholder' => 'Cari judul artikel',
                                 'action' => route('front.articles'),
                             ])
+
+                            <div class="popularTags customCard">
+                                <h4>Tag Populer</h4>
+                                <div class="tagGroup">
+                                    <ul class="nav">
+
+                                        @php
+                                            $allTags = \App\Models\Tag::withCount('articles')->orderBy('articles_count', 'desc')->limit(10)->get();
+                                        @endphp
+                                        @forelse($allTags as $tag)
+                                            <li class="nav-item">
+                                                <a class="nav-link tag {{ isset($selectedTag) && $selectedTag && $selectedTag->id === $tag->id ? 'tagActive' : '' }}" 
+                                                   href="{{ route('front.articles', ['tag' => $tag->slug]) }}">{{ $tag->name }}</a>
+                                            </li>
+                                        @empty
+                                            <li class="nav-item">
+                                                <span class="text-muted">Tidak ada tag tersedia</span>
+                                            </li>
+                                        @endforelse
+
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

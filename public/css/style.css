@@ -6751,6 +6751,30 @@ body, html {
 .blogArticles .blogArticlesInner .blogSingleAside .searchKeyword .searchKeywordInner form .input-group .input-group-text img {
   width: 18px;
 }
+.blogArticles .blogArticlesInner .blogSingleAside .popularTags h4 {
+  font-weight: 700;
+  font-size: 30px;
+  margin-bottom: 20px;
+}
+.blogArticles .blogArticlesInner .blogSingleAside .popularTags .tagGroup ul {
+  gap: 10px;
+}
+.blogArticles .blogArticlesInner .blogSingleAside .popularTags .tagGroup ul li .tag {
+  border-radius: 3px;
+  border: 1px solid #D9D9D9;
+  padding: 6px 22px;
+  color: #111111;
+  transition: all 0.4s ease;
+}
+.blogArticles .blogArticlesInner .blogSingleAside .popularTags .tagGroup ul li .tag.tagActive {
+  background: #2e3192;
+  border: 1px solid #2e3192;
+  color: #fff;
+}
+.blogArticles .blogArticlesInner .blogSingleAside .popularTags .tagGroup ul li .tag:hover {
+  border: 1px solid #2e3192;
+  color: #2e3192;
+}
 .blogSingle .blogSingleInner .blogSingleAside .postCategories h4 {
   font-weight: 700;
   font-size: 30px;

@@ -3,7 +3,7 @@
     padding: 24px 2px;
   }
   .mainHeader .navbar .navbar-collapse .navbar-nav .dropdown {
-    position: unset;
+    position: relative;
   }
   .mainHeader .navbar .navbar-collapse .navbar-nav .dropdown-menu {
     min-width: 170px;

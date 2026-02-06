@@ -68,7 +68,7 @@
                                                     </li>
                                                     @foreach($article->tags as $tag)
                                                         <li class="nav-item">
-                                                            <a class="nav-link tag" href="javascript:void(0);">{{ $tag->name }}</a>
+                                                            <a class="nav-link tag" href="{{ route('front.articles', ['tag' => $tag->slug]) }}">{{ $tag->name }}</a>
                                                         </li>
                                                     @endforeach
                                                 @endif
@@ -162,7 +162,7 @@
                                         @endphp
                                         @forelse($allTags as $tag)
                                             <li class="nav-item">
-                                                <a class="nav-link tag" href="javascript:void(0);">{{ $tag->name }}</a>
+                                                <a class="nav-link tag" href="{{ route('front.articles', ['tag' => $tag->slug]) }}">{{ $tag->name }}</a>
                                             </li>
                                         @empty
                                             <li class="nav-item">

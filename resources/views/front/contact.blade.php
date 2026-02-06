@@ -67,22 +67,22 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="formControlGroup">
-                                        <input type="text" class="form-control" id="name" name="name" maxlength="255" placeholder="Nama Lengkap" required>
+                                        <input type="text" class="form-control" id="name" name="name" maxlength="255" placeholder="Nama Lengkap">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="formControlGroup">
-                                        <input type="email" class="form-control" id="email" name="email" maxlength="255" placeholder="Email" required>
+                                        <input type="email" class="form-control" id="email" name="email" maxlength="255" placeholder="Email">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="formControlGroup">
-                                        <input type="text" class="form-control number-only" id="phoneNumber" name="phone_number" maxlength="15" placeholder="Nomor Telepon" required>
+                                        <input type="text" class="form-control number-only" id="phoneNumber" name="phone_number" maxlength="15" placeholder="Nomor Telepon">
                                     </div>
                                     <div class="formControlGroup">
-                                        <select class="form-control select2bs4" style="width: 100%;" id="questionType" name="question_type_id" required>
+                                        <select class="form-control select2bs4" style="width: 100%;" id="questionType" name="question_type_id">
                                             <option value="">-- Pilih Topik --</option>
                                             @foreach ($types as $type)
                                                 <option value="{{ $type->id }}">{{ $type->name }}</option>
@@ -90,7 +90,7 @@
                                         </select>
                                     </div>
                                     <div class="formControlGroup">
-                                        <textarea class="form-control" id="message" name="message" maxlength="65535" placeholder="Pesan" required></textarea>
+                                        <textarea class="form-control" id="message" name="message" maxlength="65535" placeholder="Pesan" rows="6"></textarea>
                                     </div>
                                     <div class="formSubmitBtn">
                                         <button type="submit" class="btnCustom5 btn-1 hover-slide-down">
@@ -180,15 +180,140 @@
             background-color: #e9ecef !important;
             color: #6c757d !important;
         }
+        
+        /* jQuery Validate error styling */
+        .is-invalid {
+            border-color: #dc3545 !important;
+        }
+        
+        .invalid-feedback {
+            display: block;
+            width: 100%;
+            margin-top: 0.25rem;
+            font-size: 0.875rem;
+            color: #dc3545;
+        }
+        
+        .is-valid {
+            border-color: #28a745 !important;
+        }
+        
+        .select2-container--bootstrap4 .select2-selection--single.is-invalid {
+            border-color: #dc3545 !important;
+        }
+        
+        .select2-container--bootstrap4 .select2-selection--single.is-invalid .select2-selection__rendered {
+            border-color: #dc3545 !important;
+        }
+        
+        /* Textarea styling */
+        .contactForm textarea.form-control {
+            min-height: 150px !important;
+            height: auto !important;
+            resize: vertical !important;
+        }
     </style>
 @endpush
 
 @push('after-scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js" integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
    <script>
         $(document).ready(function ($) {
             //Initialize Select2 Elements
             $('.select2bs4').select2({
                 theme: 'bootstrap4'
+            });
+
+            // Custom email validation method
+            $.validator.addMethod("emailDomain", function(value, element) {
+                return this.optional(element) || /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value);
+            }, "Gunakan format email yang valid dengan domain lengkap (contoh: nama@domain.com)");
+
+            // Initialize form validation
+            const contactForm = $('form[action="{{ route('question.store') }}"]');
+            
+            contactForm.validate({
+                errorClass: 'is-invalid',
+                validClass: 'is-valid',
+                errorElement: 'span',
+                errorPlacement: function(error, element) {
+                    error.addClass('invalid-feedback');
+                    if (element.hasClass('select2bs4')) {
+                        error.insertAfter(element.next('.select2-container'));
+                    } else {
+                        error.insertAfter(element);
+                    }
+                },
+                highlight: function(element) {
+                    $(element).addClass('is-invalid').removeClass('is-valid');
+                    if ($(element).hasClass('select2bs4')) {
+                        $(element).next('.select2-container').find('.select2-selection').addClass('is-invalid');
+                    }
+                },
+                unhighlight: function(element) {
+                    $(element).removeClass('is-invalid').addClass('is-valid');
+                    if ($(element).hasClass('select2bs4')) {
+                        $(element).next('.select2-container').find('.select2-selection').removeClass('is-invalid');
+                    }
+                },
+                ignore: [],
+                rules: {
+                    name: {
+                        required: true,
+                        maxlength: 255
+                    },
+                    email: {
+                        required: true,
+                        email: true,
+                        emailDomain: true,
+                        maxlength: 255
+                    },
+                    phone_number: {
+                        required: true,
+                        digits: true,
+                        minlength: 10,
+                        maxlength: 15
+                    },
+                    question_type_id: {
+                        required: true
+                    },
+                    message: {
+                        required: true,
+                        maxlength: 65535
+                    }
+                },
+                messages: {
+                    name: {
+                        required: 'Nama harus diisi',
+                        maxlength: 'Nama maksimal 255 karakter'
+                    },
+                    email: {
+                        required: 'Email harus diisi',
+                        email: 'Gunakan format email yang valid',
+                        maxlength: 'Email maksimal 255 karakter'
+                    },
+                    phone_number: {
+                        required: 'Nomor telepon harus diisi',
+                        digits: 'Hanya boleh diisi angka',
+                        minlength: 'Nomor telepon minimal 10 digit',
+                        maxlength: 'Nomor telepon maksimal 15 digit'
+                    },
+                    question_type_id: {
+                        required: 'Topik harus dipilih'
+                    },
+                    message: {
+                        required: 'Pesan harus diisi',
+                        maxlength: 'Pesan maksimal 65535 karakter'
+                    }
+                },
+                submitHandler: function(form) {
+                    form.submit();
+                }
+            });
+
+            // Trigger validation when Select2 changes
+            $('.select2bs4').on('select2:select', function() {
+                $(this).valid();
             });
 
             // Numeric Input Restriction

@@ -61,7 +61,7 @@
                                                     <div class="col-md-6">
                                                         <div class="commentFormGroup">
                                                             <label for="firstName" class="form-label">Nama Depan <span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control" id="firstName" name="first_name" maxlength="50" placeholder="" required>
+                                                            <input type="text" class="form-control" id="firstName" name="first_name" maxlength="50" placeholder="">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -73,20 +73,20 @@
                                                     <div class="col-md-6">
                                                         <div class="commentFormGroup">
                                                             <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control" id="email" name="email" maxlength="50" placeholder="" required>
+                                                            <input type="text" class="form-control" id="email" name="email" maxlength="50" placeholder="">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="commentFormGroup">
-                                                            <label for="phoneNumber" class="form-label">Nomor Telepon</label>
-                                                            <input type="text" class="form-control number-only" id="phoneNumber" name="phone_number" maxlength="15" placeholder="" required>
+                                                            <label for="phoneNumber" class="form-label">Nomor Telepon <span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control number-only" id="phoneNumber" name="phone_number" maxlength="15" placeholder="">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="commentFormGroup">
                                                             <label for="bod" class="form-label">Tanggal Lahir <span class="text-danger">*</span></label>
                                                             <div class="input-group date" id="bodDatepicker" data-target-input="nearest">
-                                                                <input type="text" class="form-control datetimepicker-input" id="bod" name="bod" value="{{ old('bod') }}" data-target="#bodDatepicker" placeholder="dd-MM-yyyy" required/>
+                                                                <input type="text" class="form-control datetimepicker-input" id="bod" name="bod" value="{{ old('bod') }}" data-target="#bodDatepicker" placeholder="dd-MM-yyyy"/>
                                                                 <div class="input-group-append" data-target="#bodDatepicker" data-toggle="datetimepicker">
                                                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                                 </div>
@@ -101,7 +101,7 @@
                                                     <div class="col-md-6">
                                                         <div class="commentFormGroup">
                                                             <label for="education" class="form-label">Pendidikan <span class="text-danger">*</span></label>
-                                                            <select class="form-control select2bs4" style="width: 100%;" id="education" name="education" required>
+                                                            <select class="form-control select2bs4" style="width: 100%;" id="education" name="education">
                                                                 <option value="">-- Pilih Pendidikan --</option>
                                                                 <option value="SD">SD</option>
                                                                 <option value="SMP">SMP</option>
@@ -141,26 +141,26 @@
                                                         <div class="col-md-6">
                                                             <div class="commentFormGroup">
                                                                 <label for="companyName" class="form-label">Nama Perusahaan <span class="text-danger">*</span></label>
-                                                                <input type="text" class="form-control" id="companyName" name="company_name" maxlength="100" placeholder="" required>
+                                                                <input type="text" class="form-control" id="companyName" name="company_name" maxlength="100" placeholder="">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="commentFormGroup">
                                                                 <label for="industry" class="form-label">Industri <span class="text-danger">*</span></label>
-                                                                <input type="text" class="form-control" id="industry" name="industry" maxlength="50" placeholder="" required>
+                                                                <input type="text" class="form-control" id="industry" name="industry" maxlength="50" placeholder="">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="commentFormGroup">
                                                                 <label for="position" class="form-label">Posisi <span class="text-danger">*</span></label>
-                                                                <input type="text" class="form-control" id="position" name="position" maxlength="50" placeholder="" required>
+                                                                <input type="text" class="form-control" id="position" name="position" maxlength="50" placeholder="">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="commentFormGroup">
                                                                 <label for="duration" class="form-label">Durasi <span class="text-danger">*</span></label>
                                                                 <div class="input-group" id="durationGroup">
-                                                                    <input type="text" class="form-control number-only" id="duration" name="duration" value="{{ old('duration') }}" maxlength="10" placeholder="Duration" required>
+                                                                    <input type="text" class="form-control number-only" id="duration" name="duration" value="{{ old('duration') }}" maxlength="10" placeholder="Duration">
                                                                     <div class="input-group-prepend">
                                                                         <span class="input-group-text">Bulan</span>
                                                                     </div>
@@ -169,12 +169,12 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="commentFormGroup">
-                                                                <label for="currentSalary" class="form-label">Gaji Saat Ini <span class="text-danger">*</span></label>
+                                                                <label for="currentSalary" class="form-label">Gaji Saat Ini</label>
                                                                 <div class="input-group" id="currentSalaryGroup">
                                                                     <div class="input-group-prepend">
                                                                         <span class="input-group-text">Rp</span>
                                                                     </div>
-                                                                    <input type="text" class="form-control number-only" id="currentSalary" name="current_salary" value="{{ old('current_salary') }}" maxlength="20" placeholder="" required>
+                                                                    <input type="text" class="form-control number-only" id="currentSalary" name="current_salary" value="{{ old('current_salary') }}" maxlength="20" placeholder="">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -192,7 +192,7 @@
                                                                 <div class="input-group-prepend">
                                                                     <span class="input-group-text">Rp</span>
                                                                 </div>
-                                                                <input type="text" class="form-control number-only" id="expectationSalary" name="expectation_salary" value="{{ old('expectation_salary') }}" maxlength="20" placeholder="" required>
+                                                                <input type="text" class="form-control number-only" id="expectationSalary" name="expectation_salary" value="{{ old('expectation_salary') }}" maxlength="20" placeholder="">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -200,7 +200,7 @@
                                                         <div class="commentFormGroup">
                                                             <label for="curriculumVitae" class="form-label">Curriculum Vitae <span class="text-danger">*</span></label>
                                                             <div class="input-group" id="curriculumVitaeGroup">
-                                                                <input type="file" class="form-control" id="curriculumVitae" name="curriculum_vitae" accept="application/pdf" required>
+                                                                <input type="file" class="form-control" id="curriculumVitae" name="curriculum_vitae" accept="application/pdf">
                                                                 <div class="input-group-append">
                                                                     <span class="input-group-text">Browse</span>
                                                                 </div>
@@ -616,10 +616,36 @@
             border-top-right-radius: 0 !important;
             border-bottom-right-radius: 0 !important;
         }
+        
+        /* jQuery Validate error styling */
+        .is-invalid {
+            border-color: #dc3545 !important;
+        }
+        
+        .invalid-feedback {
+            display: block;
+            width: 100%;
+            margin-top: 0.25rem;
+            font-size: 0.875rem;
+            color: #dc3545;
+        }
+        
+        .is-valid {
+            border-color: #28a745 !important;
+        }
+        
+        .select2-container--bootstrap4 .select2-selection--single.is-invalid {
+            border-color: #dc3545 !important;
+        }
+        
+        .select2-container--bootstrap4 .select2-selection--single.is-invalid .select2-selection__rendered {
+            border-color: #dc3545 !important;
+        }
     </style>
 @endpush
 
 @push('after-scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js" integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         $(document).ready(function () {
             // Initialize DatePicker
@@ -632,6 +658,201 @@
                 theme: 'bootstrap4'
             });
 
+            // Custom email validation method
+            $.validator.addMethod("emailDomain", function(value, element) {
+                return this.optional(element) || /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value);
+            }, "Gunakan format email yang valid dengan domain lengkap (contoh: nama@domain.com)");
+
+            // Custom file size validation method
+            $.validator.addMethod("filesize", function(value, element, param) {
+                return this.optional(element) || (element.files[0] && element.files[0].size <= param);
+            }, "Ukuran file maksimal 1MB");
+
+            // Custom file type validation method
+            $.validator.addMethod("filetype", function(value, element, param) {
+                if (this.optional(element)) return true;
+                if (!element.files[0]) return false;
+                const extension = value.split('.').pop().toLowerCase();
+                return param.split('|').indexOf(extension) !== -1;
+            }, "Hanya file PDF yang diizinkan");
+
+            // Initialize form validation
+            const careerForm = $('form[action="{{ route('front.career.store') }}"]');
+            
+            careerForm.validate({
+                errorClass: 'is-invalid',
+                validClass: 'is-valid',
+                errorElement: 'span',
+                errorPlacement: function(error, element) {
+                    error.addClass('invalid-feedback');
+                    if (element.parent().hasClass('input-group')) {
+                        error.insertAfter(element.parent());
+                    } else if (element.hasClass('select2bs4')) {
+                        error.insertAfter(element.next('.select2-container'));
+                    } else {
+                        error.insertAfter(element);
+                    }
+                },
+                highlight: function(element) {
+                    $(element).addClass('is-invalid').removeClass('is-valid');
+                    if ($(element).hasClass('select2bs4')) {
+                        $(element).next('.select2-container').find('.select2-selection').addClass('is-invalid');
+                    }
+                },
+                unhighlight: function(element) {
+                    $(element).removeClass('is-invalid').addClass('is-valid');
+                    if ($(element).hasClass('select2bs4')) {
+                        $(element).next('.select2-container').find('.select2-selection').removeClass('is-invalid');
+                    }
+                },
+                ignore: [],
+                rules: {
+                    first_name: {
+                        required: true,
+                        maxlength: 50
+                    },
+                    last_name: {
+                        maxlength: 50
+                    },
+                    email: {
+                        required: true,
+                        email: true,
+                        emailDomain: true,
+                        maxlength: 50
+                    },
+                    phone_number: {
+                        required: true,
+                        digits: true,
+                        minlength: 10,
+                        maxlength: 15
+                    },
+                    bod: {
+                        required: true
+                    },
+                    education: {
+                        required: true
+                    },
+                    major: {
+                        maxlength: 50
+                    },
+                    company_name: {
+                        required: function() {
+                            return $('#experiencedCheckbox').is(':checked');
+                        },
+                        maxlength: 100
+                    },
+                    industry: {
+                        required: function() {
+                            return $('#experiencedCheckbox').is(':checked');
+                        },
+                        maxlength: 50
+                    },
+                    position: {
+                        required: function() {
+                            return $('#experiencedCheckbox').is(':checked');
+                        },
+                        maxlength: 50
+                    },
+                    duration: {
+                        required: function() {
+                            return $('#experiencedCheckbox').is(':checked');
+                        },
+                        digits: true,
+                        min: 1,
+                        maxlength: 10
+                    },
+                    current_salary: {
+                        required: function() {
+                            return $('#experiencedCheckbox').is(':checked');
+                        },
+                        digits: true,
+                        maxlength: 20
+                    },
+                    expectation_salary: {
+                        required: true,
+                        digits: true,
+                        maxlength: 20
+                    }
+                },
+                messages: {
+                    first_name: {
+                        required: 'Nama depan harus diisi',
+                        maxlength: 'Nama depan maksimal 50 karakter'
+                    },
+                    last_name: {
+                        maxlength: 'Nama belakang maksimal 50 karakter'
+                    },
+                    email: {
+                        required: 'Email harus diisi',
+                        email: 'Gunakan format email yang valid',
+                        maxlength: 'Email maksimal 50 karakter'
+                    },
+                    phone_number: {
+                        required: 'Nomor telepon harus diisi',
+                        digits: 'Hanya boleh diisi angka',
+                        minlength: 'Nomor telepon minimal 10 digit',
+                        maxlength: 'Nomor telepon maksimal 15 digit'
+                    },
+                    bod: {
+                        required: 'Tanggal lahir harus diisi'
+                    },
+                    education: {
+                        required: 'Pendidikan harus dipilih'
+                    },
+                    major: {
+                        maxlength: 'Jurusan maksimal 50 karakter'
+                    },
+                    company_name: {
+                        required: 'Nama perusahaan harus diisi',
+                        maxlength: 'Nama perusahaan maksimal 100 karakter'
+                    },
+                    industry: {
+                        required: 'Industri harus diisi',
+                        maxlength: 'Industri maksimal 50 karakter'
+                    },
+                    position: {
+                        required: 'Posisi harus diisi',
+                        maxlength: 'Posisi maksimal 50 karakter'
+                    },
+                    duration: {
+                        required: 'Durasi harus diisi',
+                        digits: 'Hanya boleh diisi angka',
+                        min: 'Durasi minimal 1 bulan',
+                        maxlength: 'Durasi maksimal 10 digit'
+                    },
+                    current_salary: {
+                        required: 'Gaji saat ini harus diisi',
+                        digits: 'Hanya boleh diisi angka',
+                        maxlength: 'Gaji maksimal 20 digit'
+                    },
+                    expectation_salary: {
+                        required: 'Gaji harapan harus diisi',
+                        digits: 'Hanya boleh diisi angka',
+                        maxlength: 'Gaji maksimal 20 digit'
+                    }
+                },
+                submitHandler: function(form) {
+                    // Validasi CV secara manual
+                    const cvFile = $('#curriculumVitae')[0].files[0];
+                    if (!cvFile) {
+                        toastr.warning('Curriculum Vitae harus diupload');
+                        return false;
+                    }
+                    
+                    form.submit();
+                }
+            });
+
+            //Initialize Select2 Elements
+            $('.select2bs4').select2({
+                theme: 'bootstrap4'
+            });
+
+            // Trigger validation when Select2 changes
+            $('.select2bs4').on('select2:select', function() {
+                $(this).valid();
+            });
+
             // Handle file input validation and styling
             $('#curriculumVitae').on('change', function(e) {
                 const file = this.files[0];
@@ -639,7 +860,7 @@
                 if (file) {
                     // Check file size (1MB = 1048576 bytes)
                     if (file.size > 1048576) {
-                        toastr.warning('File size must not exceed 1MB.');
+                        toastr.warning('Ukuran file maksimal 1MB');
                         $(this).val('').removeClass('has-file');
                         return false;
                     }
@@ -647,7 +868,7 @@
                     // Check file type
                     const allowedTypes = ['application/pdf'];
                     if (!allowedTypes.includes(file.type)) {
-                        toastr.warning('File type must be PDF only.');
+                        toastr.warning('Hanya file PDF yang diizinkan');
                         $(this).val('').removeClass('has-file');
                         return false;
                     }
@@ -683,10 +904,9 @@
 
                 if (experiencedCheckbox.is(':checked')) {
                     experiencedApplicants.slideDown();
-                    experiencedInputs.attr('required', true);
                 } else {
                     experiencedApplicants.slideUp();
-                    experiencedInputs.attr('required', false).val('');
+                    experiencedInputs.val('');
                 }
             }
 

@@ -45,9 +45,23 @@ class ArticleController extends Controller
             
             $newDataRecord = Article::create($validated);
             
-            // Sync tags
+            // Handle tags - create new tags if they don't exist
             if ($request->has('tags')) {
-                $newDataRecord->tags()->sync($request->tags);
+                $tagIds = [];
+                foreach ($request->tags as $tagValue) {
+                    // Check if it's an existing tag ID or a new tag name
+                    if (is_numeric($tagValue)) {
+                        $tagIds[] = $tagValue;
+                    } else {
+                        // Create new tag
+                        $newTag = Tag::firstOrCreate(
+                            ['name' => $tagValue],
+                            ['slug' => \Illuminate\Support\Str::slug($tagValue)]
+                        );
+                        $tagIds[] = $newTag->id;
+                    }
+                }
+                $newDataRecord->tags()->sync($tagIds);
             }
         });
         
@@ -88,9 +102,23 @@ class ArticleController extends Controller
 
             $article->update($validated);
             
-            // Sync tags
+            // Handle tags - create new tags if they don't exist
             if ($request->has('tags')) {
-                $article->tags()->sync($request->tags);
+                $tagIds = [];
+                foreach ($request->tags as $tagValue) {
+                    // Check if it's an existing tag ID or a new tag name
+                    if (is_numeric($tagValue)) {
+                        $tagIds[] = $tagValue;
+                    } else {
+                        // Create new tag
+                        $newTag = Tag::firstOrCreate(
+                            ['name' => $tagValue],
+                            ['slug' => \Illuminate\Support\Str::slug($tagValue)]
+                        );
+                        $tagIds[] = $newTag->id;
+                    }
+                }
+                $article->tags()->sync($tagIds);
             } else {
                 $article->tags()->sync([]);
             }

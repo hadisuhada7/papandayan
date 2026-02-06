@@ -92,17 +92,29 @@ class FrontController extends Controller
     public function article(Request $request) {
         $banners = $this->getBannerByMenuName('Artikel');
         $search = trim((string) $request->query('q', ''));
+        $tagSlug = trim((string) $request->query('tag', ''));
 
         $articles = Article::where('status', 'Published')
             ->when($search !== '', function ($builder) use ($search) {
                 $builder->where('title', 'like', '%' . $search . '%');
+            })
+            ->when($tagSlug !== '', function ($builder) use ($tagSlug) {
+                $builder->whereHas('tags', function ($query) use ($tagSlug) {
+                    $query->where('slug', $tagSlug);
+                });
             })
             ->orderBy('id')
             ->withCount('likes')
             ->paginate(10)
             ->withQueryString();
 
-        return view('front.article', compact('banners', 'articles', 'search'));
+        // Get selected tag for display
+        $selectedTag = null;
+        if ($tagSlug !== '') {
+            $selectedTag = \App\Models\Tag::where('slug', $tagSlug)->first();
+        }
+
+        return view('front.article', compact('banners', 'articles', 'search', 'selectedTag'));
     }
 
     public function articleDetail($id) {

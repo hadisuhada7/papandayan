@@ -30,7 +30,7 @@ class StoreCareerApplicantRequest extends FormRequest
             'education' => ['required', 'string', 'max:255'],
             'major' => ['nullable', 'string', 'max:255'],
             'experienced' => ['required', 'string', 'max:255'],
-            'current_salary' => ['required', 'integer'],
+            'current_salary' => ['nullable', 'integer'],
             'expectation_salary' => ['required', 'integer'],
             'status' => ['nullable', 'string', 'max:255'],
             'reject_reason' => ['nullable', 'string', 'max:500'],

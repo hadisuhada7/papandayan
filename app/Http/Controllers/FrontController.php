@@ -182,17 +182,22 @@ class FrontController extends Controller
         ]);
     }
 
-    public function career() {
+    public function career(Request $request) {
         $banners = $this->getBannerByMenuName('Karier');
         // Update status careers before displaying
         $this->updateStatusCareers();
-        
+
+        $search = trim((string) $request->query('q', ''));
+
         $careers = Career::where('status', 'Published')
                         ->where('closing_at', '>=', now()->startOfDay())
+                        ->when($search !== '', function ($builder) use ($search) {
+                            $builder->where('position', 'like', '%' . $search . '%');
+                        })
                         ->orderByDesc('id')
-                        ->take(5)
-                        ->get();
-        return view('front.career', compact('banners', 'careers'));
+                        ->paginate(10)
+                        ->withQueryString();
+        return view('front.career', compact('banners', 'careers', 'search'));
     }
 
     public function careerDetail($id) {

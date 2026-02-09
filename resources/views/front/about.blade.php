@@ -2,6 +2,19 @@
 
 @section('title', 'Tentang Kami')
 
+@push('after-styles')
+	<style>
+		.section-scroll-target {
+			scroll-margin-top: 140px;
+		}
+
+		.anchor-alias {
+			scroll-margin-top: 140px;
+			display: block;
+		}
+	</style>
+@endpush
+
 @section('content')
 
    	<!--banner start-->
@@ -24,7 +37,8 @@
     <!--breadcrumb end-->
    
 	<!--about us sec1 start-->
-	<section class="w-100 clearfix aboutUsSec1" id="aboutUsSec1">
+	<section class="w-100 clearfix aboutUsSec1 section-scroll-target" id="profiles">
+		<span id="profiles" class="anchor-alias" aria-hidden="true"></span>
 		<div class="container">
 
 			@forelse($profiles as $profile)
@@ -72,7 +86,8 @@
 		$visionThumbnail = optional($visions->first())->thumbnail;
 		$missionThumbnail = optional($missions->first())->thumbnail;
 	@endphp
-	<section class="w-100 clearfix broilerBreeder" id="broilerBreeder">
+	<section class="w-100 clearfix broilerBreeder section-scroll-target" id="vision-mission">
+		<span id="vision-mission" class="anchor-alias" aria-hidden="true"></span>
 		<div class="broilerBreederInner">
 			<div class="pigFactsTopics">
 				<div class="pigFactsTopicsRow">
@@ -153,7 +168,7 @@
 	<!--broiler breeder end-->
 
 	<!--poultry feed start-->
-	<section class="w-100 clearfix poultryFeed" id="poultryFeed">
+	<section class="w-100 clearfix poultryFeed section-scroll-target" id="histories">
 		<div class="commonHeading text-center">
 			<h4 class="fadein">Jejak Langkah</h4>
 			<p class="fadein">Rangkuman perjalanan dan perkembangan Papandayan Inti Plasma dari tahun ke tahun</p>
@@ -185,7 +200,7 @@
 	<!--poultry feed end-->
 
 	<!--poultry feed start-->
-	<section class="w-100 clearfix poultryFeed" id="poultryFeed">
+	<section class="w-100 clearfix poultryFeed section-scroll-target" id="organizations">
 		<div class="commonHeading text-center">
 			<h4 class="fadein">Struktur Organisasi</h4>
 			<p class="fadein">Susunan peran dan tanggung jawab dalam perusahaan</p>
@@ -206,7 +221,7 @@
 	<!--poultry feed end-->
 
 	<!--team four wrapper start-->
-	<div class="team-four-wrapper padd-100 w-100 team-bg">
+	<div class="team-four-wrapper padd-100 w-100 team-bg section-scroll-target" id="managements">
 		<div class="commonHeading text-center">
 			<h4 class="fadein">Manajemen Kami</h4>
 			<p class="fadein">Tim Manajemen Papandayan Inti Plasma</p>
@@ -263,7 +278,7 @@
 	<!--team four wrapper end-->
 
    	<!--maps section start-->
-    <section class="w-100 clearfix mapsSection" id="mapsSection">
+	<section class="w-100 clearfix mapsSection section-scroll-target" id="areas">
         <div class="commonHeading text-center">
             <h4 class="fadein">Wilayah Persebaran</h4>
             <p class="fadein">Papandayan Inti Plasma beroperasi di berbagai wilayah Jawa Barat dengan komitmen membangun kemitraan budidaya ayam broiler yang berkelanjutan</p>
@@ -280,25 +295,20 @@
 
 @endsection
 
-@push('after-styles')
-	@if($visionThumbnail || $missionThumbnail)
-		<style>
-			@if($visionThumbnail)
-			.broilerBreeder .pigFactsTopics .pigFactsTopicsRow .pigFactsTopicsCol1 .pigFactsTxt.layerBreeders::before {
-				background-image: url('{{ Storage::url($visionThumbnail) }}');
-			}
-			@endif
-			@if($missionThumbnail)
-			.broilerBreeder .pigFactsTopics .pigFactsTopicsRow .pigFactsTopicsCol2 .pigFactsTxt.broilerBreeders::before {
-				background-image: url('{{ Storage::url($missionThumbnail) }}');
-			}
-			@endif
-		</style>
-	@endif
-@endpush
-
 @push('after-scripts')
 	<script>
+		// Set dynamic background images for vision and mission
+		@if($visionThumbnail)
+			const visionStyle = document.createElement('style');
+			visionStyle.innerHTML = '.broilerBreeder .pigFactsTopics .pigFactsTopicsRow .pigFactsTopicsCol1 .pigFactsTxt.layerBreeders::before { background-image: url("{{ Storage::url($visionThumbnail) }}"); }';
+			document.head.appendChild(visionStyle);
+		@endif
+		@if($missionThumbnail)
+			const missionStyle = document.createElement('style');
+			missionStyle.innerHTML = '.broilerBreeder .pigFactsTopics .pigFactsTopicsRow .pigFactsTopicsCol2 .pigFactsTxt.broilerBreeders::before { background-image: url("{{ Storage::url($missionThumbnail) }}"); }';
+			document.head.appendChild(missionStyle);
+		@endif
+
 		$(document).ready(function ($) {
 
 			// Number count for stats, using jQuery animate 

@@ -68,7 +68,7 @@
                                 <div class="form-group row">
                                     <label for="description" class="col-sm-3 col-form-label">Description <span class="text-danger">*</span></label>
                                     <div class="col-sm-9">
-                                        <textarea class="form-control" id="description" name="description" maxlength="65535" placeholder="Description" required>{{ old('description') }}</textarea>
+                                        <textarea class="form-control" id="description" name="description" maxlength="65535" placeholder="Description">{{ old('description') }}</textarea>
                                         <span class="error invalid-feedback">{{ $errors->first('description') }}</span>
                                     </div>
                                 </div>
@@ -104,7 +104,21 @@
             bsCustomFileInput.init();
 
             // Initialize Summernote Editor
-            $('#description').summernote();
+            const $description = $('#description');
+            $description.summernote();
+
+            // Enforce description presence without relying on a hidden required control
+            $('form.form-horizontal').on('submit', function (e) {
+                const content = $description.summernote('code');
+                const text = $('<div>').html(content).text().trim();
+                
+                if ($description.summernote('isEmpty') || text.length === 0) {
+                    e.preventDefault();
+                    toastr.warning('Description is required.');
+                    $description.summernote('focus');
+                    return false;
+                }
+            });
             
             // Add file validation for the thumbnail input
             $('#thumbnail').on('change', function(e) {

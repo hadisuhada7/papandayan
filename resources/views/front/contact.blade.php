@@ -90,7 +90,7 @@
                                         </select>
                                     </div>
                                     <div class="formControlGroup">
-                                        <textarea class="form-control" id="message" name="message" maxlength="65535" placeholder="Pesan" rows="6"></textarea>
+                                        <textarea class="form-control" id="message" name="message" minlength="20" maxlength="250" placeholder="Pesan" rows="6"></textarea>
                                     </div>
                                     <div class="formSubmitBtn">
                                         <button type="submit" class="btnCustom5 btn-1 hover-slide-down">
@@ -279,7 +279,8 @@
                     },
                     message: {
                         required: true,
-                        maxlength: 65535
+                        minlength: 20,
+                        maxlength: 250
                     }
                 },
                 messages: {
@@ -303,7 +304,8 @@
                     },
                     message: {
                         required: 'Pesan harus diisi',
-                        maxlength: 'Pesan maksimal 65535 karakter'
+                        minlength: 'Pesan minimal 20 karakter',
+                        maxlength: 'Pesan maksimal 250 karakter'
                     }
                 },
                 submitHandler: function(form) {

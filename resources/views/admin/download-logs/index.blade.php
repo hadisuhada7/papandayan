@@ -33,7 +33,7 @@
                                 <th style="width: 30px;">No</th>
                                 <th style="width: 150px;">Name</th>
                                 <th style="width: 150px;">Email</th>
-                                <th style="width: 150px;">Type Report</th>
+                                <th style="width: 150px;">Report Name</th>
                                 <th style="width: 150px;">Status</th>
                                 <th scope="col">Downloaded At</th>
                                 <th style="width: 65px;">&nbsp;</th>
@@ -52,8 +52,8 @@
                                     <td>{{ $log->status }}</td>
                                     <td>{{ $log->downloaded_at->format('d F Y') }}</td>
                                     <td class="text-center">
-                                        <a href="{{ route('admin.download-logs.edit', $log) }}" class="btn btn-sm btn-primary item-edit"><i class="fas fa-pencil-alt"></i></a>
-                                        <a href="javascript:void(0)" class="btn btn-sm btn-danger item-remove" data-id="{{ $log->id }}"><i class="fas fa-trash-alt"></i></a>
+                                        <!-- <a href="{{ route('admin.download-logs.edit', $log) }}" class="btn btn-sm btn-primary item-edit"><i class="fas fa-pencil-alt"></i></a>
+                                        <a href="javascript:void(0)" class="btn btn-sm btn-danger item-remove" data-id="{{ $log->id }}"><i class="fas fa-trash-alt"></i></a> -->
                                     </td>
                                 </tr>
                                 @php 
@@ -151,8 +151,8 @@
                         .attr('name', 'datagrid_search')
                         .addClass('form-control input-sm');
                     
-                    $('<a href="{{ route('admin.download-logs.create') }}" class="btn btn-sm btn-primary" style="margin-left: 10px;">Add New</a>')
-                        .appendTo($('#datagrid_filter'));
+                    // $('<a href="{{ route('admin.download-logs.create') }}" class="btn btn-sm btn-primary" style="margin-left: 10px;">Add New</a>')
+                    //     .appendTo($('#datagrid_filter'));
                     
                     $('#datagrid_length label').contents().filter(function() {
                         return this.nodeType === 3;

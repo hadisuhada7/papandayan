@@ -65,7 +65,7 @@
                                 <div class="form-group row">
                                     <label for="about" class="col-sm-3 col-form-label">About <span class="text-danger">*</span></label>
                                     <div class="col-sm-9">
-                                        <textarea class="form-control" id="about" name="about" maxlength="65535" placeholder="About" required>{{ old('about') }}</textarea>
+                                        <textarea class="form-control" id="about" name="about" maxlength="65535" placeholder="About">{{ old('about') }}</textarea>
                                         <span class="error invalid-feedback">{{ $errors->first('about') }}</span>
                                     </div>
                                 </div>
@@ -201,7 +201,21 @@
             });
 
             // Initialize Summernote Editor
-            $('#about').summernote();
+            const $about = $('#about');
+            $about.summernote();
+
+            // Enforce about presence without relying on a hidden required control
+            $('form.form-horizontal').on('submit', function (e) {
+                const content = $about.summernote('code');
+                const text = $('<div>').html(content).text().trim();
+                
+                if ($about.summernote('isEmpty') || text.length === 0) {
+                    e.preventDefault();
+                    toastr.warning('About is required.');
+                    $about.summernote('focus');
+                    return false;
+                }
+            });
 
             // Numeric Input Restriction
             $(document).on("keypress", ".number-only", function (e) {

@@ -47,7 +47,7 @@
                                     <td scope="row">{{ $index }}</td>
                                     <td>{{ $banner->heading }}</td>
                                     <td>{{ $banner->subheading }}</td>
-                                    <td>{{ $banner->menu_navigation->name }}</td>
+                                    <td>{{ optional($banner->menu_navigation)->name ?? '-' }}</td>
                                     <td><img src="{{ Storage::url($banner->banner) }}" alt="" style="max-width: 100px;"></td>
                                     <td class="text-center">
                                         <a href="{{ route('admin.banners.edit', $banner) }}" class="btn btn-sm btn-primary item-edit"><i class="fas fa-pencil-alt"></i></a>

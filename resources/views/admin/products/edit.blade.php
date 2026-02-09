@@ -57,7 +57,7 @@
                                 <div class="form-group row">
                                     <label for="about" class="col-sm-3 col-form-label">About <span class="text-danger">*</span></label>
                                     <div class="col-sm-9">
-                                        <textarea class="form-control" id="about" name="about" maxlength="65535" placeholder="About" required>{{ $product->about }}</textarea>
+                                        <textarea class="form-control" id="about" name="about" maxlength="65535" placeholder="About">{{ $product->about }}</textarea>
                                         <span class="error invalid-feedback">{{ $errors->first('about') }}</span>
                                     </div>
                                 </div>
@@ -126,7 +126,21 @@
             bsCustomFileInput.init();
 
             // Initialize Summernote Editor
-            $('#about').summernote();
+            const $about = $('#about');
+            $about.summernote();
+
+            // Enforce about presence without relying on a hidden required control
+            $('form.form-horizontal').on('submit', function (e) {
+                const content = $about.summernote('code');
+                const text = $('<div>').html(content).text().trim();
+                
+                if ($about.summernote('isEmpty') || text.length === 0) {
+                    e.preventDefault();
+                    toastr.warning('About is required.');
+                    $about.summernote('focus');
+                    return false;
+                }
+            });
             
             // Add file validation for the thumbnail and icon input
             $('#thumbnail, #icon').on('change', function(e) {

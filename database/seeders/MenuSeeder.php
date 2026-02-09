@@ -58,7 +58,7 @@ class MenuSeeder extends Seeder
         // Menu grup Tentang Kami dengan order
         MenuNavigation::create([
             'name' => 'Profile Perusahaan',
-            'url' => '/about',
+            'url' => '/about#profiles',
             'is_active' => true,
             'menu_group_id' => $tentangKami->id,
             'order' => 1
@@ -66,7 +66,7 @@ class MenuSeeder extends Seeder
 
         MenuNavigation::create([
             'name' => 'Visi & Misi',
-            'url' => '#',
+            'url' => '/about#vision-mission',
             'is_active' => true,
             'menu_group_id' => $tentangKami->id,
             'order' => 2
@@ -74,7 +74,7 @@ class MenuSeeder extends Seeder
 
         MenuNavigation::create([
             'name' => 'Jejak Langkah',
-            'url' => '#',
+            'url' => '/about#histories',
             'is_active' => true,
             'menu_group_id' => $tentangKami->id,
             'order' => 3
@@ -82,7 +82,7 @@ class MenuSeeder extends Seeder
 
         MenuNavigation::create([
             'name' => 'Struktur Organisasi',
-            'url' => '#',
+            'url' => '/about#organizations',
             'is_active' => true,
             'menu_group_id' => $tentangKami->id,
             'order' => 4
@@ -90,7 +90,7 @@ class MenuSeeder extends Seeder
 
         MenuNavigation::create([
             'name' => 'Manajemen Kami',
-            'url' => '#',
+            'url' => '/about#managements',
             'is_active' => true,
             'menu_group_id' => $tentangKami->id,
             'order' => 5
@@ -98,7 +98,7 @@ class MenuSeeder extends Seeder
 
         MenuNavigation::create([
             'name' => 'Area Jangkauan',
-            'url' => '#',
+            'url' => '/about#areas',
             'is_active' => true,
             'menu_group_id' => $tentangKami->id,
             'order' => 6

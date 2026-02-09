@@ -68,14 +68,14 @@
                                 <div class="form-group row">
                                     <label for="latitude" class="col-sm-3 col-form-label">Latitude <span class="text-danger">*</span></label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="latitude" name="latitude" value="{{ old('latitude') }}" maxlength="255" placeholder="Latitude" required>
+                                        <input type="text" class="form-control decimal-only" id="latitude" name="latitude" value="{{ old('latitude') }}" maxlength="255" placeholder="Latitude" required>
                                         <span class="error invalid-feedback">{{ $errors->first('latitude') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="longitude" class="col-sm-3 col-form-label">Longitude <span class="text-danger">*</span></label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="longitude" name="longitude" value="{{ old('longitude') }}" maxlength="255" placeholder="Longitude" required>
+                                        <input type="text" class="form-control decimal-only" id="longitude" name="longitude" value="{{ old('longitude') }}" maxlength="255" placeholder="Longitude" required>
                                         <span class="error invalid-feedback">{{ $errors->first('longitude') }}</span>
                                     </div>
                                 </div>
@@ -104,6 +104,23 @@
             // Numeric Input Restriction
             $(document).on("keypress", ".number-only", function (e) {
                 return ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"].includes(e.key)
+            });
+
+            // Decimal Input Restriction with leading-only minus
+            $(document).on("keypress", ".decimal-only", function (e) {
+                const allowedKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", ",", "-"];
+                if (!allowedKeys.includes(e.key)) {
+                    return false;
+                }
+
+                if (e.key === "-") {
+                    const hasMinus = this.value.includes("-");
+                    const isAtStart = this.selectionStart === 0;
+                    const isReplacingAll = this.selectionStart === 0 && this.selectionEnd === this.value.length;
+                    return isAtStart && (!hasMinus || isReplacingAll);
+                }
+
+                return true;
             });
         });
     </script>

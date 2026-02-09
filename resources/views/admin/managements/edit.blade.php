@@ -3,6 +3,7 @@
 @section('title', 'Papandayan | Edit Management')
 
 @section('plugins.BsCustomFileInput', true)
+@section('plugins.Summernote', true)
 @section('plugins.Toastr', true)
 
 @section('content_header')
@@ -74,6 +75,13 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
+                                    <label for="description" class="col-sm-3 col-form-label">Description <span class="text-danger">*</span></label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control" id="description" name="description" maxlength="65535" placeholder="Description">{{ $management->description }}</textarea>
+                                        <span class="error invalid-feedback">{{ $errors->first('description') }}</span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
                                     <label for="facebook" class="col-sm-3 col-form-label">Facebook</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="facebook" name="facebook" value="{{ $management->facebook }}" maxlength="255" placeholder="Facebook">
@@ -116,7 +124,13 @@
 @stop
 
 @section('css')
-    {{-- add stylesheets --}}
+    <style type="text/css">
+        
+        /* Modify Summernote Editor */
+        .note-editor.card {
+            margin-bottom: 0px !important;
+        }
+    </style>
 @stop
 
 @section('js')
@@ -125,6 +139,23 @@
         $(document).ready(function () {
             // Initialize bsCustomFileInput
             bsCustomFileInput.init();
+
+            // Initialize Summernote Editor
+            const $description = $('#description');
+            $description.summernote();
+
+            // Enforce description presence without relying on a hidden required control
+            $('form.form-horizontal').on('submit', function (e) {
+                const content = $description.summernote('code');
+                const text = $('<div>').html(content).text().trim();
+                
+                if ($description.summernote('isEmpty') || text.length === 0) {
+                    e.preventDefault();
+                    toastr.warning('Description is required.');
+                    $description.summernote('focus');
+                    return false;
+                }
+            });
             
             // Add file validation for the avatar input
             $('#avatar').on('change', function(e) {

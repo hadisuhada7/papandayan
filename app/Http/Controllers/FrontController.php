@@ -75,7 +75,7 @@ class FrontController extends Controller
     public function index() {
         $banners = $this->getBannerByMenuName('Beranda');
         $statistics = CompanyStatistic::take(4)->get();
-        $products = Product::orderByDesc('id')->take(1)->get();
+        $products = Product::orderByDesc('id')->get();
         $services = Service::orderByDesc('id')->take(1)->get();
         $testimonials = Testimonial::take(5)->get();
         $articles = Article::where('status', 'Published')
@@ -150,7 +150,7 @@ class FrontController extends Controller
 
     public function business() {
         $banners = $this->getBannerByMenuName('Bisnis Kami');
-        $products = Product::orderByDesc('id')->take(1)->get();
+        $products = Product::orderByDesc('id')->get();
         $services = Service::orderByDesc('id')->take(1)->get();
         $testimonials = Testimonial::take(5)->get();
         return view('front.business', compact('banners', 'products', 'services', 'testimonials'));

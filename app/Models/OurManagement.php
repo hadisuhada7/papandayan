@@ -14,6 +14,7 @@ class OurManagement extends Model
         'name',
         'occupation',
         'avatar',
+        'description',
         'facebook',
         'instagram',
         'twitter',

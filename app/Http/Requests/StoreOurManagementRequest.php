@@ -25,6 +25,7 @@ class StoreOurManagementRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'occupation' => ['required', 'string', 'max:255'],
             'avatar' => ['required', 'image', 'mimes:png,jpg,jpeg,svg', 'max:2048'],
+            'description' => ['required', 'string', 'max:65535'],
             'facebook' => ['nullable', 'string', 'max:255'],
             'instagram' => ['nullable', 'string', 'max:255'],
             'twitter' => ['nullable', 'string', 'max:255'],

@@ -24,10 +24,9 @@
     <!--breadcrumb end-->
 
     <!-- about us sec1 start-->
-    <section class="w-100 clearfix aboutUsSec1" id="aboutUsSec1">
-        <div class="container">
-        
-            @forelse ($products as $product)
+    @forelse ($products as $product)
+        <section class="w-100 clearfix aboutUsSec1" id="aboutUsSec1">
+            <div class="container">
                 <div class="row aboutUsRow1">
                     <div class="col-xl-6 aboutUsCol1">
                         <div class="aboutUsSec2Img">
@@ -56,11 +55,10 @@
                         </div> 
                     </div>   
                 </div>
-            @empty
-            @endforelse
-
-        </div>
-    </section>
+            </div>
+        </section>
+    @empty
+    @endforelse
     <!--about us sec1 end-->
 
     <!--broiler breeder start-->
@@ -118,13 +116,13 @@
     <!--broiler breeder end-->
 
     <!--testimonials box start-->
-    <section class="w-100 clearfix testimonialsBox" id="testimonialsBox">
+    <section class="w-100 clearfix testimonialsBox" id="testimonialsBox" style="margin-bottom: 100px;">
         <div class="testimonialsRow">
             <div class="testimonialsCol testimonialsCol1">
                 <h4 class="fadein">TESTIMONI</h4>
                 <h2 class="fadein">Pengalaman Peternak Dalam Bermitra</h2>
                 <a class="btn btn-1 hover-slide-down mt-3 fadein" href="javascript:void(0);">
-                    <span>Selengkapnya <img src="{{ asset('images/icon/icon-black-right.png') }}" alt="icon" class="img-fluid"></span>
+                    <!-- <span>Selengkapnya <img src="{{ asset('images/icon/icon-black-right.png') }}" alt="icon" class="img-fluid"></span> -->
                 </a>
             </div>
             <div class="testimonialsCol testimonialsCol2">
@@ -136,6 +134,13 @@
                                 <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="slide_{{ $testimonial->id }}">
                                     <div class="testimonialSliderItem fadein">
                                         <p>{{ $testimonial->message }}</p>
+                                        <div class="stars">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                        </div>
                                         <h4>{{ $testimonial->name }}</h4>
                                         <span>{{ $testimonial->occupation }}</span>
                                     </div>
@@ -162,6 +167,22 @@
     <!--testimonials box end-->
 
 @endsection
+
+@push('after-styles')
+    <style type="text/css">
+        /* Modify testimonial stars */
+        .testimonialsBox .testimonialSliderItem .stars {
+            display: inline-flex;
+            gap: 4px;
+            margin: 10px 0;
+        }
+
+        .testimonialsBox .testimonialSliderItem .stars i {
+            color: #ffc107;
+            font-size: 1rem;
+        }
+    </style>
+@endpush
 
 @push('after-scripts')
     <script>

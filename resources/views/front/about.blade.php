@@ -12,6 +12,21 @@
 			scroll-margin-top: 140px;
 			display: block;
 		}
+
+		.management-name-trigger {
+			background: none;
+			border: 0;
+			color: inherit;
+			font: inherit;
+			padding: 0;
+			cursor: pointer;
+			text-decoration: none;
+		}
+
+		.management-name-trigger:focus {
+			outline: 2px solid #3c5fac;
+			outline-offset: 2px;
+		}
 	</style>
 @endpush
 
@@ -239,7 +254,11 @@
 											<img src="{{ Storage::url($management->avatar) }}" alt="img">
 										</div>
 										<div class="team-four-content w-100">
-											<h6>{{ $management->name }}</h6>
+											<h6>
+												<button type="button" class="management-name-trigger" data-bs-toggle="modal" data-bs-target="#management-modal-{{ $management->id }}">
+													{{ $management->name }}
+												</button>
+											</h6>
 											<span>{{ $management->occupation }}</span>
 											<div class="social-icon-four">
 												@if($management->facebook)
@@ -273,6 +292,37 @@
 					</div>
 				</div>
 			</div>
+
+			@if(isset($managements) && count($managements) > 0)
+				@foreach($managements as $management)
+					<div class="modal fade" id="management-modal-{{ $management->id }}" tabindex="-1" aria-labelledby="management-modal-label-{{ $management->id }}" aria-hidden="true">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title" id="management-modal-label-{{ $management->id }}">Detail Management</h4>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<div class="row">
+										<div class="col-md-4 text-center">
+											<img src="{{ Storage::url($management->avatar) }}" alt="{{ $management->name }}" class="img-fluid mb-3">
+											<h5>{{ $management->name }}</h5>
+											<p>{{ $management->occupation }}</p>
+										</div>
+										<div class="col-md-8">
+											<p>{!! $management->description !!}</p>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				@endforeach
+			@endif
+
 		</div>
 	</div>
 	<!--team four wrapper end-->

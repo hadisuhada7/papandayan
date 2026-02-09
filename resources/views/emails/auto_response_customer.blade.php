@@ -14,10 +14,10 @@
                             <div style="margin-bottom: 16px;">
                                 <img src="{{ $logoSrc }}" alt="Papandayan" style="height: 48px;">
                             </div>
-                            <h2 style="margin: 0 0 12px; color: #2c3e50;">Terima kasih telah menghubungi PT Papandayan</h2>
+                            <h2 style="margin: 0 0 12px; color: #2c3e50;">Terima kasih atas pertanyaan Anda</h2>
                             <p style="margin: 0 0 16px; color: #4b5563;">Halo {{ $question->name }},</p>
                             <p style="margin: 0 0 16px; color: #4b5563;">
-                                Kami telah menerima pertanyaan Anda. Tim kami akan segera meninjau dan memberikan respon secepatnya.
+                                Tim kami telah meninjau dan memberikan tanggapan atas pertanyaan Anda. Detail respons dapat dilihat melalui informasi berikut.
                             </p>
                             <div style="background-color: #f3f4f6; padding: 16px; border-radius: 6px; margin-bottom: 16px;">
                                 <p style="margin: 0 0 8px; font-weight: 600;">Nomor Tiket</p>

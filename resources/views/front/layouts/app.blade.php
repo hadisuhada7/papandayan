@@ -251,8 +251,8 @@
                             </div>
                             <div class="iconTxt">
                                 <select class="form-select">
-                                    <option>EN</option>
                                     <option>ID</option>
+                                    <option>EN</option>
                                 </select>
                             </div>
                         </div>
@@ -478,7 +478,7 @@
                                                 <a class="nav-link" href="https://www.instagram.com/papandayanintiplasma"><i class="fa fa-instagram" aria-hidden="true"></i></a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="http://www.linkedin.com/in/pt-papandayan-inti-plasma-318256301;"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                                                <a class="nav-link" href="http://www.linkedin.com/in/pt-papandayan-inti-plasma-318256301"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
                                             </li>
                                         </ul>
                                     </div>

@@ -164,10 +164,10 @@
         }
 
         /* Modify Maps Section */
-        .mapsSection {
+        /* .mapsSection {
             padding: 40px 0 0;
             background-color: #fafafa;
-        }
+        } */
       
         @media (max-width: 768px) {
             .breadcrumb ul {
@@ -184,10 +184,10 @@
                 font-size: 18px;
             }
 
-            .mapsSection {
+            /* .mapsSection {
                 padding: 30px 0 0;
                 background-color: #fafafa;
-            }
+            } */
         }
     </style>
 
@@ -419,6 +419,23 @@
 
     <!--footer start-->
     <footer class="w-100 clearfix footer footerBg1" id="footer">
+        <div class="needOurSupport">
+            <div class="container">
+                <div class="needOurSupportInner">
+                    <div class="needOurSupportTxt">
+                        <h2 class="fadein">Info Investasi & Laporan Berkala</h2>
+                        <p class="fadein">Jangan lewatkan update kinerja perusahaan. Jadilah yang pertama menerima laporan kuartalan dan tahunan kami langsung di kotak masuk Anda.</p>
+                    </div>
+                    <div class="needOurSupportInput">
+                        <div class="input-group fadein">
+                            <input type="text" class="form-control" placeholder="Email Address">
+                            <a href="javascript:void(0);" class="input-group-text subscriptionBtn"><span>Subscription</span>
+                                <img src="images/icon/icon-right.png" alt="btn-arrow" class="img-fluid"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="footerGroup">
             <div class="footerInner">
                 <div class="container">

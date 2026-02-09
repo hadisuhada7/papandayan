@@ -31,6 +31,9 @@
                         <dt class="col-sm-4">Recipient</dt>
                         <dd class="col-sm-8">{{ $log->recipient_email }}</dd>
 
+                        <dt class="col-sm-4">Sender</dt>
+                        <dd class="col-sm-8">{{ $log->sender_email ?? '-' }}</dd>
+
                         <dt class="col-sm-4">Subject</dt>
                         <dd class="col-sm-8">{{ $log->subject }}</dd>
 

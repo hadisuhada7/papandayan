@@ -428,7 +428,7 @@
                     </div>
                     <div class="needOurSupportInput">
                         <div class="input-group fadein">
-                            <input type="text" class="form-control" placeholder="Email Address">
+                            <input type="email" class="form-control" id="subscription-email" name="subscription_email" placeholder="Email Address" aria-label="Email Address">
                             <a href="javascript:void(0);" class="input-group-text subscriptionBtn"><span>Subscription</span>
                                 <img src="images/icon/icon-right.png" alt="btn-arrow" class="img-fluid"></a>
                         </div>
@@ -756,6 +756,81 @@
                 tempInput.remove();
             }
         }
+
+        // Subscription form handler
+        (function () {
+            var $emailInput = $('#subscription-email');
+            var $button = $('.subscriptionBtn');
+            var isSubmitting = false;
+
+            var isValidEmail = function (email) {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            };
+
+            var showToast = function (type, message) {
+                if (typeof toastr !== 'undefined') {
+                    toastr[type](message);
+                }
+            };
+
+            var setLoading = function (loading) {
+                isSubmitting = loading;
+                $button.toggleClass('disabled', loading);
+                $button.css('pointer-events', loading ? 'none' : 'auto');
+            };
+
+            var submitSubscription = function () {
+                if (isSubmitting) {
+                    return;
+                }
+
+                var email = ($emailInput.val() || '').trim();
+
+                if (!email) {
+                    showToast('error', 'Email harus diisi.');
+                    return;
+                }
+
+                if (!isValidEmail(email)) {
+                    showToast('error', 'Gunakan format email yang valid.');
+                    return;
+                }
+
+                setLoading(true);
+
+                $.ajax({
+                    url: "{{ route('front.subscription.store') }}",
+                    method: "POST",
+                    data: {
+                        email: email,
+                        _token: $('meta[name=\"csrf-token\"]').attr('content')
+                    }
+                }).done(function (response) {
+                    showToast('success', response.message || 'Berhasil berlangganan.');
+                    $emailInput.val('');
+                }).fail(function (xhr) {
+                    var message = 'Gagal berlangganan.';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        message = xhr.responseJSON.message;
+                    }
+                    showToast('error', message);
+                }).always(function () {
+                    setLoading(false);
+                });
+            };
+
+            $(document).on('click', '.subscriptionBtn', function (e) {
+                e.preventDefault();
+                submitSubscription();
+            });
+
+            $emailInput.on('keypress', function (e) {
+                if (e.which === 13) {
+                    e.preventDefault();
+                    submitSubscription();
+                }
+            });
+        })();
     </script>
 
     @include('partials.toastr')

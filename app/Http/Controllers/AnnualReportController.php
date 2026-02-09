@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAnnualReportRequest;
 use App\Http\Requests\UpdateAnnualReportRequest;
 use App\Models\AnnualReport;
+use App\Services\ReportSubscriptionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -30,10 +31,12 @@ class AnnualReportController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreAnnualReportRequest $request)
+    public function store(StoreAnnualReportRequest $request, ReportSubscriptionService $subscriptionService)
     {
+        $report = null;
+
         // Closure-based transaction
-        DB::transaction(function () use ($request) {
+        DB::transaction(function () use ($request, &$report) {
             $validated = $request->validated();
 
             if ($request->hasFile('thumbnail')) {
@@ -46,8 +49,12 @@ class AnnualReportController extends Controller
                 $validated['report'] = $reportPath;
             }
 
-            $newDataRecord = AnnualReport::create($validated);
+            $report = AnnualReport::create($validated);
         });
+
+        if ($report && $report->status === 'Published') {
+            $subscriptionService->notifyAnnualReport($report);
+        }
 
         return redirect()->route('admin.reports.index')->with('toast', ['type' => 'success', 'message' => 'Annual Report created successfully.']);
     }
@@ -71,8 +78,10 @@ class AnnualReportController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAnnualReportRequest $request, AnnualReport $report)
+    public function update(UpdateAnnualReportRequest $request, AnnualReport $report, ReportSubscriptionService $subscriptionService)
     {
+        $wasPublished = $report->status === 'Published';
+
         // Closure-based transaction
         DB::transaction(function () use ($request, $report) {
             $validated = $request->validated();
@@ -89,6 +98,11 @@ class AnnualReportController extends Controller
 
             $report->update($validated);
         });
+
+        $report->refresh();
+        if (!$wasPublished && $report->status === 'Published') {
+            $subscriptionService->notifyAnnualReport($report);
+        }
 
         return redirect()->route('admin.reports.index')->with('toast', ['type' => 'success', 'message' => 'Annual Report updated successfully.']);
     }

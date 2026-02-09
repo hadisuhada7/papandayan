@@ -9,6 +9,9 @@
 function emailConfigStatusBadge($status) {
     return $status ? 'bg-success' : 'bg-secondary';
 }
+function emailConfigTypeLabel($type) {
+    return $type === 'notification' ? 'Notification' : 'Ticket';
+}
 @endphp
 
 @section('content_header')
@@ -38,6 +41,7 @@ function emailConfigStatusBadge($status) {
                             <tr>
                                 <th style="width: 30px;">No</th>
                                 <th>Name</th>
+                                <th>Type</th>
                                 <th>Host</th>
                                 <th>Username</th>
                                 <th>From</th>
@@ -51,6 +55,7 @@ function emailConfigStatusBadge($status) {
                                 <tr>
                                     <td>{{ $index }}</td>
                                     <td>{{ $config->name ?? '-' }}</td>
+                                    <td>{{ emailConfigTypeLabel($config->type) }}</td>
                                     <td>{{ $config->host }}:{{ $config->port }}</td>
                                     <td>{{ $config->username }}</td>
                                     <td>{{ $config->from_name }} ({{ $config->from_address }})</td>
@@ -131,7 +136,7 @@ function emailConfigStatusBadge($status) {
                     zeroRecords: "No matching records found"
                 },
                 columnDefs: [
-                    { targets: 6, orderable: false }
+                    { targets: 7, orderable: false }
                 ],
                 initComplete: function() {
                     $('#datagrid_filter label').contents().filter(function() {

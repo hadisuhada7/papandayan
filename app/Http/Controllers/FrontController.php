@@ -42,6 +42,7 @@ use App\Http\Requests\StoreExperiencedApplicantRequest;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 class FrontController extends Controller
@@ -325,9 +326,16 @@ class FrontController extends Controller
         return redirect()->back()->with('success', $message);
     }
 
-    public function document() {
+    public function document(Request $request) {
         $banners = $this->getBannerByMenuName('Laporan Dokumen');
-        $documents = DocumentReport::where('status', 'Published')
+        $publishDate = $this->normalizeReportDateFilter($request->query('publish_date'));
+
+        $documentQuery = DocumentReport::where('status', 'Published');
+        if ($publishDate !== null) {
+            $documentQuery->whereDate('created_at', $publishDate);
+        }
+
+        $documents = $documentQuery
             ->orderByDesc('id')
             ->paginate(8)
             ->withQueryString();
@@ -391,9 +399,16 @@ class FrontController extends Controller
         ]);
     }
     
-    public function report() {
+    public function report(Request $request) {
         $banners = $this->getBannerByMenuName('Laporan Tahunan');
-        $reports = AnnualReport::where('status', 'Published')
+        $publishDate = $this->normalizeReportDateFilter($request->query('publish_date'));
+
+        $reportQuery = AnnualReport::where('status', 'Published');
+        if ($publishDate !== null) {
+            $reportQuery->whereDate('created_at', $publishDate);
+        }
+
+        $reports = $reportQuery
             ->orderByDesc('id')
             ->paginate(8)
             ->withQueryString();
@@ -462,9 +477,12 @@ class FrontController extends Controller
         $yearOptions = $this->getReportYearOptions();
         $selectedYear = $this->normalizeReportYearFilter($request->query('year'), $yearOptions);
         $selectedSort = $this->normalizeReportSortFilter($request->query('sort'));
+        $publishDate = $this->normalizeReportDateFilter($request->query('publish_date'));
 
         $financialQuery = FinancialStatement::where('status', 'Published');
-        if ($selectedYear !== null) {
+        if ($publishDate !== null) {
+            $financialQuery->whereDate('publish_at', $publishDate);
+        } elseif ($selectedYear !== null) {
             $financialQuery->whereYear('publish_at', $selectedYear);
         }
 
@@ -538,9 +556,12 @@ class FrontController extends Controller
         $yearOptions = $this->getReportYearOptions();
         $selectedYear = $this->normalizeReportYearFilter($request->query('year'), $yearOptions);
         $selectedSort = $this->normalizeReportSortFilter($request->query('sort'));
+        $publishDate = $this->normalizeReportDateFilter($request->query('publish_date'));
 
         $investorQuery = InvestorPresentation::where('status', 'Published');
-        if ($selectedYear !== null) {
+        if ($publishDate !== null) {
+            $investorQuery->whereDate('publish_at', $publishDate);
+        } elseif ($selectedYear !== null) {
             $investorQuery->whereYear('publish_at', $selectedYear);
         }
 
@@ -614,9 +635,12 @@ class FrontController extends Controller
         $yearOptions = $this->getReportYearOptions();
         $selectedYear = $this->normalizeReportYearFilter($request->query('year'), $yearOptions);
         $selectedSort = $this->normalizeReportSortFilter($request->query('sort'));
+        $publishDate = $this->normalizeReportDateFilter($request->query('publish_date'));
 
         $stockQuery = StockInformation::where('status', 'Published');
-        if ($selectedYear !== null) {
+        if ($publishDate !== null) {
+            $stockQuery->whereDate('publish_at', $publishDate);
+        } elseif ($selectedYear !== null) {
             $stockQuery->whereYear('publish_at', $selectedYear);
         }
 
@@ -690,9 +714,12 @@ class FrontController extends Controller
         $yearOptions = $this->getReportYearOptions();
         $selectedYear = $this->normalizeReportYearFilter($request->query('year'), $yearOptions);
         $selectedSort = $this->normalizeReportSortFilter($request->query('sort'));
+        $publishDate = $this->normalizeReportDateFilter($request->query('publish_date'));
 
         $shareholderQuery = Shareholder::where('status', 'Published');
-        if ($selectedYear !== null) {
+        if ($publishDate !== null) {
+            $shareholderQuery->whereDate('publish_at', $publishDate);
+        } elseif ($selectedYear !== null) {
             $shareholderQuery->whereYear('publish_at', $selectedYear);
         }
 
@@ -727,6 +754,24 @@ class FrontController extends Controller
         }
 
         return $yearValue;
+    }
+
+    private function normalizeReportDateFilter($date): ?string
+    {
+        if ($date === null || $date === '') {
+            return null;
+        }
+
+        $dateString = (string) $date;
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $dateString)) {
+            return null;
+        }
+
+        try {
+            return Carbon::createFromFormat('Y-m-d', $dateString)->toDateString();
+        } catch (\Throwable $exception) {
+            return null;
+        }
     }
 
     private function normalizeReportSortFilter($sort): string
@@ -847,7 +892,7 @@ class FrontController extends Controller
         });
 
         if ($newDataRecord) {
-            TicketingJob::dispatch($newDataRecord->id)->afterCommit();
+            TicketingJob::dispatch($newDataRecord->id)->onQueue('tickets')->afterCommit();
         }
 
         return redirect()->route('front.contact')->with('success', 'Your question has been submitted successfully.');

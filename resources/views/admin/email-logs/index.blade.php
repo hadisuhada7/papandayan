@@ -9,6 +9,7 @@
 function emailLogStatusBadge($status) {
     return match(strtolower($status)) {
         'queued' => 'bg-secondary',
+        'sending' => 'bg-info',
         'sent' => 'bg-success',
         'failed' => 'bg-danger',
         default => 'bg-secondary'
@@ -18,6 +19,7 @@ function emailLogStatusBadge($status) {
 function emailLogStatusLabel($status) {
     return match(strtolower($status)) {
         'queued' => 'Queued',
+        'sending' => 'Sending',
         'sent' => 'Sent',
         'failed' => 'Failed',
         default => ucfirst($status)
@@ -52,6 +54,7 @@ function emailLogStatusLabel($status) {
                             <tr>
                                 <th style="width: 30px;">No</th>
                                 <th>Recipient</th>
+                                <th>Sender</th>
                                 <th>Subject</th>
                                 <th>Template</th>
                                 <th>Status</th>
@@ -68,6 +71,7 @@ function emailLogStatusLabel($status) {
                                         <div>{{ $log->recipient_email }}</div>
                                         <small class="text-muted">Ticket: {{ $log->ticket?->ticket_number ?? '-' }}</small>
                                     </td>
+                                    <td>{{ $log->sender_email ?? '-' }}</td>
                                     <td>{{ $log->subject }}</td>
                                     <td>{{ $log->template }}</td>
                                     <td><span class="badge {{ emailLogStatusBadge($log->status) }}">{{ emailLogStatusLabel($log->status) }}</span></td>
@@ -116,7 +120,7 @@ function emailLogStatusLabel($status) {
                     zeroRecords: "No matching records found"
                 },
                 columnDefs: [
-                    { targets: 6, orderable: false }
+                    { targets: 7, orderable: false }
                 ],
                 initComplete: function() {
                     $('#datagrid_filter label').contents().filter(function() {

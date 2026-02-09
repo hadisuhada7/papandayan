@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreFinancialStatementRequest;
 use App\Http\Requests\UpdateFinancialStatementRequest;
 use App\Models\FinancialStatement;
+use App\Services\ReportSubscriptionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -30,18 +31,21 @@ class FinancialStatementController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreFinancialStatementRequest $request)
+    public function store(StoreFinancialStatementRequest $request, ReportSubscriptionService $subscriptionService)
     {
+        $financial = null;
+        $createdReports = [];
+
         // Closure-based transaction
-        DB::transaction(function () use ($request) {
+        DB::transaction(function () use ($request, &$financial, &$createdReports) {
             $validated = $request->validated();
-            $newDataRecord = FinancialStatement::create($validated);
+            $financial = FinancialStatement::create($validated);
 
             if (!empty($validated['name']) && !empty($request->file('report'))) {
                 foreach ($validated['name'] as $index => $name) {
                     if (!empty($name) && $request->hasFile("report.{$index}")) {
                         $reportPath = $request->file("report.{$index}")->store('reports', 'public');
-                        $newDataRecord->financialReports()->create([
+                        $createdReports[] = $financial->financialReports()->create([
                             'name' => $name,
                             'report' => $reportPath
                         ]);
@@ -49,6 +53,12 @@ class FinancialStatementController extends Controller
                 }
             }
         });
+
+        if ($financial && $financial->status === 'Published' && !empty($createdReports)) {
+            foreach ($createdReports as $report) {
+                $subscriptionService->notifyFinancialReport($financial, $report);
+            }
+        }
 
         return redirect()->route('admin.financials.index')->with('toast', ['type' => 'success', 'message' => 'Financial Statement created successfully.']);
     }
@@ -72,10 +82,13 @@ class FinancialStatementController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateFinancialStatementRequest $request, FinancialStatement $financial)
+    public function update(UpdateFinancialStatementRequest $request, FinancialStatement $financial, ReportSubscriptionService $subscriptionService)
     {
+        $wasPublished = $financial->status === 'Published';
+        $createdReports = [];
+
         // Closure-based transaction
-        DB::transaction(function () use ($request, $financial) {
+        DB::transaction(function () use ($request, $financial, &$createdReports) {
             $validated = $request->validated();
             $financial->update($validated);
 
@@ -83,7 +96,7 @@ class FinancialStatementController extends Controller
                 foreach ($validated['name'] as $index => $name) {
                     if (!empty($name) && $request->hasFile("report.{$index}")) {
                         $reportPath = $request->file("report.{$index}")->store('reports', 'public');
-                        $financial->financialReports()->create([
+                        $createdReports[] = $financial->financialReports()->create([
                             'name' => $name,
                             'report' => $reportPath
                         ]);
@@ -91,6 +104,21 @@ class FinancialStatementController extends Controller
                 }
             }
         });
+
+        $financial->refresh();
+
+        if ($financial->status === 'Published') {
+            $reportsToNotify = [];
+            if (!$wasPublished) {
+                $reportsToNotify = $financial->financialReports()->get()->all();
+            } else {
+                $reportsToNotify = $createdReports;
+            }
+
+            foreach ($reportsToNotify as $report) {
+                $subscriptionService->notifyFinancialReport($financial, $report);
+            }
+        }
 
         return redirect()->route('admin.financials.index')->with('toast', ['type' => 'success', 'message' => 'Financial Statement updated successfully.']);
     }

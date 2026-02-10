@@ -10,44 +10,20 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Str;
-use Symfony\Component\Mime\Part\DataPart;
 
 class AutoResponseCustomerMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public string $logoCid;
     public string $logoSrc;
-    protected string $logoPath;
 
     /**
      * Create a new message instance.
      */
     public function __construct(public Question $question, public ?Ticket $ticket = null)
     {
-        $this->logoPath = public_path('images/logo/logo6.png');
-        $this->logoCid = 'papandayan-logo-'.Str::uuid().'@papandayan';
-
-        // if (app()->isProduction()) {
-        //     $this->logoSrc = 'https://www.test.papandayan.co.id/images/logo/favicon.png';
-        //     return;
-        // }
-
-        // $this->logoSrc = 'cid:'.$this->logoCid;
+        // $this->logoSrc = 'cid:...';
         $this->logoSrc = 'https://www.test.papandayan.co.id/images/logo/logo6.png';
-
-        $this->withSymfonyMessage(function ($message) {
-            if (! is_file($this->logoPath)) {
-                return;
-            }
-
-            $part = DataPart::fromPath($this->logoPath, 'papandayan-logo.png', 'image/png');
-            $part->asInline();
-            $part->setContentId($this->logoCid);
-
-            $message->addPart($part);
-        });
     }
 
     /**

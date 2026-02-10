@@ -28,7 +28,8 @@ class ReportSubscriptionService
         $this->notifySubscribers([
             'report_name' => $document->name,
             'report_type' => 'Dokumen',
-            'file_name' => $this->extractFileName($document->report),
+            'file_name' => $this->resolveFileName($document->original_filename ?? null, $document->report),
+            'file_original_name' => $document->original_filename,
             'publish_date' => $publishAt->toDateString(),
             'publish_date_label' => $publishAt->format('d F Y'),
             'list_url' => route('front.documents', ['publish_date' => $publishAt->toDateString()]),
@@ -42,7 +43,8 @@ class ReportSubscriptionService
         $this->notifySubscribers([
             'report_name' => $report->name,
             'report_type' => 'Tahunan',
-            'file_name' => $this->extractFileName($report->report),
+            'file_name' => $this->resolveFileName($report->original_filename ?? null, $report->report),
+            'file_original_name' => $report->original_filename,
             'publish_date' => $publishAt->toDateString(),
             'publish_date_label' => $publishAt->format('d F Y'),
             'list_url' => route('front.report', ['publish_date' => $publishAt->toDateString()]),
@@ -56,7 +58,8 @@ class ReportSubscriptionService
         $this->notifySubscribers([
             'report_name' => $report->name,
             'report_type' => 'Keuangan',
-            'file_name' => $this->extractFileName($report->report),
+            'file_name' => $this->resolveFileName($report->original_filename ?? null, $report->report),
+            'file_original_name' => $report->original_filename,
             'publish_date' => $publishAt->toDateString(),
             'publish_date_label' => $publishAt->format('d F Y'),
             'list_url' => route('front.financial', ['publish_date' => $publishAt->toDateString()]),
@@ -70,7 +73,8 @@ class ReportSubscriptionService
         $this->notifySubscribers([
             'report_name' => $report->name,
             'report_type' => 'Presentasi Investor',
-            'file_name' => $this->extractFileName($report->report),
+            'file_name' => $this->resolveFileName($report->original_filename ?? null, $report->report),
+            'file_original_name' => $report->original_filename,
             'publish_date' => $publishAt->toDateString(),
             'publish_date_label' => $publishAt->format('d F Y'),
             'list_url' => route('front.investor', ['publish_date' => $publishAt->toDateString()]),
@@ -84,7 +88,8 @@ class ReportSubscriptionService
         $this->notifySubscribers([
             'report_name' => $report->name,
             'report_type' => 'Saham dan Obligasi',
-            'file_name' => $this->extractFileName($report->report),
+            'file_name' => $this->resolveFileName($report->original_filename ?? null, $report->report),
+            'file_original_name' => $report->original_filename,
             'publish_date' => $publishAt->toDateString(),
             'publish_date_label' => $publishAt->format('d F Y'),
             'list_url' => route('front.stock', ['publish_date' => $publishAt->toDateString()]),
@@ -98,7 +103,8 @@ class ReportSubscriptionService
         $this->notifySubscribers([
             'report_name' => $report->name,
             'report_type' => 'Rapat Umum Pemegang Saham',
-            'file_name' => $this->extractFileName($report->report),
+            'file_name' => $this->resolveFileName($report->original_filename ?? null, $report->report),
+            'file_original_name' => $report->original_filename,
             'publish_date' => $publishAt->toDateString(),
             'publish_date_label' => $publishAt->format('d F Y'),
             'list_url' => route('front.shareholder', ['publish_date' => $publishAt->toDateString()]),
@@ -118,8 +124,12 @@ class ReportSubscriptionService
         }
     }
 
-    private function extractFileName(?string $path): string
+    private function resolveFileName(?string $originalName, ?string $path): string
     {
+        if (!empty($originalName)) {
+            return $originalName;
+        }
+
         if (!$path) {
             return '-';
         }

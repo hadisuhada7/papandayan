@@ -16,6 +16,7 @@ class FinancialReport extends Model
         'financial_statement_id',
         'name',
         'report',
+        'original_filename',
     ];
 
     public function log_download_reports()

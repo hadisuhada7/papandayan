@@ -24,7 +24,7 @@
                                 </tr>
                                 <tr>
                                     <td style="padding: 8px 0; color: #6b7280;">Nama File</td>
-                                    <td style="padding: 8px 0; color: #111827;">{{ $payload['file_name'] }}</td>
+                                    <td style="padding: 8px 0; color: #111827;">{{ $payload['file_original_name'] ?? $payload['file_name'] }}</td>
                                 </tr>
                                 <tr>
                                     <td style="padding: 8px 0; color: #6b7280;">Tanggal Publish</td>

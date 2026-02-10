@@ -48,7 +48,7 @@ class ReportSubscriptionUnsubscribedMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'We are Sorry to find you are no longer Interested in our Mailing List',
+            subject: 'Kami menyesal mengetahui bahwa Anda tidak lagi tertarik untuk berlangganan milis kami',
         );
     }
 

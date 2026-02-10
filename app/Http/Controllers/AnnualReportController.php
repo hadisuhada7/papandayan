@@ -45,8 +45,10 @@ class AnnualReportController extends Controller
             }
 
             if ($request->hasFile('report')) {
-                $reportPath = $request->file('report')->store('reports', 'public');
+                $reportFile = $request->file('report');
+                $reportPath = $reportFile->store('reports', 'public');
                 $validated['report'] = $reportPath;
+                $validated['original_filename'] = $reportFile->getClientOriginalName();
             }
 
             $report = AnnualReport::create($validated);
@@ -92,8 +94,10 @@ class AnnualReportController extends Controller
             }
 
             if ($request->hasFile('report')) {
-                $reportPath = $request->file('report')->store('reports', 'public');
+                $reportFile = $request->file('report');
+                $reportPath = $reportFile->store('reports', 'public');
                 $validated['report'] = $reportPath;
+                $validated['original_filename'] = $reportFile->getClientOriginalName();
             }
 
             $report->update($validated);

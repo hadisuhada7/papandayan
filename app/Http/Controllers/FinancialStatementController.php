@@ -44,10 +44,12 @@ class FinancialStatementController extends Controller
             if (!empty($validated['name']) && !empty($request->file('report'))) {
                 foreach ($validated['name'] as $index => $name) {
                     if (!empty($name) && $request->hasFile("report.{$index}")) {
-                        $reportPath = $request->file("report.{$index}")->store('reports', 'public');
+                        $reportFile = $request->file("report.{$index}");
+                        $reportPath = $reportFile->store('reports', 'public');
                         $createdReports[] = $financial->financialReports()->create([
                             'name' => $name,
-                            'report' => $reportPath
+                            'report' => $reportPath,
+                            'original_filename' => $reportFile->getClientOriginalName(),
                         ]);
                     }
                 }
@@ -95,10 +97,12 @@ class FinancialStatementController extends Controller
             if (!empty($validated['name']) && !empty($request->file('report'))) {
                 foreach ($validated['name'] as $index => $name) {
                     if (!empty($name) && $request->hasFile("report.{$index}")) {
-                        $reportPath = $request->file("report.{$index}")->store('reports', 'public');
+                        $reportFile = $request->file("report.{$index}");
+                        $reportPath = $reportFile->store('reports', 'public');
                         $createdReports[] = $financial->financialReports()->create([
                             'name' => $name,
-                            'report' => $reportPath
+                            'report' => $reportPath,
+                            'original_filename' => $reportFile->getClientOriginalName(),
                         ]);
                     }
                 }

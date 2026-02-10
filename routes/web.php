@@ -36,6 +36,7 @@ use App\Http\Controllers\EmailConfigController;
 use App\Http\Controllers\LogEmailSenderController;
 use App\Http\Controllers\LogDownloadReportController;
 use App\Http\Controllers\FrontController;
+use App\Http\Controllers\ReportSubscriptionController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -75,6 +76,9 @@ Route::post('/stock/download-with-log/{id}', [FrontController::class, 'stockDown
 Route::get('/shareholder', [FrontController::class, 'shareholder'])->name('front.shareholder');
 Route::get('/shareholder/download/{id}', [FrontController::class, 'shareholderDownload'])->name('front.shareholder.download');
 Route::post('/shareholder/download-with-log/{id}', [FrontController::class, 'shareholderDownloadWithLog'])->name('front.shareholder.download.with.log');
+Route::post('/subscription', [ReportSubscriptionController::class, 'store'])->name('front.subscription.store');
+Route::get('/subscription/unsubscribe/{token}', [ReportSubscriptionController::class, 'unsubscribe'])->name('front.subscription.unsubscribe');
+Route::get('/subscription/resubscribe/{token}', [ReportSubscriptionController::class, 'resubscribe'])->name('front.subscription.resubscribe');
 
 Route::get('/home', function () {
     return redirect('/dashboard');

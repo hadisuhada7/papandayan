@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreShareholderRequest;
 use App\Http\Requests\UpdateShareholderRequest;
 use App\Models\Shareholder;
+use App\Services\ReportSubscriptionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -30,25 +31,36 @@ class ShareholderController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreShareholderRequest $request)
+    public function store(StoreShareholderRequest $request, ReportSubscriptionService $subscriptionService)
     {
+        $shareholder = null;
+        $createdReports = [];
+
         // Closure-based transaction
-        DB::transaction(function () use ($request) {
+        DB::transaction(function () use ($request, &$shareholder, &$createdReports) {
             $validated = $request->validated();
-            $newDataRecord = Shareholder::create($validated);
+            $shareholder = Shareholder::create($validated);
 
             if (!empty($validated['name']) && !empty($request->file('report'))) {
                 foreach ($validated['name'] as $index => $name) {
                     if (!empty($name) && $request->hasFile("report.{$index}")) {
-                        $reportPath = $request->file("report.{$index}")->store('reports', 'public');
-                        $newDataRecord->shareholderReports()->create([
+                        $reportFile = $request->file("report.{$index}");
+                        $reportPath = $reportFile->store('reports', 'public');
+                        $createdReports[] = $shareholder->shareholderReports()->create([
                             'name' => $name,
-                            'report' => $reportPath
+                            'report' => $reportPath,
+                            'original_filename' => $reportFile->getClientOriginalName(),
                         ]);
                     }
                 }
             }
         });
+
+        if ($shareholder && $shareholder->status === 'Published' && !empty($createdReports)) {
+            foreach ($createdReports as $report) {
+                $subscriptionService->notifyShareholderReport($shareholder, $report);
+            }
+        }
 
         return redirect()->route('admin.shareholders.index')->with('toast', ['type' => 'success', 'message' => 'Shareholder created successfully.']);
     }
@@ -72,25 +84,45 @@ class ShareholderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateShareholderRequest $request, Shareholder $shareholder)
+    public function update(UpdateShareholderRequest $request, Shareholder $shareholder, ReportSubscriptionService $subscriptionService)
     {
+        $wasPublished = $shareholder->status === 'Published';
+        $createdReports = [];
+
         // Closure-based transaction
-        DB::transaction(function () use ($request, $shareholder) {
+        DB::transaction(function () use ($request, $shareholder, &$createdReports) {
             $validated = $request->validated();
             $shareholder->update($validated);
 
             if (!empty($validated['name']) && !empty($request->file('report'))) {
                 foreach ($validated['name'] as $index => $name) {
                     if (!empty($name) && $request->hasFile("report.{$index}")) {
-                        $reportPath = $request->file("report.{$index}")->store('reports', 'public');
-                        $shareholder->shareholderReports()->create([
+                        $reportFile = $request->file("report.{$index}");
+                        $reportPath = $reportFile->store('reports', 'public');
+                        $createdReports[] = $shareholder->shareholderReports()->create([
                             'name' => $name,
-                            'report' => $reportPath
+                            'report' => $reportPath,
+                            'original_filename' => $reportFile->getClientOriginalName(),
                         ]);
                     }
                 }
             }
         });
+
+        $shareholder->refresh();
+
+        if ($shareholder->status === 'Published') {
+            $reportsToNotify = [];
+            if (!$wasPublished) {
+                $reportsToNotify = $shareholder->shareholderReports()->get()->all();
+            } else {
+                $reportsToNotify = $createdReports;
+            }
+
+            foreach ($reportsToNotify as $report) {
+                $subscriptionService->notifyShareholderReport($shareholder, $report);
+            }
+        }
 
         return redirect()->route('admin.shareholders.index')->with('toast', ['type' => 'success', 'message' => 'Shareholder updated successfully.']);
     }

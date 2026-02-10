@@ -21,6 +21,7 @@ class ShareholderReport extends Model
         'shareholder_id',
         'name',
         'report',
+        'original_filename',
     ];
 
     public function log_download_reports()

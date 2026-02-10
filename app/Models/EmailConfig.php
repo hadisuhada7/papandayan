@@ -15,8 +15,12 @@ class EmailConfig extends Model
 
     public $incrementing = false;
 
+    public const TYPE_TICKET = 'ticket';
+    public const TYPE_NOTIFICATION = 'notification';
+
     protected $fillable = [
         'name',
+        'type',
         'host',
         'port',
         'username',

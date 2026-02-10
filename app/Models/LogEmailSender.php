@@ -19,6 +19,7 @@ class LogEmailSender extends Model
         'question_id',
         'ticket_id',
         'recipient_email',
+        'sender_email',
         'subject',
         'template',
         'body',

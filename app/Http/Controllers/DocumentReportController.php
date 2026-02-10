@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreDocumentReportRequest;
 use App\Http\Requests\UpdateDocumentReportRequest;
 use App\Models\DocumentReport;
+use App\Services\ReportSubscriptionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -30,10 +31,12 @@ class DocumentReportController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreDocumentReportRequest $request)
+    public function store(StoreDocumentReportRequest $request, ReportSubscriptionService $subscriptionService)
     {
+        $document = null;
+
         // Closure-based transaction
-        DB::transaction(function () use ($request) {
+        DB::transaction(function () use ($request, &$document) {
             $validated = $request->validated();
 
             if ($request->hasFile('thumbnail')) {
@@ -42,12 +45,18 @@ class DocumentReportController extends Controller
             }
 
             if ($request->hasFile('report')) {
-                $reportPath = $request->file('report')->store('reports', 'public');
+                $reportFile = $request->file('report');
+                $reportPath = $reportFile->store('reports', 'public');
                 $validated['report'] = $reportPath;
+                $validated['original_filename'] = $reportFile->getClientOriginalName();
             }
 
-            $newDataRecord = DocumentReport::create($validated);
+            $document = DocumentReport::create($validated);
         });
+
+        if ($document && $document->status === 'Published') {
+            $subscriptionService->notifyDocumentReport($document);
+        }
 
         return redirect()->route('admin.documents.index')->with('toast', ['type' => 'success', 'message' => 'Document Report created successfully.']);
     }
@@ -71,8 +80,10 @@ class DocumentReportController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateDocumentReportRequest $request, DocumentReport $document)
+    public function update(UpdateDocumentReportRequest $request, DocumentReport $document, ReportSubscriptionService $subscriptionService)
     {
+        $wasPublished = $document->status === 'Published';
+
         // Closure-based transaction
         DB::transaction(function () use ($request, $document) {
             $validated = $request->validated();
@@ -83,12 +94,19 @@ class DocumentReportController extends Controller
             }
 
             if ($request->hasFile('report')) {
-                $reportPath = $request->file('report')->store('reports', 'public');
+                $reportFile = $request->file('report');
+                $reportPath = $reportFile->store('reports', 'public');
                 $validated['report'] = $reportPath;
+                $validated['original_filename'] = $reportFile->getClientOriginalName();
             }
 
             $document->update($validated);
         });
+
+        $document->refresh();
+        if (!$wasPublished && $document->status === 'Published') {
+            $subscriptionService->notifyDocumentReport($document);
+        }
 
         return redirect()->route('admin.documents.index')->with('toast', ['type' => 'success', 'message' => 'Document Report updated successfully.']);
     }

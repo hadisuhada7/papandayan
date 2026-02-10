@@ -21,6 +21,7 @@ class StockReport extends Model
         'stock_information_id',
         'name',
         'report',
+        'original_filename',
     ];
 
     public function log_download_reports()

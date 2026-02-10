@@ -26,6 +26,7 @@ class EmailConfigController extends Controller
     {
         $validated = $request->validate([
             'name' => ['nullable', 'string', 'max:255'],
+            'type' => ['required', 'string', 'max:50', 'in:ticket,notification'],
             'host' => ['required', 'string', 'max:255'],
             'port' => ['required', 'integer', 'min:1'],
             'username' => ['required', 'string', 'max:255'],
@@ -39,7 +40,9 @@ class EmailConfigController extends Controller
 
         DB::transaction(function () use ($validated) {
             if ($validated['is_active']) {
-                EmailConfig::where('is_active', true)->update(['is_active' => false]);
+                EmailConfig::where('is_active', true)
+                    ->where('type', $validated['type'])
+                    ->update(['is_active' => false]);
             }
 
             EmailConfig::create($validated);
@@ -57,6 +60,7 @@ class EmailConfigController extends Controller
     {
         $validated = $request->validate([
             'name' => ['nullable', 'string', 'max:255'],
+            'type' => ['required', 'string', 'max:50', 'in:ticket,notification'],
             'host' => ['required', 'string', 'max:255'],
             'port' => ['required', 'integer', 'min:1'],
             'username' => ['required', 'string', 'max:255'],
@@ -75,6 +79,7 @@ class EmailConfigController extends Controller
         DB::transaction(function () use ($validated, $emailConfig) {
             if ($validated['is_active']) {
                 EmailConfig::where('is_active', true)
+                    ->where('type', $validated['type'])
                     ->where('id', '!=', $emailConfig->id)
                     ->update(['is_active' => false]);
             }

@@ -16,7 +16,7 @@ class ReportSubscriptionEmailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public function __construct(public int $logId)
+    public function __construct(public string $logId)
     {
     }
 

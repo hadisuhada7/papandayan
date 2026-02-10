@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('report_subscribers', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('email')->unique();
             $table->string('token')->unique();
             $table->boolean('is_active')->default(true);

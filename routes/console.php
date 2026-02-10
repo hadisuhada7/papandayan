@@ -18,7 +18,9 @@ use Illuminate\Support\Carbon;
 Schedule::call(function () {
     $now = now();
     $startTime = $now->copy()->setTime(6, 30);
-    $endTime = $now->copy()->setTime(17, 0);
+    $endTime = $now->copy()->setTime(22, 0);
+
+    // $endTime = $now->copy()->setTime(17, 0);
 
     if (! $now->between($startTime, $endTime)) {
         return;

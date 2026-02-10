@@ -16,6 +16,7 @@ class InvestorReport extends Model
         'investor_presentation_id',
         'name',
         'report',
+        'original_filename',
     ];
 
     public function log_download_reports()

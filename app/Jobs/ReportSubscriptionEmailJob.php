@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Models\Question;
-use App\Models\Ticket;
+use App\Models\EmailConfig;
+use App\Models\LogEmailSender;
 use App\Services\EmailService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -12,30 +12,27 @@ use Illuminate\Queue\Middleware\RateLimited;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class NotificationJob implements ShouldQueue
+class ReportSubscriptionEmailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public function __construct(public int $questionId)
+    public function __construct(public int $logId)
     {
     }
 
     public function middleware(): array
     {
-        return [new RateLimited('ticketing')];
+        return [new RateLimited('subscription-emails')];
     }
 
     public function handle(EmailService $emailService): void
     {
-        $question = Question::find($this->questionId);
+        $log = LogEmailSender::find($this->logId);
 
-        if (! $question) {
+        if (! $log || $log->status === 'sent') {
             return;
         }
 
-        $ticket = Ticket::where('question_id', $question->id)->latest('id')->first();
-
-        $emailService->sendAutoResponseCustomer($question, $ticket);
-        $emailService->sendNotificationAdmin($question, $ticket);
+        $emailService->sendLoggedEmail($log, EmailConfig::TYPE_NOTIFICATION);
     }
 }

@@ -51,6 +51,15 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
+                                    <label for="type" class="col-sm-3 col-form-label">Type <span class="text-danger">*</span></label>
+                                    <div class="col-sm-4">
+                                        <select class="form-control" id="type" name="type" required>
+                                            <option value="ticket" @selected(old('type', $emailConfig->type) === 'ticket')>Ticket</option>
+                                            <option value="notification" @selected(old('type', $emailConfig->type) === 'notification')>Notification</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
                                     <label for="host" class="col-sm-3 col-form-label">Host <span class="text-danger">*</span></label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="host" name="host" value="{{ old('host', $emailConfig->host) }}" maxlength="255" required>

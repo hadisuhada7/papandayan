@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreStockInformationRequest;
 use App\Http\Requests\UpdateStockInformationRequest;
 use App\Models\StockInformation;
+use App\Services\ReportSubscriptionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -30,25 +31,36 @@ class StockInformationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreStockInformationRequest $request)
+    public function store(StoreStockInformationRequest $request, ReportSubscriptionService $subscriptionService)
     {
+        $stock = null;
+        $createdReports = [];
+
         // Closure-based transaction
-        DB::transaction(function () use ($request) {
+        DB::transaction(function () use ($request, &$stock, &$createdReports) {
             $validated = $request->validated();
-            $newDataRecord = StockInformation::create($validated);
+            $stock = StockInformation::create($validated);
 
             if (!empty($validated['name']) && !empty($request->file('report'))) {
                 foreach ($validated['name'] as $index => $name) {
                     if (!empty($name) && $request->hasFile("report.{$index}")) {
-                        $reportPath = $request->file("report.{$index}")->store('reports', 'public');
-                        $newDataRecord->stockReports()->create([
+                        $reportFile = $request->file("report.{$index}");
+                        $reportPath = $reportFile->store('reports', 'public');
+                        $createdReports[] = $stock->stockReports()->create([
                             'name' => $name,
-                            'report' => $reportPath
+                            'report' => $reportPath,
+                            'original_filename' => $reportFile->getClientOriginalName(),
                         ]);
                     }
                 }
             }
         });
+
+        if ($stock && $stock->status === 'Published' && !empty($createdReports)) {
+            foreach ($createdReports as $report) {
+                $subscriptionService->notifyStockReport($stock, $report);
+            }
+        }
 
         return redirect()->route('admin.stocks.index')->with('toast', ['type' => 'success', 'message' => 'Stock Information created successfully.']);
     }
@@ -72,25 +84,45 @@ class StockInformationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateStockInformationRequest $request, StockInformation $stock)
+    public function update(UpdateStockInformationRequest $request, StockInformation $stock, ReportSubscriptionService $subscriptionService)
     {
+        $wasPublished = $stock->status === 'Published';
+        $createdReports = [];
+
         // Closure-based transaction
-        DB::transaction(function () use ($request, $stock) {
+        DB::transaction(function () use ($request, $stock, &$createdReports) {
             $validated = $request->validated();
             $stock->update($validated);
 
             if (!empty($validated['name']) && !empty($request->file('report'))) {
                 foreach ($validated['name'] as $index => $name) {
                     if (!empty($name) && $request->hasFile("report.{$index}")) {
-                        $reportPath = $request->file("report.{$index}")->store('reports', 'public');
-                        $stock->stockReports()->create([
+                        $reportFile = $request->file("report.{$index}");
+                        $reportPath = $reportFile->store('reports', 'public');
+                        $createdReports[] = $stock->stockReports()->create([
                             'name' => $name,
-                            'report' => $reportPath
+                            'report' => $reportPath,
+                            'original_filename' => $reportFile->getClientOriginalName(),
                         ]);
                     }
                 }
             }
         });
+
+        $stock->refresh();
+
+        if ($stock->status === 'Published') {
+            $reportsToNotify = [];
+            if (!$wasPublished) {
+                $reportsToNotify = $stock->stockReports()->get()->all();
+            } else {
+                $reportsToNotify = $createdReports;
+            }
+
+            foreach ($reportsToNotify as $report) {
+                $subscriptionService->notifyStockReport($stock, $report);
+            }
+        }
 
         return redirect()->route('admin.stocks.index')->with('toast', ['type' => 'success', 'message' => 'Stock Information updated successfully.']);
     }

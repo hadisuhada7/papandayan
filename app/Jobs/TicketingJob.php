@@ -8,6 +8,7 @@ use App\Models\Ticket;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\Middleware\RateLimited;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
@@ -17,6 +18,11 @@ class TicketingJob implements ShouldQueue
 
     public function __construct(public int $questionId)
     {
+    }
+
+    public function middleware(): array
+    {
+        return [new RateLimited('ticketing')];
     }
 
     public function handle(): void
@@ -33,6 +39,6 @@ class TicketingJob implements ShouldQueue
 
         Ticket::createFromQuestion($question);
 
-        NotificationJob::dispatch($question->id);
+        NotificationJob::dispatch($question->id)->onQueue('tickets');
     }
 }

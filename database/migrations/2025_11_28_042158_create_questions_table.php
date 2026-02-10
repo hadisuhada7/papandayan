@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('questions', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('name');
             $table->string('email');
             $table->string('phone_number');
             $table->text('message');
             $table->string('status');
-            $table->foreignId('question_type_id')->nullable()->constrained('question_types')->onDelete('set null');
+            $table->foreignUuid('question_type_id')->nullable()->constrained('question_types')->onDelete('set null');
             $table->softDeletes();
             $table->timestamps();
         });

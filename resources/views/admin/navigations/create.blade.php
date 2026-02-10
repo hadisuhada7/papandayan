@@ -88,13 +88,15 @@
                                 <div class="form-group row">
                                     <label for="menuGroup" class="col-sm-3 col-form-label">Menu Group <span class="text-danger">*</span></label>
                                     <div class="col-sm-3">
-                                        <select class="form-control select2bs4" style="width: 100%;" id="menuGroup" name="menu_group_id" required>
+                                        <select class="form-control select2bs4" style="width: 100%;" id="menuGroup" name="menu_group_id">
                                             <option value="">-- Select Group --</option>
+                                            <option value="null">Uncategorized</option>
                                             @foreach ($groups as $group)
                                                 <option value="{{ $group->id }}">{{ $group->name }}</option>
                                             @endforeach
                                         </select>
                                         <span class="error invalid-feedback">{{ $errors->first('menu_group_id') }}</span>
+                                        <small class="form-text text-muted">Select "Uncategorized" for standalone menu (no dropdown)</small>
                                     </div>
                                 </div>
                             </div>

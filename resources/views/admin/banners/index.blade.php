@@ -135,7 +135,7 @@
                 },
 
                 columnDefs: [
-                    { targets: 4, orderable: false }
+                    { targets: 5, orderable: false }
                 ],
 
                 initComplete: function(settings, json) {

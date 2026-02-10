@@ -15,7 +15,7 @@ class TicketingJob implements ShouldQueue
 {
     use  Dispatchable, Queueable, InteractsWithQueue, SerializesModels;
 
-    public function __construct(public int $questionId)
+    public function __construct(public string $questionId)
     {
     }
 

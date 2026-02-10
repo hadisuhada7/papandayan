@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tickets', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('ticket_number')->unique();
-            $table->foreignId('question_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignUuid('question_id')->nullable()->constrained()->nullOnDelete();
             $table->string('subject');
             $table->text('message');
             $table->string('requester_name');

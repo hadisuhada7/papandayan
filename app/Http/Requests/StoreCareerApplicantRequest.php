@@ -35,7 +35,7 @@ class StoreCareerApplicantRequest extends FormRequest
             'status' => ['nullable', 'string', 'max:255'],
             'reject_reason' => ['nullable', 'string', 'max:500'],
             'curriculum_vitae' => ['required', 'file', 'mimes:pdf', 'max:5120'],
-            'career_id' => ['nullable', 'integer'],
+            'career_id' => ['nullable', 'string', 'exists:careers,id'],
             
             // Experienced Applicant fields
             'company_name' => ['nullable', 'string', 'max:255'],

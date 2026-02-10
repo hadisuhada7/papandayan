@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('experienced_applicants', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('company_name');
             $table->string('industry');
             $table->string('position');

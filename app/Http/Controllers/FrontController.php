@@ -138,7 +138,7 @@ class FrontController extends Controller
         $profiles = CompanyProfile::orderByDesc('id')->take(1)->get();
         $visions = CompanyAbout::where('type', 'visions')->orderBy('id')->take(1)->get();
         $missions = CompanyAbout::where('type', 'missions')->orderBy('id')->take(1)->get();
-        $histories = TrackRecord::orderBy('track_record_at', 'asc')->take(5)->get();
+        $histories = TrackRecord::orderBy('track_record_at', 'asc')->get();
         $organizations = OrganizationStructure::orderByDesc('id')->take(1)->get();
         $managements = OurManagement::orderBy('id')->take(10)->get();
         $coverageAreas = CoverageArea::whereNotNull('latitude')
@@ -293,7 +293,7 @@ class FrontController extends Controller
     public function toggleLike(Request $request) {
         $validated = $request->validate([
             'type' => 'required|in:article,initiative,social',
-            'id' => 'required|integer',
+            'id' => 'required|uuid',
         ]);
 
         $modelMap = [

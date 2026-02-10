@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('career_applicants', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('first_name');
             $table->string('last_name')->nullable();
             $table->string('email');
@@ -26,8 +26,8 @@ return new class extends Migration
             $table->string('status');
             $table->text('reject_reason')->nullable();
             $table->string('curriculum_vitae');
-            $table->unsignedBigInteger('career_id');
-            $table->foreignId('experienced_id')->nullable()->constrained('experienced_applicants')->onDelete('cascade');
+            $table->foreignUuid('career_id')->constrained('careers')->onDelete('cascade');
+            $table->foreignUuid('experienced_id')->nullable()->constrained('experienced_applicants')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,7 +10,11 @@ use Kilobyteno\LaravelUserGuestLike\Traits\HasUserGuestLike;
 
 class Article extends Model
 {
-    use HasFactory, SoftDeletes, HasUserGuestLike;
+    use HasFactory, HasUuids, SoftDeletes, HasUserGuestLike;
+
+    protected $keyType = 'string';
+
+    public $incrementing = false;
 
     protected $fillable = [
         'title',

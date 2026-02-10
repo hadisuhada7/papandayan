@@ -27,7 +27,7 @@ class UpdateQuestionRequest extends FormRequest
             'phone_number' => ['required', 'string', 'max:255', 'regex:/^(\+62|62|0)8[1-9][0-9]{6,9}$/'],
             'message' => ['required', 'string', 'max:65535'],
             'status' => ['required', 'string', 'max:255'],
-            'question_type_id' => ['required', 'integer'],
+            'question_type_id' => ['required', 'string', 'exists:question_types,id'],
         ];
     }
 }

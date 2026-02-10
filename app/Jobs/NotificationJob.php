@@ -15,7 +15,7 @@ class NotificationJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public function __construct(public int $questionId)
+    public function __construct(public string $questionId)
     {
     }
 

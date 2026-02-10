@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('hero_sections', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('heading')->nullable();
             $table->text('subheading')->nullable();
             $table->string('link')->nullable();
             $table->string('banner');
-            $table->foreignId('menu_navigation_id')->constrained()->onDelete('cascade');
+            $table->foreignUuid('menu_navigation_id')->constrained()->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

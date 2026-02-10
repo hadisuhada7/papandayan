@@ -38,6 +38,11 @@ class MenuNavigationController extends Controller
         DB::transaction(function () use ($request) {
             $validated = $request->validated();
             
+            // Convert 'null' string to actual NULL for uncategorized menus
+            if (isset($validated['menu_group_id']) && $validated['menu_group_id'] === 'null') {
+                $validated['menu_group_id'] = null;
+            }
+            
             // Auto-set order if not provided
             if (!isset($validated['order']) || $validated['order'] === null || $validated['order'] === 0) {
                 $maxOrder = MenuNavigation::where('menu_group_id', $validated['menu_group_id'])->max('order');
@@ -75,6 +80,12 @@ class MenuNavigationController extends Controller
         // Closure-based transaction
         DB::transaction(function () use ($request, $navigation) {
             $validated = $request->validated();
+            
+            // Convert 'null' string to actual NULL for uncategorized menus
+            if (isset($validated['menu_group_id']) && $validated['menu_group_id'] === 'null') {
+                $validated['menu_group_id'] = null;
+            }
+            
             $navigation->update($validated);
         });
 

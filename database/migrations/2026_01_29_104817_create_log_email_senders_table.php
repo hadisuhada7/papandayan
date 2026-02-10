@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('log_email_senders', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('question_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('ticket_id')->nullable()->constrained()->nullOnDelete();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('question_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignUuid('ticket_id')->nullable()->constrained()->nullOnDelete();
             $table->string('recipient_email');
             $table->string('subject');
             $table->string('template');

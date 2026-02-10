@@ -42,7 +42,7 @@ class UpdateCareerApplicantRequest extends FormRequest
             'status' => ['required', 'string', 'max:255'],
             'reject_reason' => ['nullable', 'string', 'max:500'],
             'curriculum_vitae' => ['sometimes', 'file', 'mimes:pdf', 'max:5120'],
-            'career_id' => ['required', 'integer'],
+            'career_id' => ['required', 'string', 'exists:careers,id'],
 
             // Experienced Applicant fields
             'company_name' => ['nullable', 'string', 'max:255'],

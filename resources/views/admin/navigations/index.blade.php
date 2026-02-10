@@ -33,7 +33,9 @@
                                 <th style="width: 30px;">No</th>
                                 <th style="width: 250px;">Name</th>
                                 <th style="width: 200px;">URL</th>
-                                <th style="width: 200px;">Is Active</th>
+                                <th style="width: 150px;">Group</th>
+                                <th style="width: 80px;">Order</th>
+                                <th style="width: 100px;">Is Active</th>
                                 <th scope="col">Icon</th>
                                 <th style="width: 65px;">&nbsp;</th>
                             </tr>
@@ -47,6 +49,14 @@
                                     <td scope="row">{{ $index }}</td>
                                     <td>{{ $navigation->name }}</td>
                                     <td>{{ $navigation->url }}</td>
+                                    <td>
+                                        @if($navigation->menu_group)
+                                            <span class="badge badge-info">{{ $navigation->menu_group->name }}</span>
+                                        @else
+                                            <span class="badge badge-secondary">Uncategorized</span>
+                                        @endif
+                                    </td>
+                                    <td class="text-center">{{ $navigation->order }}</td>
                                     <td>
                                         @if($navigation->is_active)
                                             <span class="badge badge-success">Yes</span>
@@ -141,7 +151,7 @@
                 },
 
                 columnDefs: [
-                    { targets: 5, orderable: false }
+                    { targets: 7, orderable: false }
                 ],
 
                 initComplete: function(settings, json) {

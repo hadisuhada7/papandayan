@@ -197,6 +197,10 @@
                         $result.append(" <em>(new tag)</em>");
                     }
                     return $result;
+                },
+                templateSelection: function(data) {
+                    // Display the text instead of id for selected items
+                    return data.text;
                 }
             });
 

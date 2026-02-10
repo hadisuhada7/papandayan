@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('careers', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('position');
             $table->string('location');
             $table->date('posting_at');
@@ -25,11 +25,6 @@ return new class extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
-
-        // Add foreign key to career_applicants table
-        Schema::table('career_applicants', function (Blueprint $table) {
-            $table->foreign('career_id')->references('id')->on('careers')->onDelete('cascade');
-        });
     }
 
     /**
@@ -37,11 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // Drop foreign key from career_applicants table first
-        Schema::table('career_applicants', function (Blueprint $table) {
-            $table->dropForeign(['career_id']);
-        });
-
         Schema::dropIfExists('careers');
     }
 };

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->dropForeign(['menu_group_id']);
             
             // Modify the column to be nullable
-            $table->foreignId('menu_group_id')->nullable()->change();
+            $table->foreignUuid('menu_group_id')->nullable()->change();
             
             // Add the foreign key constraint back with nullable support
             $table->foreign('menu_group_id')->references('id')->on('menu_groups')->onDelete('set null');
@@ -33,7 +33,7 @@ return new class extends Migration
             $table->dropForeign(['menu_group_id']);
             
             // Change back to not nullable
-            $table->foreignId('menu_group_id')->change();
+            $table->foreignUuid('menu_group_id')->change();
             
             // Add the foreign key constraint back
             $table->foreign('menu_group_id')->references('id')->on('menu_groups')->onDelete('cascade');

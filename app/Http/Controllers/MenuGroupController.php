@@ -35,6 +35,13 @@ class MenuGroupController extends Controller
         // Closure-based transaction
         DB::transaction(function () use ($request) {
             $validated = $request->validated();
+            
+            // Auto-set order if not provided or is 0
+            if (!isset($validated['order']) || $validated['order'] === null || $validated['order'] === 0) {
+                $maxOrder = MenuGroup::max('order');
+                $validated['order'] = $maxOrder ? $maxOrder + 1 : 1;
+            }
+            
             $newDataRecord = MenuGroup::create($validated);
         });
 

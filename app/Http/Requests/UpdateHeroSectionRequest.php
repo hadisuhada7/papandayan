@@ -26,7 +26,7 @@ class UpdateHeroSectionRequest extends FormRequest
             'subheading' => ['nullable', 'string', 'max:65535'],
             'link' => ['nullable', 'string', 'max:255'],
             'banner' => ['sometimes', 'image', 'mimes:png,jpg,jpeg,svg', 'max:2048'],
-            'menu_navigation_id' => ['required', 'integer'],
+            'menu_navigation_id' => ['required', 'string', 'exists:menu_navigations,id'],
         ];
     }
 }

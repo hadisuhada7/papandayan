@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('company_keypoints', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('keypoint')->nullable();
-            $table->foreignId('company_about_id')->constrained()->onDelete('cascade');
+            $table->foreignUuid('company_about_id')->constrained()->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

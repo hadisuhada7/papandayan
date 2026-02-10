@@ -36,7 +36,20 @@ class UpdateMenuNavigationRequest extends FormRequest
             'url' => ['required', 'string', 'max:255'],
             'is_active' => ['required', 'boolean'],
             'icon' => ['nullable', 'string', 'max:255'],
-            'menu_group_id' => ['required', 'integer', 'exists:menu_groups,id'],
+            'menu_group_id' => ['nullable', function ($attribute, $value, $fail) {
+                // Allow 'null' string or valid UUID
+                if ($value === 'null' || $value === null) {
+                    return;
+                }
+                // Check if it's a valid UUID and exists in menu_groups table
+                if (!\Illuminate\Support\Str::isUuid($value)) {
+                    $fail('The menu group must be a valid UUID.');
+                    return;
+                }
+                if (!\App\Models\MenuGroup::where('id', $value)->exists()) {
+                    $fail('The selected menu group does not exist.');
+                }
+            }],
         ];
     }
 }

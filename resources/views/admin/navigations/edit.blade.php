@@ -89,13 +89,15 @@
                                 <div class="form-group row">
                                     <label for="menuGroup" class="col-sm-3 col-form-label">Menu Group <span class="text-danger">*</span></label>
                                     <div class="col-sm-3">
-                                        <select class="form-control select2bs4" style="width: 100%;" id="menuGroup" name="menu_group_id" required>
-                                            <option value="{{ $navigation->menu_group_id }}">{{ $navigation->menu_group ? $navigation->menu_group->name : 'Uncategorized' }}</option>
+                                        <select class="form-control select2bs4" style="width: 100%;" id="menuGroup" name="menu_group_id">
+                                            <option value="">-- Select Group --</option>
+                                            <option value="null" {{ !$navigation->menu_group_id ? 'selected' : '' }}>Uncategorized</option>
                                             @foreach ($groups as $group)
-                                                <option value="{{ $group->id }}">{{ $group->name }}</option>
+                                                <option value="{{ $group->id }}" {{ $navigation->menu_group_id == $group->id ? 'selected' : '' }}>{{ $group->name }}</option>
                                             @endforeach
                                         </select>
                                         <span class="error invalid-feedback">{{ $errors->first('menu_group_id') }}</span>
+                                        <small class="form-text text-muted">Select "Uncategorized" for standalone menu (no dropdown)</small>
                                     </div>
                                 </div>
                             </div>

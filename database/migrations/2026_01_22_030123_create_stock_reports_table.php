@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('stock_reports', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('name');
             $table->text('report')->nullable();
-            $table->foreignId('stock_information_id')->constrained()->onDelete('cascade');
+            $table->foreignUuid('stock_information_id')->constrained()->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -49,17 +49,21 @@ class ArticleController extends Controller
             if ($request->has('tags')) {
                 $tagIds = [];
                 foreach ($request->tags as $tagValue) {
-                    // Check if it's an existing tag ID or a new tag name
-                    if (is_numeric($tagValue)) {
-                        $tagIds[] = $tagValue;
-                    } else {
-                        // Create new tag
-                        $newTag = Tag::firstOrCreate(
-                            ['name' => $tagValue],
-                            ['slug' => \Illuminate\Support\Str::slug($tagValue)]
-                        );
-                        $tagIds[] = $newTag->id;
+                    if (blank($tagValue)) {
+                        continue;
                     }
+
+                    $existingTag = Tag::find($tagValue);
+                    if ($existingTag) {
+                        $tagIds[] = $existingTag->id;
+                        continue;
+                    }
+
+                    $newTag = Tag::firstOrCreate(
+                        ['name' => $tagValue],
+                        ['slug' => \Illuminate\Support\Str::slug($tagValue)]
+                    );
+                    $tagIds[] = $newTag->id;
                 }
                 $newDataRecord->tags()->sync($tagIds);
             }
@@ -106,17 +110,21 @@ class ArticleController extends Controller
             if ($request->has('tags')) {
                 $tagIds = [];
                 foreach ($request->tags as $tagValue) {
-                    // Check if it's an existing tag ID or a new tag name
-                    if (is_numeric($tagValue)) {
-                        $tagIds[] = $tagValue;
-                    } else {
-                        // Create new tag
-                        $newTag = Tag::firstOrCreate(
-                            ['name' => $tagValue],
-                            ['slug' => \Illuminate\Support\Str::slug($tagValue)]
-                        );
-                        $tagIds[] = $newTag->id;
+                    if (blank($tagValue)) {
+                        continue;
                     }
+
+                    $existingTag = Tag::find($tagValue);
+                    if ($existingTag) {
+                        $tagIds[] = $existingTag->id;
+                        continue;
+                    }
+
+                    $newTag = Tag::firstOrCreate(
+                        ['name' => $tagValue],
+                        ['slug' => \Illuminate\Support\Str::slug($tagValue)]
+                    );
+                    $tagIds[] = $newTag->id;
                 }
                 $article->tags()->sync($tagIds);
             } else {

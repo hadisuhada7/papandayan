@@ -119,7 +119,14 @@ class ReportSubscriptionService
             return;
         }
 
+        $sendImmediately = $this->shouldSendImmediately();
+
         foreach ($subscribers as $subscriber) {
+            if ($sendImmediately) {
+                $this->emailService->sendReportSubscriptionNotification($subscriber, $payload);
+                continue;
+            }
+
             $this->emailService->queueReportSubscriptionNotification($subscriber, $payload);
         }
     }
@@ -148,5 +155,10 @@ class ReportSubscriptionService
         }
 
         return now();
+    }
+
+    private function shouldSendImmediately(): bool
+    {
+        return config('mail.report_send_mode', 'queue') === 'direct';
     }
 }

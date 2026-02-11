@@ -37,6 +37,7 @@ use App\Http\Controllers\LogEmailSenderController;
 use App\Http\Controllers\LogDownloadReportController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\ReportSubscriptionController;
+use App\Http\Controllers\ReportSubscriberController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -232,6 +233,10 @@ Route::middleware('auth')->group(function () {
 
         Route::middleware('can:manage download logs')->group(function () {
             Route::resource('download-logs', LogDownloadReportController::class);
+        });
+
+        Route::middleware('can:manage report subscribers')->group(function () {
+            Route::resource('report-subscribers', ReportSubscriberController::class)->only(['index']);
         });
 
     });

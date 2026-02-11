@@ -88,14 +88,14 @@
                                <div class="form-group row">
                                    <label for="modal-name" class="col-sm-3 col-form-label">Nama Lengkap <span class="text-danger">*</span></label>
                                    <div class="col-sm-9">
-                                       <input type="text" class="form-control" id="modal-name" name="name" maxlength="255" placeholder="Nama Lengkap" required>
+                                       <input type="text" class="form-control" id="modal-name" name="name" maxlength="50" placeholder="Nama Lengkap" required>
                                        <span class="error invalid-feedback" id="name-error"></span>
                                    </div>
                                </div>
                                <div class="form-group row">
                                    <label for="modal-email" class="col-sm-3 col-form-label">Email <span class="text-danger">*</span></label>
                                    <div class="col-sm-9">
-                                       <input type="email" class="form-control" id="modal-email" name="email" maxlength="255" placeholder="Email" required>
+                                       <input type="email" class="form-control" id="modal-email" name="email" maxlength="50" placeholder="Email" required>
                                        <span class="error invalid-feedback" id="email-error"></span>
                                    </div>
                                </div>
@@ -240,24 +240,24 @@
             rules: {
                name: {
                   required: true,
-                  maxlength: 255
+                  maxlength: 50
                },
                email: {
                   required: true,
                   email: true,
                   emailDomain: true,
-                  maxlength: 255
+                  maxlength: 50
                }
             },
             messages: {
                name: {
                   required: 'Nama harus diisi',
-                  maxlength: 'Nama maksimal 255 karakter'
+                  maxlength: 'Nama maksimal 50 karakter'
                },
                email: {
                   required: 'Email harus diisi',
                   email: 'Gunakan format email yang valid',
-                  maxlength: 'Email maksimal 255 karakter'
+                  maxlength: 'Email maksimal 50 karakter'
                }
             },
             highlight: function (element) {

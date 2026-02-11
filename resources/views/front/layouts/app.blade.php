@@ -428,7 +428,7 @@
                     </div>
                     <div class="needOurSupportInput">
                         <div class="input-group fadein">
-                            <input type="email" class="form-control" id="subscription-email" name="subscription_email" placeholder="Email Address" aria-label="Email Address">
+                            <input type="email" class="form-control" id="subscription-email" name="subscription_email" maxlength="50" placeholder="Email Address" aria-label="Email Address">
                             <a href="javascript:void(0);" class="input-group-text subscriptionBtn"><span>Subscription</span>
                                 <img src="images/icon/icon-right.png" alt="btn-arrow" class="img-fluid"></a>
                         </div>
@@ -763,8 +763,9 @@
             var $button = $('.subscriptionBtn');
             var isSubmitting = false;
 
+            // Validasi email dengan domain lengkap (seperti di financial.blade.php)
             var isValidEmail = function (email) {
-                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+                return /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
             };
 
             var showToast = function (type, message) {
@@ -792,7 +793,7 @@
                 }
 
                 if (!isValidEmail(email)) {
-                    showToast('error', 'Gunakan format email yang valid.');
+                    showToast('error', 'Gunakan format email yang valid dengan domain lengkap (contoh: nama@domain.com).');
                     return;
                 }
 

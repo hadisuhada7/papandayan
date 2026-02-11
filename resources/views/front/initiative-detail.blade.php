@@ -114,7 +114,7 @@
                     </div>
                     <div class="col-lg-4">
                         <div class="blogSingleAside">
-                            <div class="searchKeyword customCard">
+                            <!-- <div class="searchKeyword customCard">
                                 <div class="searchKeywordInner">
                                 <h4>Temukan Artikel</h4>
                                     <form>
@@ -124,7 +124,7 @@
                                         </div>
                                     </form>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="recentPost customCard">
                                 <h4>Postingan Terbaru</h4>
                                 <div class="recentPostList">

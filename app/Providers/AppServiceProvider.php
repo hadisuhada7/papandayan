@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\MenuGroup;
 use App\Models\MenuNavigation;
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Gate;
@@ -25,6 +26,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Schema::defaultMorphKeyType('uuid');
+
         RateLimiter::for('subscription-emails', function () {
             return Limit::perMinute(60);
         });

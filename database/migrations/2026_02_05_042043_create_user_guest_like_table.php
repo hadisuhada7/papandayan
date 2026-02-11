@@ -10,8 +10,8 @@ return new class extends Migration
     {
         Schema::create('user_guest_likes', function (Blueprint $table) {
             $table->id();
-            $table->morphs('model');
-            $table->nullableMorphs('author');
+            $table->uuidMorphs('model');
+            $table->nullableUuidMorphs('author');
             $table->ipAddress('ip')->nullable();
             $table->string('user_agent')->nullable();
             $table->timestamps();

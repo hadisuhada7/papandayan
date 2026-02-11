@@ -49,6 +49,7 @@ class RolePermissionSeeder extends Seeder
             'manage email logs',
             'manage email configs',
             'manage download logs',
+            'manage report subscribers',
         ];
 
         foreach($permission as $permission){
@@ -97,6 +98,7 @@ class RolePermissionSeeder extends Seeder
             'manage email logs',
             'manage email configs',
             'manage download logs',
+            'manage report subscribers',
         ];
 
         $designManagerRole->syncPermissions($designManagerPermissions);

@@ -504,6 +504,11 @@ return [
             'url' => 'admin/download-logs',
             'icon' => 'fas fa-fw fa-download',
         ],
+        [
+            'text' => 'Report Subscribers',
+            'url' => 'admin/report-subscribers',
+            'icon' => 'fas fa-fw fa-bell',
+        ],
         ['header' => 'ACCOUNT SETTINGS'],
         // [
         //     'text' => 'Users',

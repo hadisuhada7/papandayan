@@ -34,7 +34,7 @@ class TicketController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'question_id' => ['nullable', 'integer', 'exists:questions,id'],
+            'question_id' => ['nullable', 'uuid', 'exists:questions,id'],
             'subject' => ['required', 'string', 'max:255'],
             'message' => ['required', 'string'],
             'requester_name' => ['required', 'string', 'max:255'],
@@ -68,7 +68,7 @@ class TicketController extends Controller
         $previousStatus = $ticket->status?->value;
 
         $validated = $request->validate([
-            'question_id' => ['nullable', 'integer', 'exists:questions,id'],
+            'question_id' => ['nullable', 'uuid', 'exists:questions,id'],
             'subject' => ['required', 'string', 'max:255'],
             'message' => ['required', 'string'],
             'requester_name' => ['required', 'string', 'max:255'],

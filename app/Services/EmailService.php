@@ -11,7 +11,7 @@ use App\Models\LogEmailSender;
 use App\Models\Question;
 use App\Models\ReportSubscriber;
 use App\Models\Ticket;
-use Illuminate\Support\Facades\Mail;
+use PHPMailer\PHPMailer\PHPMailer;
 
 class EmailService
 {
@@ -19,8 +19,7 @@ class EmailService
     {
         $mail = new AutoResponseCustomerMail($question, $ticket);
         $activeConfig = $this->applySender($mail, EmailConfig::TYPE_TICKET);
-        $mailer = $this->resolveMailer($activeConfig);
-        [$senderEmail] = $this->resolveSender($activeConfig);
+        [$senderEmail, $senderName] = $this->resolveSender($activeConfig);
 
         $this->sendWithLog(
             $mail,
@@ -28,8 +27,9 @@ class EmailService
             $question,
             $ticket,
             'auto-response-customer',
-            $mailer,
-            $senderEmail
+            $activeConfig,
+            $senderEmail,
+            $senderName
         );
     }
 
@@ -37,8 +37,7 @@ class EmailService
     {
         $mail = new NotificationAdminMail($question, $ticket);
         $activeConfig = $this->applySender($mail, EmailConfig::TYPE_TICKET);
-        $mailer = $this->resolveMailer($activeConfig);
-        [$senderEmail] = $this->resolveSender($activeConfig);
+        [$senderEmail, $senderName] = $this->resolveSender($activeConfig);
 
         $adminAddress = config('mail.admin.address', config('mail.from.address'));
         $adminName = config('mail.admin.name', 'Admin');
@@ -49,8 +48,9 @@ class EmailService
             $question,
             $ticket,
             'notification-admin',
-            $mailer,
-            $senderEmail
+            $activeConfig,
+            $senderEmail,
+            $senderName
         );
     }
 
@@ -58,8 +58,7 @@ class EmailService
     {
         $mail = new ReportSubscriptionNotificationMail($payload, $subscriber);
         $activeConfig = $this->applySender($mail, EmailConfig::TYPE_NOTIFICATION);
-        $mailer = $this->resolveMailer($activeConfig);
-        [$senderEmail] = $this->resolveSender($activeConfig);
+        [$senderEmail, $senderName] = $this->resolveSender($activeConfig);
 
         $this->sendWithLog(
             $mail,
@@ -67,8 +66,9 @@ class EmailService
             null,
             null,
             'subscription-report-notification',
-            $mailer,
-            $senderEmail
+            $activeConfig,
+            $senderEmail,
+            $senderName
         );
     }
 
@@ -76,8 +76,7 @@ class EmailService
     {
         $mail = new ReportSubscriptionUnsubscribedMail($subscriber);
         $activeConfig = $this->applySender($mail, EmailConfig::TYPE_NOTIFICATION);
-        $mailer = $this->resolveMailer($activeConfig);
-        [$senderEmail] = $this->resolveSender($activeConfig);
+        [$senderEmail, $senderName] = $this->resolveSender($activeConfig);
 
         $this->sendWithLog(
             $mail,
@@ -85,8 +84,9 @@ class EmailService
             null,
             null,
             'subscription-unsubscribed',
-            $mailer,
-            $senderEmail
+            $activeConfig,
+            $senderEmail,
+            $senderName
         );
     }
 
@@ -134,7 +134,6 @@ class EmailService
             $this->applyMailerConfig($activeConfig);
         }
 
-        $mailer = $this->resolveMailer($activeConfig);
         [$defaultSenderEmail, $defaultSenderName] = $this->resolveSender($activeConfig);
         $senderEmail = $log->sender_email ?: $defaultSenderEmail;
         $senderName = $defaultSenderName;
@@ -172,13 +171,14 @@ class EmailService
         }
 
         try {
-            Mail::mailer($mailer)->html($log->body, function ($message) use ($log, $senderEmail, $senderName) {
-                $message->to($log->recipient_email);
-                if (!empty($senderEmail)) {
-                    $message->from($senderEmail, $senderName);
-                }
-                $message->subject($log->subject);
-            });
+            $this->sendHtmlViaPhpMailer(
+                $log->recipient_email,
+                $log->subject,
+                $log->body,
+                $senderEmail,
+                $senderName,
+                $activeConfig
+            );
 
             $log->update([
                 'status' => 'sent',
@@ -227,18 +227,13 @@ class EmailService
         ]);
     }
 
-    protected function resolveMailer(?EmailConfig $activeConfig): string
-    {
-        return $activeConfig ? 'smtp' : config('mail.default', 'log');
-    }
-
-    protected function sendWithLog($mail, string $recipientEmail, ?Question $question, ?Ticket $ticket, string $template, string $mailer, ?string $senderEmail = null): void
+    protected function sendWithLog($mail, string $recipientEmail, ?Question $question, ?Ticket $ticket, string $template, ?EmailConfig $activeConfig, ?string $senderEmail = null, ?string $senderName = null): void
     {
         $log = $this->logMail($mail, $recipientEmail, $question, $ticket, $template, $senderEmail, 'queued');
 
         try {
             $log->update(['status' => 'sending']);
-            Mail::mailer($mailer)->to($recipientEmail)->send($mail);
+            $this->sendMailableViaPhpMailer($mail, $recipientEmail, $activeConfig, $senderEmail, $senderName);
             $log->update([
                 'status' => 'sent',
                 'sent_at' => now(),
@@ -277,6 +272,108 @@ class EmailService
         $name = $activeConfig?->from_name ?? config('mail.from.name');
 
         return [$address, $name];
+    }
+
+    protected function sendMailableViaPhpMailer($mail, string $recipientEmail, ?EmailConfig $activeConfig, ?string $senderEmail, ?string $senderName): void
+    {
+        $subject = $mail->envelope()->subject ?? 'Notification';
+        $body = $mail->render();
+
+        $this->sendHtmlViaPhpMailer(
+            $recipientEmail,
+            $subject,
+            $body,
+            $senderEmail,
+            $senderName,
+            $activeConfig
+        );
+    }
+
+    protected function sendHtmlViaPhpMailer(string $recipientEmail, string $subject, string $body, ?string $senderEmail, ?string $senderName, ?EmailConfig $activeConfig): void
+    {
+        $senderEmail = $senderEmail ?: config('mail.from.address');
+        $senderName = $senderName ?? config('mail.from.name');
+
+        if (empty($recipientEmail)) {
+            throw new \RuntimeException('Recipient email kosong.');
+        }
+
+        if (empty($senderEmail)) {
+            throw new \RuntimeException('Sender email belum dikonfigurasi.');
+        }
+
+        $mailer = $this->buildPhpMailer($activeConfig);
+        $mailer->setFrom($senderEmail, $senderName ?? '');
+        $mailer->addAddress($recipientEmail);
+        $mailer->Subject = $subject ?: 'Notification';
+        $mailer->Body = $body;
+
+        $plainBody = trim(strip_tags($body));
+        $mailer->AltBody = $plainBody !== '' ? $plainBody : $mailer->Subject;
+
+        $mailer->send();
+    }
+
+    protected function buildPhpMailer(?EmailConfig $activeConfig): PHPMailer
+    {
+        $settings = $this->resolveSmtpSettings($activeConfig);
+
+        if (empty($settings['host'])) {
+            throw new \RuntimeException('SMTP host belum dikonfigurasi.');
+        }
+
+        if (empty($settings['port'])) {
+            throw new \RuntimeException('SMTP port belum dikonfigurasi.');
+        }
+
+        $mailer = new PHPMailer(true);
+        $mailer->isSMTP();
+        $mailer->Host = $settings['host'];
+        $mailer->Port = (int) $settings['port'];
+
+        $mailer->SMTPAuth = !empty($settings['username']) || !empty($settings['password']);
+        if ($mailer->SMTPAuth) {
+            $mailer->Username = $settings['username'] ?? '';
+            $mailer->Password = $settings['password'] ?? '';
+        }
+
+        $encryption = $this->normalizeEncryption($settings['encryption'] ?? null);
+        if ($encryption !== '') {
+            $mailer->SMTPSecure = $encryption;
+        }
+
+        $mailer->CharSet = 'UTF-8';
+        $mailer->isHTML(true);
+
+        return $mailer;
+    }
+
+    protected function resolveSmtpSettings(?EmailConfig $activeConfig): array
+    {
+        $smtpConfig = config('mail.mailers.smtp', []);
+
+        return [
+            'host' => $activeConfig?->host ?? ($smtpConfig['host'] ?? null),
+            'port' => $activeConfig?->port ?? ($smtpConfig['port'] ?? null),
+            'username' => $activeConfig?->username ?? ($smtpConfig['username'] ?? null),
+            'password' => $activeConfig?->password ?? ($smtpConfig['password'] ?? null),
+            'encryption' => $activeConfig?->encryption ?? ($smtpConfig['scheme'] ?? null),
+        ];
+    }
+
+    protected function normalizeEncryption(?string $encryption): string
+    {
+        $value = strtolower((string) $encryption);
+
+        if (in_array($value, ['ssl', 'smtps'], true)) {
+            return PHPMailer::ENCRYPTION_SMTPS;
+        }
+
+        if (in_array($value, ['tls', 'starttls'], true)) {
+            return PHPMailer::ENCRYPTION_STARTTLS;
+        }
+
+        return '';
     }
 
     protected function formatExceptionMessage(\Throwable $exception): string

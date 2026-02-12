@@ -118,6 +118,7 @@ class ComposerStaticInitc514d8f7b9fc5970bdd94287905ef584
             'PhpOption\\' => 10,
             'PhpOffice\\PhpSpreadsheet\\' => 25,
             'PHPMailer\\PHPMailer\\' => 20,
+            'PHPMailer\\PHPMailer\\' => 20,
         ),
         'N' =>
         array (
@@ -413,6 +414,11 @@ class ComposerStaticInitc514d8f7b9fc5970bdd94287905ef584
         array (
             0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
         ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+        ),
+        'NunoMaduro\\Collision\\' => 
         'PHPMailer\\PHPMailer\\' =>
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
@@ -671,6 +677,8 @@ class ComposerStaticInitc514d8f7b9fc5970bdd94287905ef584
         'App\\Http\\Controllers\\QuestionTypeController' => __DIR__ . '/../..' . '/app/Http/Controllers/QuestionTypeController.php',
         'App\\Http\\Controllers\\ReportSubscriberController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReportSubscriberController.php',
         'App\\Http\\Controllers\\ReportSubscriptionController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReportSubscriptionController.php',
+        'App\\Http\\Controllers\\ReportSubscriberController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReportSubscriberController.php',
+        'App\\Http\\Controllers\\ReportSubscriptionController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReportSubscriptionController.php',
         'App\\Http\\Controllers\\SafetyManagementController' => __DIR__ . '/../..' . '/app/Http/Controllers/SafetyManagementController.php',
         'App\\Http\\Controllers\\ServiceController' => __DIR__ . '/../..' . '/app/Http/Controllers/ServiceController.php',
         'App\\Http\\Controllers\\ServiceKeypointController' => __DIR__ . '/../..' . '/app/Http/Controllers/ServiceKeypointController.php',
@@ -746,9 +754,12 @@ class ComposerStaticInitc514d8f7b9fc5970bdd94287905ef584
         'App\\Http\\Traits\\FlashMessageTrait' => __DIR__ . '/../..' . '/app/Http/Traits/FlashMessageTrait.php',
         'App\\Jobs\\NotificationJob' => __DIR__ . '/../..' . '/app/Jobs/NotificationJob.php',
         'App\\Jobs\\ReportSubscriptionEmailJob' => __DIR__ . '/../..' . '/app/Jobs/ReportSubscriptionEmailJob.php',
+        'App\\Jobs\\ReportSubscriptionEmailJob' => __DIR__ . '/../..' . '/app/Jobs/ReportSubscriptionEmailJob.php',
         'App\\Jobs\\TicketingJob' => __DIR__ . '/../..' . '/app/Jobs/TicketingJob.php',
         'App\\Mail\\AutoResponseCustomerMail' => __DIR__ . '/../..' . '/app/Mail/AutoResponseCustomerMail.php',
         'App\\Mail\\NotificationAdminMail' => __DIR__ . '/../..' . '/app/Mail/NotificationAdminMail.php',
+        'App\\Mail\\ReportSubscriptionNotificationMail' => __DIR__ . '/../..' . '/app/Mail/ReportSubscriptionNotificationMail.php',
+        'App\\Mail\\ReportSubscriptionUnsubscribedMail' => __DIR__ . '/../..' . '/app/Mail/ReportSubscriptionUnsubscribedMail.php',
         'App\\Mail\\ReportSubscriptionNotificationMail' => __DIR__ . '/../..' . '/app/Mail/ReportSubscriptionNotificationMail.php',
         'App\\Mail\\ReportSubscriptionUnsubscribedMail' => __DIR__ . '/../..' . '/app/Mail/ReportSubscriptionUnsubscribedMail.php',
         'App\\Models\\AnnualReport' => __DIR__ . '/../..' . '/app/Models/AnnualReport.php',
@@ -779,9 +790,12 @@ class ComposerStaticInitc514d8f7b9fc5970bdd94287905ef584
         'App\\Models\\OrganizationStructure' => __DIR__ . '/../..' . '/app/Models/OrganizationStructure.php',
         'App\\Models\\OurManagement' => __DIR__ . '/../..' . '/app/Models/OurManagement.php',
         'App\\Models\\Permission' => __DIR__ . '/../..' . '/app/Models/Permission.php',
+        'App\\Models\\Permission' => __DIR__ . '/../..' . '/app/Models/Permission.php',
         'App\\Models\\Product' => __DIR__ . '/../..' . '/app/Models/Product.php',
         'App\\Models\\Question' => __DIR__ . '/../..' . '/app/Models/Question.php',
         'App\\Models\\QuestionType' => __DIR__ . '/../..' . '/app/Models/QuestionType.php',
+        'App\\Models\\ReportSubscriber' => __DIR__ . '/../..' . '/app/Models/ReportSubscriber.php',
+        'App\\Models\\Role' => __DIR__ . '/../..' . '/app/Models/Role.php',
         'App\\Models\\ReportSubscriber' => __DIR__ . '/../..' . '/app/Models/ReportSubscriber.php',
         'App\\Models\\Role' => __DIR__ . '/../..' . '/app/Models/Role.php',
         'App\\Models\\SafetyManagement' => __DIR__ . '/../..' . '/app/Models/SafetyManagement.php',
@@ -798,6 +812,7 @@ class ComposerStaticInitc514d8f7b9fc5970bdd94287905ef584
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Services\\EmailService' => __DIR__ . '/../..' . '/app/Services/EmailService.php',
+        'App\\Services\\ReportSubscriptionService' => __DIR__ . '/../..' . '/app/Services/ReportSubscriptionService.php',
         'App\\Services\\ReportSubscriptionService' => __DIR__ . '/../..' . '/app/Services/ReportSubscriptionService.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Brick\\Math\\BigDecimal' => __DIR__ . '/..' . '/brick/math/src/BigDecimal.php',
@@ -4589,6 +4604,13 @@ class ComposerStaticInitc514d8f7b9fc5970bdd94287905ef584
         'NunoMaduro\\Collision\\SolutionsRepositories\\NullSolutionsRepository' => __DIR__ . '/..' . '/nunomaduro/collision/src/SolutionsRepositories/NullSolutionsRepository.php',
         'NunoMaduro\\Collision\\Writer' => __DIR__ . '/..' . '/nunomaduro/collision/src/Writer.php',
         'Override' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/Override.php',
+        'PHPMailer\\PHPMailer\\DSNConfigurator' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/DSNConfigurator.php',
+        'PHPMailer\\PHPMailer\\Exception' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/Exception.php',
+        'PHPMailer\\PHPMailer\\OAuth' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/OAuth.php',
+        'PHPMailer\\PHPMailer\\OAuthTokenProvider' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/OAuthTokenProvider.php',
+        'PHPMailer\\PHPMailer\\PHPMailer' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/PHPMailer.php',
+        'PHPMailer\\PHPMailer\\POP3' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/POP3.php',
+        'PHPMailer\\PHPMailer\\SMTP' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/SMTP.php',
         'PHPMailer\\PHPMailer\\DSNConfigurator' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/DSNConfigurator.php',
         'PHPMailer\\PHPMailer\\Exception' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/Exception.php',
         'PHPMailer\\PHPMailer\\OAuth' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/OAuth.php',

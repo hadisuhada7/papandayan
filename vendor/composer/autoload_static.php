@@ -118,7 +118,6 @@ class ComposerStaticInitc514d8f7b9fc5970bdd94287905ef584
             'PhpOption\\' => 10,
             'PhpOffice\\PhpSpreadsheet\\' => 25,
             'PHPMailer\\PHPMailer\\' => 20,
-            'PHPMailer\\PHPMailer\\' => 20,
         ),
         'N' =>
         array (

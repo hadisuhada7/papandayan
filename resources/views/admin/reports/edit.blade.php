@@ -3,6 +3,7 @@
 @section('title', 'Papandayan | Edit Annual Report')
 
 @section('plugins.BsCustomFileInput', true)
+@section('plugins.Select2', true)
 @section('plugins.Toastr', true)
 
 @section('content_header')
@@ -12,7 +13,7 @@
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('admin.reports.index') }}">Annual Reports</a></li>
                 <li class="breadcrumb-item active">Edit</li>
             </ol>
@@ -107,7 +108,13 @@
 @stop
 
 @section('css')
-    {{-- add stylesheets --}}
+    <style type="text/css">
+        /* Modify Select2 */
+        .select2-container--bootstrap4 .select2-selection--single:focus,
+        .select2-container--bootstrap4.select2-container--focus .select2-selection--single {
+            box-shadow: none !important;
+        }
+    </style>
 @stop
 
 @section('js')
@@ -116,6 +123,11 @@
         $(document).ready(function () {
             // Initialize bsCustomFileInput
             bsCustomFileInput.init();
+
+            //Initialize Select2 Elements
+            $('.select2bs4').select2({
+                theme: 'bootstrap4'
+            });
             
             // Add file validation for the thumbnail input
             $('#thumbnail').on('change', function(e) {

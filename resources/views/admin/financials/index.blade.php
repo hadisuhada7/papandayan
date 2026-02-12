@@ -38,7 +38,7 @@
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
                 <li class="breadcrumb-item active">Financial Statements</li>
             </ol>
         </div>
@@ -57,8 +57,8 @@
                         <thead>
                             <tr>
                                 <th style="width: 30px;">No</th>
-                                <th style="width: 300px;">Title</th>
-                                <th scope="col">Publish At</th>
+                                <th scope="col">Title</th>
+                                <th style="width: 150px;">Publish At</th>
                                 <th style="width: 100px;">Status</th>
                                 <th style="width: 65px;">&nbsp;</th>
                             </tr>
@@ -127,7 +127,6 @@
 
 @section('css')
     <style type="text/css">
-        
         /* Modify DataGrid Filter */
         #datagrid_filter input {
             margin-left: 0 !important;

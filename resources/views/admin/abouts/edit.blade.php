@@ -13,7 +13,7 @@
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('admin.abouts.index') }}">Vision & Mission</a></li>
                 <li class="breadcrumb-item active">Edit</li>
             </ol>
@@ -131,7 +131,6 @@
 
 @section('css')
     <style type="text/css">
-        
         /* Modify Select2 */
         .select2-container--bootstrap4 .select2-selection--single:focus,
         .select2-container--bootstrap4.select2-container--focus .select2-selection--single {

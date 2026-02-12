@@ -34,7 +34,7 @@ function getStatusDisplayText($status) {
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
                 <li class="breadcrumb-item active">Questions</li>
             </ol>
         </div>
@@ -53,10 +53,11 @@ function getStatusDisplayText($status) {
                         <thead>
                             <tr>
                                 <th style="width: 30px;">No</th>
-                                <th style="width: 250px;">Name</th>
+                                <th scope="col">Name</th>
                                 <th style="width: 200px;">Email</th>
-                                <th style="width: 200px;">Question Type</th>
-                                <th scope="col">Status</th>
+                                <th style="width: 200px;">Phone Number</th>
+                                <th style="width: 150px;">Question Type</th>
+                                <!-- <th style="width: 100px;">Status</th> -->
                                 <th style="width: 65px;">&nbsp;</th>
                             </tr>
                         </thead>
@@ -69,8 +70,9 @@ function getStatusDisplayText($status) {
                                     <td scope="row">{{ $index }}</td>
                                     <td>{{ $question->name }}</td>
                                     <td>{{ $question->email }}</td>
+                                    <td>{{ $question->phone_number }}</td>
                                     <td>{{ $question->question_type->name }}</td>
-                                    <td><span class="badge {{ getStatusBadgeClass($question->status) }}">{{ getStatusDisplayText($question->status) }}</span></td>
+                                    <!-- <td><span class="badge {{ getStatusBadgeClass($question->status) }}">{{ getStatusDisplayText($question->status) }}</span></td> -->
                                     <td class="text-center">
                                         <!-- <a href="{{ route('admin.questions.edit', $question) }}" class="btn btn-sm btn-primary item-edit"><i class="fas fa-pencil-alt"></i></a>
                                         <a href="javascript:void(0)" class="btn btn-sm btn-danger item-remove" data-id="{{ $question->id }}"><i class="fas fa-trash-alt"></i></a> -->
@@ -121,7 +123,6 @@ function getStatusDisplayText($status) {
 
 @section('css')
     <style type="text/css">
-        
         /* Modify DataGrid Filter */
         #datagrid_filter input {
             margin-left: 0 !important;

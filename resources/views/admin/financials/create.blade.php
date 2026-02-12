@@ -4,6 +4,7 @@
 
 @section('plugins.BsCustomFileInput', true)
 @section('plugins.TempusDominusBs4', true)
+@section('plugins.Select2', true)
 @section('plugins.Toastr', true)
 
 @section('content_header')
@@ -13,7 +14,7 @@
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('admin.financials.index') }}">Financial Statements</a></li>
                 <li class="breadcrumb-item active">Add</li>
             </ol>
@@ -81,18 +82,18 @@
 
                                 @for ($i = 0; $i < 6; $i++)
                                     <div class="form-group row">
-                                        <label for="name_{{ $i }}" class="col-sm-3 col-form-label">Name of Report {{ $i + 1 }}</label>
+                                        <label for="name_{{ $i }}" class="col-sm-3 col-form-label">Name of Report {{ $i + 1 }} @if($i === 0)<span class="text-danger">*</span>@endif</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="name_{{ $i }}" name="name[]" value="" maxlength="255" placeholder="Name of Report {{ $i + 1 }}">
+                                            <input type="text" class="form-control" id="name_{{ $i }}" name="name[]" value="" maxlength="255" placeholder="Name of Report {{ $i + 1 }}" {{ $i === 0 ? 'required' : '' }}>
                                             <span class="error invalid-feedback">{{ $errors->first('name.' . $i) }}</span>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="report_{{ $i }}" class="col-sm-3 col-form-label">Report {{ $i + 1 }}</label>
+                                        <label for="report_{{ $i }}" class="col-sm-3 col-form-label">Report {{ $i + 1 }} @if($i === 0)<span class="text-danger">*</span>@endif</label>
                                         <div class="col-sm-6">
                                             <div class="input-group">
                                                 <div class="custom-file">
-                                                    <input type="file" class="custom-file-input report-input" id="report_{{ $i }}" name="report[]" accept="application/pdf">
+                                                    <input type="file" class="custom-file-input report-input" id="report_{{ $i }}" name="report[]" accept="application/pdf" {{ $i === 0 ? 'required' : '' }}>
                                                     <label class="custom-file-label" for="report_{{ $i }}" data-browse="Browse">Choose file</label>
                                                 </div>
                                             </div>
@@ -117,9 +118,11 @@
 
 @section('css')
     <style type="text/css">
-        
-        /* Custom CSS add here */
-        
+        /* Modify Select2 */
+        .select2-container--bootstrap4 .select2-selection--single:focus,
+        .select2-container--bootstrap4.select2-container--focus .select2-selection--single {
+            box-shadow: none !important;
+        }
     </style>
 @stop
 
@@ -130,6 +133,11 @@
             // Initialize DatePicker
             $('#publishAt').datetimepicker({
                 format: 'DD-MM-YYYY'
+            });
+
+            //Initialize Select2 Elements
+            $('.select2bs4').select2({
+                theme: 'bootstrap4'
             });
 
             // Initialize bsCustomFileInput

@@ -12,7 +12,7 @@
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
                 <li class="breadcrumb-item active">Managements</li>
             </ol>
         </div>
@@ -31,9 +31,10 @@
                         <thead>
                             <tr>
                                 <th style="width: 30px;">No</th>
-                                <th style="width: 250px;">Name</th>
-                                <th style="width: 200px;">Occupation</th>
-                                <th scope="col">Avatar</th>
+                                <th style="width: 200px;">Name</th>
+                                <th style="width: 150px;">Occupation</th>
+                                <th scope="col">Description</th>
+                                <th style="width: 100px;">Avatar</th>
                                 <th style="width: 65px;">&nbsp;</th>
                             </tr>
                         </thead>
@@ -46,6 +47,7 @@
                                     <td scope="row">{{ $index }}</td>
                                     <td>{{ $management->name }}</td>
                                     <td>{{ $management->occupation }}</td>
+                                    <td>{!! $management->description !!}</td>
                                     <td><img src="{{ Storage::url($management->avatar) }}" alt="" style="max-width: 100px;"></td>
                                     <td class="text-center">
                                         <a href="{{ route('admin.managements.edit', $management) }}" class="btn btn-sm btn-primary item-edit"><i class="fas fa-pencil-alt"></i></a>
@@ -97,7 +99,6 @@
 
 @section('css')
     <style type="text/css">
-        
         /* Modify DataGrid Filter */
         #datagrid_filter input {
             margin-left: 0 !important;
@@ -133,7 +134,7 @@
                 },
 
                 columnDefs: [
-                    { targets: 4, orderable: false }
+                    { targets: 5, orderable: false }
                 ],
 
                 initComplete: function(settings, json) {

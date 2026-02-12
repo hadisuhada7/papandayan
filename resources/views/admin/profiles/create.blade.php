@@ -13,7 +13,7 @@
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('admin.profiles.index') }}">Profiles</a></li>
                 <li class="breadcrumb-item active">Add</li>
             </ol>
@@ -88,7 +88,6 @@
 
 @section('css')
     <style type="text/css">
-        
         /* Modify Summernote Editor */
         .note-editor.card {
             margin-bottom: 0px !important;

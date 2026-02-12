@@ -463,12 +463,12 @@ return [
                     'url' => 'admin/tickets',
                 ],
                 [
-                    'text' => 'Question Types',
-                    'url' => 'admin/types',
-                ],
-                [
                     'text' => 'Questions',
                     'url' => 'admin/questions',
+                ],
+                [
+                    'text' => 'Question Types',
+                    'url' => 'admin/types',
                 ],
             ],
         ],
@@ -476,6 +476,16 @@ return [
             'text' => 'Contacts',
             'url' => 'admin/contacts',
             'icon' => 'fas fa-fw fa-book',
+        ],
+        [
+            'text' => 'Report Subscribers',
+            'url' => 'admin/report-subscribers',
+            'icon' => 'fas fa-fw fa-bell',
+        ],
+        [
+            'text' => 'Download Logs',
+            'url' => 'admin/download-logs',
+            'icon' => 'fas fa-fw fa-download',
         ],
         ['header' => 'MENU SETTINGS'],
         [
@@ -498,16 +508,6 @@ return [
             'text' => 'Email Logs',
             'url' => 'admin/email-logs',
             'icon' => 'fas fa-fw fa-envelope',
-        ],
-        [
-            'text' => 'Download Logs',
-            'url' => 'admin/download-logs',
-            'icon' => 'fas fa-fw fa-download',
-        ],
-        [
-            'text' => 'Report Subscribers',
-            'url' => 'admin/report-subscribers',
-            'icon' => 'fas fa-fw fa-bell',
         ],
         ['header' => 'ACCOUNT SETTINGS'],
         // [

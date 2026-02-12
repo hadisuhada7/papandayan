@@ -12,7 +12,7 @@
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('admin.navigations.index') }}">Menu Navigations</a></li>
                 <li class="breadcrumb-item active">Edit</li>
             </ol>
@@ -88,7 +88,7 @@
                                 </div>
                                 <div class="form-group row">
                                     <label for="menuGroup" class="col-sm-3 col-form-label">Menu Group <span class="text-danger">*</span></label>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-4">
                                         <select class="form-control select2bs4" style="width: 100%;" id="menuGroup" name="menu_group_id">
                                             <option value="">-- Select Group --</option>
                                             <option value="null" {{ !$navigation->menu_group_id ? 'selected' : '' }}>Uncategorized</option>
@@ -162,7 +162,6 @@
 
 @section('css')
     <style type="text/css">
-
         /* Modify Select2 */
         .select2-container--bootstrap4 .select2-selection--single:focus,
         .select2-container--bootstrap4.select2-container--focus .select2-selection--single {

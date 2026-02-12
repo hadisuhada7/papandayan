@@ -12,7 +12,7 @@
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
                 <li class="breadcrumb-item active">Menu Navigations</li>
             </ol>
         </div>
@@ -31,12 +31,11 @@
                         <thead>
                             <tr>
                                 <th style="width: 30px;">No</th>
-                                <th style="width: 250px;">Name</th>
-                                <th style="width: 200px;">URL</th>
+                                <th style="width: 200px;">Name</th>
+                                <th scope="col">URL</th>
                                 <th style="width: 150px;">Group</th>
                                 <th style="width: 80px;">Order</th>
                                 <th style="width: 100px;">Is Active</th>
-                                <th scope="col">Icon</th>
                                 <th style="width: 65px;">&nbsp;</th>
                             </tr>
                         </thead>
@@ -56,7 +55,7 @@
                                             <span class="badge badge-secondary">Uncategorized</span>
                                         @endif
                                     </td>
-                                    <td class="text-center">{{ $navigation->order }}</td>
+                                    <td>{{ $navigation->order }}</td>
                                     <td>
                                         @if($navigation->is_active)
                                             <span class="badge badge-success">Yes</span>
@@ -64,7 +63,6 @@
                                             <span class="badge badge-danger">No</span>
                                         @endif
                                     </td>
-                                    <td>{{ $navigation->icon }}</td>
                                     <td class="text-center">
                                         <a href="{{ route('admin.navigations.edit', $navigation) }}" class="btn btn-sm btn-primary item-edit"><i class="fas fa-pencil-alt"></i></a>
                                         <a href="javascript:void(0)" class="btn btn-sm btn-danger item-remove" data-id="{{ $navigation->id }}"><i class="fas fa-trash-alt"></i></a>
@@ -115,7 +113,6 @@
 
 @section('css')
     <style type="text/css">
-        
         /* Modify DataGrid Filter */
         #datagrid_filter input {
             margin-left: 0 !important;
@@ -151,7 +148,7 @@
                 },
 
                 columnDefs: [
-                    { targets: 7, orderable: false }
+                    { targets: 6, orderable: false }
                 ],
 
                 initComplete: function(settings, json) {

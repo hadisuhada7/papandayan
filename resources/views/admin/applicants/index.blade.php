@@ -46,7 +46,7 @@
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
                 <li class="breadcrumb-item active">Applicants</li>
             </ol>
         </div>
@@ -66,9 +66,9 @@
                             <tr>
                                 <th style="width: 30px;">No</th>
                                 <th style="width: 160px;">Position</th>
-                                <th style="width: 160px;">Location</th>
+                                <th scope="col">Location</th>
                                 <th style="width: 150px;">Closing At</th>
-                                <th scope="col">Status</th>
+                                <th style="width: 100px;">Status</th>
                                 <th style="width: 150px;">Total Applicants</th>
                                 <th style="width: 65px;">&nbsp;</th>
                             </tr>
@@ -87,7 +87,7 @@
                                     <td>{{ $career->location }}</td>
                                     <td>{{ $career->closing_at->format('d F Y') }}</td>
                                     <td><span class="badge {{ getJobStatusBadgeClass($jobStatus) }}">{{ getJobStatusDisplayText($jobStatus) }}</span></td>
-                                    <td>{{ $career->career_applicants_count ?? 0 }}</td>
+                                    <td>{{ $career->career_applicants_count ?? 0 }} applicant(s)</td>
                                     <td class="text-center">
                                         @if($career->career_applicants_count > 0)
                                             <a href="javascript:void(0)" class="btn btn-sm btn-primary item-detail" data-id="{{ $career->id }}"><i class="fas fa-eye"></i></a>

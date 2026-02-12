@@ -17,7 +17,7 @@
                             <h2 style="margin: 0 0 12px; color: #2c3e50;">Terima kasih atas pertanyaan Anda</h2>
                             <p style="margin: 0 0 16px; color: #4b5563;">Halo {{ $question->name }},</p>
                             <p style="margin: 0 0 16px; color: #4b5563;">
-                                Tim kami telah meninjau dan memberikan tanggapan atas pertanyaan Anda. Detail respons dapat dilihat melalui informasi berikut.
+                                Pesan Anda telah kami terima dan diproses. Detail terkait pertanyaan Anda dapat dilihat pada informasi berikut.
                             </p>
                             <div style="background-color: #f3f4f6; padding: 16px; border-radius: 6px; margin-bottom: 16px;">
                                 <p style="margin: 0 0 8px; font-weight: 600;">Nomor Tiket</p>
@@ -41,7 +41,7 @@
                             <p style="margin: 0; color: #4b5563; white-space: pre-line;">{{ $question->message }}</p>
                             <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 24px 0;">
                             <p style="margin: 0; color: #6b7280; font-size: 12px;">
-                                Email ini dikirim otomatis oleh sistem. Apabila Anda memiliki pertanyaan tambahan, silakan balas email ini.
+                                Email ini dikirim secara otomatis oleh sistem, mohon untuk tidak membalas email ini.
                             </p>
                         </td>
                     </tr>

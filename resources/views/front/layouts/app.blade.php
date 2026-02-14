@@ -118,6 +118,7 @@
         /* Modify Breadcrumb */
         .breadcrumb {
             border-radius: 8px;
+            margin-top: 1rem;
         }
       
         .breadcrumb ul {
@@ -221,7 +222,7 @@
             <div class="container">
                 <div class="topHeaderInner">
                     <div class="mobile boxGroupHeader">
-                        <a href="https://api.whatsapp.com/send/?phone=6281400561146&text=Halo%2C+saya+mau+tanya+seputar+Papandayan%2C+mohon+informasinya&2C+terima+kasih&type=phone_number&app_absent=0">
+                        <a href="https://api.whatsapp.com/send/?phone=6281400561146&text=Halo%2C+saya+mau+tanya+seputar+Papandayan%2C+mohon+informasinya&2C+terima+kasih&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer">
                             <div class="flexGroupHeader">
                                 <div class="icon">
                                     <i class="fa fa-phone" style="color: white;"></i>
@@ -233,7 +234,7 @@
                         </a>
                     </div>
                     <div class="mail boxGroupHeader">
-                        <a href="javascript:void(0);" class="copy-to-clipboard" data-copy-text="kontak@papandayan.co.id">
+                        <a href="mailto:kontak@papandayan.co.id">
                             <div class="flexGroupHeader">
                                 <div class="icon">
                                     <i class="fa fa-envelope" style="color: white;"></i>
@@ -423,14 +424,14 @@
             <div class="container">
                 <div class="needOurSupportInner">
                     <div class="needOurSupportTxt">
-                        <h2 class="fadein">Info Investasi & Laporan Berkala</h2>
-                        <p class="fadein">Jangan lewatkan update kinerja perusahaan. Jadilah yang pertama menerima laporan kuartalan dan tahunan kami langsung di kotak masuk Anda.</p>
+                        <h2>Info Investasi & Laporan Berkala</h2>
+                        <p>Jangan lewatkan update kinerja perusahaan. Jadilah yang pertama menerima laporan kuartalan dan tahunan kami langsung di kotak masuk Anda.</p>
                     </div>
                     <div class="needOurSupportInput">
-                        <div class="input-group fadein">
+                        <div class="input-group">
                             <input type="email" class="form-control" id="subscription-email" name="subscription_email" maxlength="50" placeholder="Email Address" aria-label="Email Address">
                             <a href="javascript:void(0);" class="input-group-text subscriptionBtn"><span>Subscription</span>
-                                <img src="images/icon/icon-right.png" alt="btn-arrow" class="img-fluid"></a>
+                                <img src="{{ asset('images/icon/icon-right.png') }}" alt="btn-arrow" class="img-fluid"></a>
                         </div>
                     </div>
                 </div>
@@ -443,10 +444,10 @@
                         <div class="row">
                             <div class="col-md-12 col-lg-3">
                                 <div class="footerCol footerCol1">
-                                    <div class="footerLogo fadein">
+                                    <div class="footerLogo">
                                         <img src="{{ asset('images/logo/logo-footer.png') }}" alt="logo-footer" class="img-fluid">
                                     </div>
-                                    <div class="footerPara fadein officeInfo">
+                                    <div class="footerPara officeInfo">
                                         <div class="officeHeading">Kantor Pusat</div>
                                         <div class="officeInfoRow">
                                             <div class="officeInfoIcon">
@@ -468,17 +469,17 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <hr class="hrLine fadein">
-                                    <div class="socialMediaIcon fadein">
+                                    <hr class="hrLine">
+                                    <div class="socialMediaIcon">
                                         <ul class="nav">
                                             <li class="nav-item">
-                                                <a class="nav-link" href="https://api.whatsapp.com/send/?phone=6281400561146&text=Halo%2C+saya+mau+tanya+seputar+Papandayan%2C+mohon+informasinya&2C+terima+kasih&type=phone_number&app_absent=0"><i class="fa fa-whatsapp" aria-hidden="true"></i></a>
+                                                <a class="nav-link" href="https://api.whatsapp.com/send/?phone=6281400561146&text=Halo%2C+saya+mau+tanya+seputar+Papandayan%2C+mohon+informasinya&2C+terima+kasih&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer"><i class="fa fa-whatsapp" aria-hidden="true"></i></a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="https://www.instagram.com/papandayanintiplasma"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                                                <a class="nav-link" href="https://www.instagram.com/papandayanintiplasma" target="_blank" rel="noopener noreferrer"><i class="fa fa-instagram" aria-hidden="true"></i></a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="http://www.linkedin.com/in/pt-papandayan-inti-plasma-318256301"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                                                <a class="nav-link" href="http://www.linkedin.com/in/pt-papandayan-inti-plasma-318256301" target="_blank" rel="noopener noreferrer"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
                                             </li>
                                         </ul>
                                     </div>
@@ -496,14 +497,14 @@
                                     @endphp
 
                                     <div class="footerMenuHeading">
-                                        <h4 class="fadein">{{ $groupTitle }}</h4>
+                                        <h4>{{ $groupTitle }}</h4>
                                     </div>
                                     <div class="footerMenuLink">
                                         <ul class="nav flex-column">
 
                                             @if($firstGroupWithMenus)
                                                 @foreach($firstGroupWithMenus->menu_navigations as $menu)
-                                                    <li class="nav-item fadein">
+                                                    <li class="nav-item">
                                                         <a class="nav-link" href="{{ $menu->url ?: 'javascript:void(0);' }}">
                                                             <i class="fa fa-caret-right" aria-hidden="true"></i>
                                                             {{ $menu->name }}
@@ -511,37 +512,37 @@
                                                     </li>
                                                 @endforeach
                                             @else
-                                                <li class="nav-item fadein">
+                                                <li class="nav-item">
                                                     <a class="nav-link" href="javascript:void(0);">
                                                         <i class="fa fa-caret-right" aria-hidden="true"></i>
                                                         Profile Perusahaan
                                                     </a>
                                                 </li>
-                                                <li class="nav-item fadein">
+                                                <li class="nav-item">
                                                     <a class="nav-link" href="javascript:void(0);">
                                                         <i class="fa fa-caret-right" aria-hidden="true"></i>
                                                         Visi & Misi
                                                     </a>
                                                 </li>
-                                                <li class="nav-item fadein">
+                                                <li class="nav-item">
                                                     <a class="nav-link" href="javascript:void(0);">
                                                         <i class="fa fa-caret-right" aria-hidden="true"></i>
                                                         Jejak Langkah
                                                     </a>
                                                 </li>
-                                                <li class="nav-item fadein">
+                                                <li class="nav-item">
                                                     <a class="nav-link" href="javascript:void(0);">
                                                         <i class="fa fa-caret-right" aria-hidden="true"></i>
                                                         Struktur Organisasi
                                                     </a>
                                                 </li>
-                                                <li class="nav-item fadein">
+                                                <li class="nav-item">
                                                     <a class="nav-link" href="javascript:void(0);">
                                                         <i class="fa fa-caret-right" aria-hidden="true"></i>
                                                         Manajemen Kami
                                                     </a>
                                                 </li>
-                                                <li class="nav-item fadein">
+                                                <li class="nav-item">
                                                     <a class="nav-link" href="javascript:void(0);">
                                                         <i class="fa fa-caret-right" aria-hidden="true"></i>
                                                         Area Jangkauan
@@ -565,14 +566,14 @@
                                     @endphp
 
                                     <div class="footerMenuHeading">
-                                        <h4 class="fadein">{{ $groupTitleSustainability }}</h4>
+                                        <h4>{{ $groupTitleSustainability }}</h4>
                                     </div>
                                     <div class="footerMenuLink">
                                         <ul class="nav flex-column">
 
                                             @if($secondGroupWithMenus)
                                                 @foreach($secondGroupWithMenus->menu_navigations as $menu)
-                                                    <li class="nav-item fadein">
+                                                    <li class="nav-item">
                                                         <a class="nav-link" href="{{ $menu->url ?: 'javascript:void(0);' }}">
                                                             <i class="fa fa-caret-right" aria-hidden="true"></i>
                                                             {{ $menu->name }}
@@ -580,25 +581,25 @@
                                                     </li>
                                                 @endforeach
                                             @else
-                                                <li class="nav-item fadein">
+                                                <li class="nav-item">
                                                     <a class="nav-link" href="javascript:void(0);">
                                                         <i class="fa fa-caret-right" aria-hidden="true"></i>
                                                         K3
                                                     </a>
                                                 </li>
-                                                <li class="nav-item fadein">
+                                                <li class="nav-item">
                                                     <a class="nav-link" href="javascript:void(0);">
                                                         <i class="fa fa-caret-right" aria-hidden="true"></i>
                                                         CSR
                                                     </a>
                                                 </li>
-                                                <li class="nav-item fadein">
+                                                <li class="nav-item">
                                                     <a class="nav-link" href="javascript:void(0);">
                                                         <i class="fa fa-caret-right" aria-hidden="true"></i>
                                                         Inisiatif
                                                     </a>
                                                 </li>
-                                                <li class="nav-item fadein">
+                                                <li class="nav-item">
                                                     <a class="nav-link" href="javascript:void(0);">
                                                         <i class="fa fa-caret-right" aria-hidden="true"></i>
                                                         Laporan Dokumen
@@ -613,12 +614,12 @@
                             <div class="col-md-4 col-lg-3">
                                 <div class="footerCol footerCol4">
                                     <div class="footerMenuHeading">
-                                        <h4 class="fadein">Informasi Kontak</h4>
+                                        <h4>Informasi Kontak</h4>
                                     </div>
                                     <div class="footerMenuLink footerContactInfo">
                                         <ul class="nav flex-column">
-                                            <li class="nav-item fadein">
-                                                <a class="nav-link" href="https://api.whatsapp.com/send/?phone=6281400561146&text=Halo%2C+saya+mau+tanya+seputar+Papandayan%2C+mohon+informasinya&2C+terima+kasih&type=phone_number&app_absent=0">
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="https://api.whatsapp.com/send/?phone=6281400561146&text=Halo%2C+saya+mau+tanya+seputar+Papandayan%2C+mohon+informasinya&2C+terima+kasih&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer">
                                                 <div class="contactInfo">
                                                     <div class="contactInfoIcon">
                                                         <i class="fa fa-phone" aria-hidden="true"></i>
@@ -630,20 +631,20 @@
                                                 </div>
                                                 </a>
                                             </li>
-                                            <li class="nav-item fadein">
-                                                <a class="nav-link copy-to-clipboard" href="javascript:void(0);" data-copy-text="kontak@papandayan.co.id">
-                                                <div class="contactInfo">
-                                                    <div class="contactInfoIcon">
-                                                        <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="mailto:kontak@papandayan.co.id">
+                                                    <div class="contactInfo">
+                                                        <div class="contactInfoIcon">
+                                                            <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                                        </div>
+                                                        <div class="contactInfoTxt">
+                                                            <h6>Alamat Email:</h6>
+                                                            <p class="mb-0">kontak@papandayan.co.id</p>
+                                                        </div>
                                                     </div>
-                                                    <div class="contactInfoTxt">
-                                                        <h6>Alamat Email:</h6>
-                                                        <p class="mb-0">kontak@papandayan.co.id</p>
-                                                    </div>
-                                                </div>
                                                 </a>
                                             </li>
-                                            <li class="nav-item fadein">
+                                            <li class="nav-item">
                                                 <a class="nav-link" href="javascript:void(0);">
                                                 <div class="contactInfo">
                                                     <div class="contactInfoIcon">
@@ -667,7 +668,7 @@
             <div class="footerCopyRight">
                 <div class="container">
                     <div class="footerCopyRightInner">
-                        <p class="mb-0 fadein">Copyright © 2026 <a href="{{ route('front.index') }}">Papandayan Inti Plasma</a>. All Rights Reserved.</p>
+                        <p class="mb-0">Copyright © 2026 <a href="{{ route('front.index') }}">Papandayan Inti Plasma</a>. All Rights Reserved.</p>
                     </div>
                 </div>
             </div>
@@ -699,6 +700,7 @@
     <script src="{{ asset('vendor/moment/moment.min.js') }}"></script>
     <script src="{{ asset('vendor/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
     <script src="{{ asset('vendor/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-validation/jquery.validate.min.js') }}"></script>
 
     <script>
         // Scroll to top button

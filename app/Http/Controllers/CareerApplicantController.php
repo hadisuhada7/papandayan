@@ -144,6 +144,36 @@ class CareerApplicantController extends Controller
     }
 
     /**
+     * Download CV with custom filename.
+     */
+    public function downloadCV($id)
+    {
+        try {
+            $applicant = CareerApplicant::findOrFail($id);
+            
+            if (!$applicant->curriculum_vitae) {
+                return redirect()->back()->with('toast', ['type' => 'error', 'message' => 'CV file not found.']);
+            }
+            
+            $filePath = storage_path('app/public/' . $applicant->curriculum_vitae);
+            
+            if (!file_exists($filePath)) {
+                return redirect()->back()->with('toast', ['type' => 'error', 'message' => 'CV file does not exist.']);
+            }
+            
+            // Format: CV-Name Applicant-Date and Time.extension
+            $fullName = $applicant->first_name . ' ' . $applicant->last_name;
+            $dateTime = date('d-m-Y_H-i-s');
+            $extension = pathinfo($filePath, PATHINFO_EXTENSION);
+            $customFileName = 'CV-' . $fullName . '-' . $dateTime . '.' . $extension;
+            
+            return response()->download($filePath, $customFileName);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('toast', ['type' => 'error', 'message' => 'Failed to download CV: ' . $e->getMessage()]);
+        }
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(CareerApplicant $applicant)

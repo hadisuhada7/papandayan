@@ -17,13 +17,14 @@
         <div class="container">
             <ul>
                 <li><a href="{{ route('front.index') }}">Beranda</a></li>
+                <li><a href="javascript:void(0);">Keberlanjutan</a></li>
                 <li><a>CSR</a></li>
             </ul>
         </div>
     </div>
     <!--breadcrumb end-->
    
-    <!--blog section start-->
+    <!--all article start-->
     <section class="w-100 clearfix blogArticles blogPg" id="blogArticles">
         <div class="container">
             <div class="blogArticlesInner">
@@ -34,13 +35,13 @@
 
                                 @forelse ($socials as $social)
                                     <div class="col-md-12 col-lg-6 blogWithSidebarCol">
-                                        <div class="latestNewsCardInner mb-4">
+                                        <div class="latestNewsCardInner mb-4 fadein">
                                             <div class="latestNewsCardImg">
-                                            <a href="{{ route('front.social-detail', $social->id) }}"><img src="{{ Storage::url($social->thumbnail) }}" alt="img" class="w-100 img-fluid"></a>
+                                                <a href="{{ route('front.social-detail', $social->slug) }}"><img src="{{ Storage::url($social->thumbnail) }}" alt="img" class="w-100 img-fluid"></a>
                                                 <div class="latestNewsDate">
                                                     <a href="javascript:void(0);">
-                                                        <h5>{{ $social->publish_at->format('d') }}</h5>
-                                                        <span>{{ $social->publish_at->format('M') }}</span>
+                                                        <h5>{{ $social->publish_at->locale('id')->isoFormat('d') }}</h5>
+                                                        <span>{{ $social->publish_at->locale('id')->isoFormat('MMM') }}</span>
                                                     </a>
                                                 </div>
                                             </div>
@@ -56,14 +57,16 @@
                                                             <i class="fa fa-eye" style="color: #3c5fac;"></i><span>{{ $social->viewer }} Viewers</span>
                                                         </a>
                                                     </div>
+
                                                     @include('front.partials.like-post', ['model' => $social, 'type' => 'social'])
+
                                                 </div>
                                                 <div class="latestNewsTxt">
-                                                    <h4><a href="{{ route('front.social-detail', $social->id) }}">{{ $social->title }}</a></h4>
+                                                    <h4><a href="{{ route('front.social-detail', $social->slug) }}">{{ $social->title }}</a></h4>
                                                     <p>{{ $social->subtitle }}</p>
                                                 </div>
                                                 <div class="latestNewBtn">
-                                                    <a class="btnCustom5 btn-1 hover-slide-down" href="{{ route('front.social-detail', $social->id) }}">
+                                                    <a class="btnCustom2 btn-1 hover-slide-down" href="{{ route('front.social-detail', $social->slug) }}">
                                                         <span>Selengkapnya <img src="{{ asset('images/icon/icon-right.png') }}" alt="right" class="img-fluid"></span>
                                                     </a>
                                                 </div>
@@ -75,31 +78,31 @@
 
                             </div>
                         </div>
+
                         {{ $socials->links('front.partials.pagination') }}
+
                     </div>
                     <div class="col-lg-4">
                         <div class="blogSingleAside">
+
                             @include('front.partials.search-post', [
                                 'title' => 'Temukan CSR',
-                                'placeholder' => 'Cari judul CSR',
+                                'placeholder' => 'Search',
                                 'action' => route('front.socials'),
                             ])
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!--blog section end-->
+    <!--all article end-->
 
 @endsection
 
 @push('after-scripts')
     <script>
-        $(document).ready(function ($) {
-            // Script here
-        });
-
         // Header active class toggle on scroll
         const header = document.querySelector(".headerOne");
         const toggleClass = "headerActive";

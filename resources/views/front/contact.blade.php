@@ -34,7 +34,7 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="contactInfo">
-                        <div class="commonHeading">
+                        <div class="commonHeading fadein">
                             <h4>Informasi Kontak</h4>
                             <p style="text-align: justify;">Kami berdedikasi untuk memberikan solusi terbaik bagi Anda. Jangan ragu untuk menghubungi kami untuk konsultasi lebih lanjut.</p>
                         </div>
@@ -42,7 +42,7 @@
                             
                             @forelse ($contacts as $contact)
                                 <a href="javascript:void(0);">
-                                    <div class="infoGroupItem">
+                                    <div class="infoGroupItem fadein">
                                         <div class="infoIcon">
                                             <span><img src="{{ Storage::url($contact->icon) }}" alt="location" class="img-fluid"></span>
                                         </div>
@@ -60,19 +60,19 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="contactForm">
+                    <div class="contactForm fadein">
                         <h4>Hubungi Kami</h4>
                         <form method="POST" action="{{ route('question.store') }}">
                             @csrf
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="formControlGroup">
-                                        <input type="text" class="form-control" id="name" name="name" maxlength="255" placeholder="Nama Lengkap">
+                                        <input type="text" class="form-control" id="name" name="name" maxlength="50" placeholder="Nama Lengkap">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="formControlGroup">
-                                        <input type="email" class="form-control" id="email" name="email" maxlength="255" placeholder="Email">
+                                        <input type="email" class="form-control" id="email" name="email" maxlength="50" placeholder="Email">
                                     </div>
                                 </div>
                             </div>
@@ -94,7 +94,7 @@
                                     </div>
                                     <div class="formSubmitBtn">
                                         <button type="submit" class="btnCustom5 btn-1 hover-slide-down">
-                                            <span>Kirim Pesan <img src="{{ asset('images/icon/icon-right.png') }}" alt="right" class="img-fluid"></span>
+                                            <span>Kirim Pesan <img src="{{ asset('images/icon/icon-black-right.png') }}" alt="right" class="img-fluid"></span>
                                         </button>
                                     </div>
                                 </div>
@@ -111,7 +111,6 @@
 
 @push('after-styles')
     <style type="text/css">
-
         /* Modify Select2 to match form inputs */
         .select2-container--bootstrap4 .select2-selection--single {
             height: auto !important;
@@ -216,8 +215,7 @@
 @endpush
 
 @push('after-scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js" integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-   <script>
+    <script>
         $(document).ready(function ($) {
             //Initialize Select2 Elements
             $('.select2bs4').select2({
@@ -260,13 +258,13 @@
                 rules: {
                     name: {
                         required: true,
-                        maxlength: 255
+                        maxlength: 50
                     },
                     email: {
                         required: true,
                         email: true,
                         emailDomain: true,
-                        maxlength: 255
+                        maxlength: 50
                     },
                     phone_number: {
                         required: true,
@@ -286,12 +284,12 @@
                 messages: {
                     name: {
                         required: 'Nama harus diisi',
-                        maxlength: 'Nama maksimal 255 karakter'
+                        maxlength: 'Nama maksimal 50 karakter'
                     },
                     email: {
                         required: 'Email harus diisi',
                         email: 'Gunakan format email yang valid',
-                        maxlength: 'Email maksimal 255 karakter'
+                        maxlength: 'Email maksimal 50 karakter'
                     },
                     phone_number: {
                         required: 'Nomor telepon harus diisi',

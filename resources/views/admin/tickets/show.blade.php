@@ -2,7 +2,32 @@
 
 @section('title', 'Papandayan | Ticket Detail')
 
+@section('plugins.Select2', true)
 @section('plugins.Toastr', true)
+
+@php
+    function ticketStatusBadge($status)
+    {
+        return match (strtolower($status)) {
+            'new' => 'badge bg-primary',
+            'open' => 'badge bg-info',
+            'responded' => 'badge bg-warning',
+            'closed' => 'badge bg-success',
+            default => 'badge bg-secondary',
+        };
+    }
+
+    function ticketStatusLabel($status)
+    {
+        return match (strtolower($status)) {
+            'new' => 'New',
+            'open' => 'Open',
+            'responded' => 'Responded',
+            'closed' => 'Closed',
+            default => ucfirst($status),
+        };
+    }
+@endphp
 
 @section('content_header')
     <div class="row mb-2">
@@ -11,7 +36,7 @@
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('admin.tickets.index') }}">Tickets</a></li>
                 <li class="breadcrumb-item active">Detail</li>
             </ol>
@@ -32,7 +57,7 @@
                         <dd class="col-sm-8">{{ $ticket->ticket_number }}</dd>
 
                         <dt class="col-sm-4">Status</dt>
-                        <dd class="col-sm-8">{{ ucfirst($ticket->status->value ?? $ticket->status) }}</dd>
+                        <dd class="col-sm-8"><span class="badge {{ ticketStatusBadge($ticket->status->value ?? $ticket->status) }}">{{ ticketStatusLabel($ticket->status->value ?? $ticket->status) }}</span></dd>
 
                         <dt class="col-sm-4">Priority</dt>
                         <dd class="col-sm-8">{{ ucfirst($ticket->priority) }}</dd>
@@ -53,7 +78,7 @@
             </div>
         </div>
         <div class="col-lg-7">
-            <div class="card card-info card-outline">
+            <div class="card card-primary card-outline">
                 <div class="card-header">
                     <h3 class="card-title">Message</h3>
                 </div>
@@ -62,8 +87,7 @@
                     <p class="mb-0" style="white-space: pre-line;">{{ $ticket->message }}</p>
                 </div>
             </div>
-
-            <div class="card card-success card-outline">
+            <div class="card card-primary card-outline">
                 <div class="card-header">
                     <h3 class="card-title">Admin Response</h3>
                 </div>
@@ -73,15 +97,18 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="status">Status</label>
-                            <select class="form-control" id="status" name="status" required>
+                            <select class="form-control select2bs4" style="width: 100%;" id="status" name="status" required>
+                                <option value="">-- Select Status --</option>
                                 <option value="new" @selected(old('status', $ticket->status->value ?? $ticket->status) === 'new')>New</option>
                                 <option value="open" @selected(old('status', $ticket->status->value ?? $ticket->status) === 'open')>Open</option>
                                 <option value="responded" @selected(old('status', $ticket->status->value ?? $ticket->status) === 'responded')>Responded</option>
                             </select>
+                            <span class="error invalid-feedback">{{ $errors->first('status') }}</span>
                         </div>
                         <div class="form-group">
-                            <label for="response_message">Response Message</label>
-                            <textarea class="form-control" id="response_message" name="response_message" rows="5">{{ old('response_message', $ticket->response_message) }}</textarea>
+                            <label for="responseMessage">Response Message</label>
+                            <textarea class="form-control" id="responseMessage" name="response_message" rows="5">{{ old('response_message', $ticket->response_message) }}</textarea>
+                            <span class="error invalid-feedback">{{ $errors->first('response_message') }}</span>
                         </div>
                         <input type="hidden" name="question_id" value="{{ $ticket->question_id }}">
                         <input type="hidden" name="subject" value="{{ $ticket->subject }}">
@@ -94,7 +121,8 @@
                     </div>
                     <div class="card-footer text-right">
                         <a href="{{ route('admin.tickets.index') }}" class="btn btn-default" style="margin-right: 5px">Back</a>
-                        <button type="submit" class="btn btn-success">Submit Response</button>
+                        <button type="reset" class="btn btn-secondary" style="margin-right: 5px">Reset</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </form>
             </div>
@@ -102,6 +130,29 @@
     </div>
 @stop
 
+@section('css')
+    <style type="text/css">
+        /* Modify Select2 */
+        .select2-container--bootstrap4 .select2-selection--single:focus,
+        .select2-container--bootstrap4.select2-container--focus .select2-selection--single {
+            box-shadow: none !important;
+        }
+
+        .select2-container--bootstrap4 .select2-selection--multiple:focus,
+        .select2-container--bootstrap4.select2-container--focus .select2-selection--multiple {
+            box-shadow: none !important;
+        }
+    </style>
+@stop
+
 @section('js')
     @include('partials.toastr')
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Initialize Select2 Elements
+            $('.select2bs4').select2({
+                theme: 'bootstrap4'
+            });
+        });
+    </script>
 @stop

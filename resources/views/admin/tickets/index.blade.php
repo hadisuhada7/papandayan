@@ -1,6 +1,7 @@
 @extends('adminlte::page')
 
 @section('title', 'Papandayan | Ticketing Dashboard')
+
 @section('plugins.Datatables', true)
 @section('plugins.Toastr', true)
 
@@ -83,22 +84,24 @@
         <div class="col-12">
             <div class="card card-primary card-outline">
                 <div class="card-header">
-                    <h3 class="card-title">Daftar Ticket</h3>
+                    <h3 class="card-title">Data Tables</h3>
                 </div>
                 <div class="card-body">
                     <table id="datagrid" class="table table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th style="width: 30px;">No</th>
-                                <th>Ticket</th>
-                                <th>Requester</th>
-                                <th>Subject</th>
-                                <th>Status</th>
-                                <th style="width: 120px;">&nbsp;</th>
+                                <th scope="col">Ticket</th>
+                                <th scope="col">Requester</th>
+                                <th style="width: 100px;">Subject</th>
+                                <th style="width: 100px;">Status</th>
+                                <th style="width: 105px;">&nbsp;</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @php $index = 1; @endphp
+                            @php 
+                                $index = 1; 
+                            @endphp
                             @foreach($tickets as $ticket)
                                 <tr>
                                     <td>{{ $index }}</td>
@@ -118,13 +121,16 @@
                                         <a href="javascript:void(0)" class="btn btn-sm btn-danger item-remove" data-id="{{ $ticket->id }}"><i class="fas fa-trash-alt"></i></a>
                                     </td>
                                 </tr>
-                                @php $index++; @endphp
+                                @php 
+                                    $index++; 
+                                @endphp
                             @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
-
+            
+            <!-- Delete Modal -->
             <div class="modal fade" id="modal-delete" tabindex="-1" role="dialog">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
@@ -149,6 +155,7 @@
                 </div>
             </div>
 
+            <!-- Hidden Form for Delete Action -->
             <form id="delete-form" method="POST" style="display: none;">
                 @csrf
                 @method('DELETE')
@@ -159,12 +166,14 @@
 
 @section('css')
     <style type="text/css">
+        /* Modify DataGrid Filter */
         #datagrid_filter input {
             margin-left: 0 !important;
             width: 180px;
             border-radius: 3px;
         }
 
+        /* Modify DataGrid Length */
         #datagrid_length {
             float: left !important;
         }
@@ -175,8 +184,10 @@
     @include('partials.toastr')
     <script type="text/javascript">
         $(document).ready(function () {
+
             var selectedRow;
 
+            // Initialize DataTable
             $("#datagrid").DataTable({
                 paging: true,
                 ordering: true,
@@ -188,10 +199,12 @@
                     emptyTable: "No data available in table",
                     zeroRecords: "No matching records found"
                 },
+
                 columnDefs: [
                     { targets: 5, orderable: false }
                 ],
-                initComplete: function() {
+
+                initComplete: function(settings, json) {
                     $('#datagrid_filter label').contents().filter(function() {
                         return this.nodeType === 3;
                     }).remove();
@@ -202,8 +215,8 @@
                         .attr('name', 'datagrid_search')
                         .addClass('form-control input-sm');
 
-                    $('<a href="{{ route('admin.tickets.create') }}" class="btn btn-sm btn-primary" style="margin-left: 10px;">Add New</a>')
-                        .appendTo($('#datagrid_filter'));
+                    // $('<a href="{{ route('admin.tickets.create') }}" class="btn btn-sm btn-primary" style="margin-left: 10px;">Add New</a>')
+                    //     .appendTo($('#datagrid_filter'));
 
                     $('#datagrid_length label').contents().filter(function() {
                         return this.nodeType === 3;
@@ -211,11 +224,13 @@
                 }
             });
 
+            // Modal Delete Button Handler
             $(document).on("click", ".item-remove", function(){
                 selectedRow = $(this).data("id");
                 $("#modal-delete").modal("show");
             });
 
+            // Remove Button Handler
             $("#btn-modal-delete").on("click", function(){
                 if (selectedRow) {
                     var deleteUrl = "{{ route('admin.tickets.index') }}/" + selectedRow;

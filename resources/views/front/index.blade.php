@@ -63,13 +63,13 @@
     </section>
     <!--statistic end-->
 
-    <!--about us sec1 start-->
+    <!--product start-->
     @forelse ($products as $product)
         <section class="w-100 clearfix aboutUsSec1" id="aboutUsSec1">
             <div class="container">
                 <div class="row aboutUsRow1">
                     <div class="col-xl-6 aboutUsCol1">
-                        <div class="aboutUsSec2Img">
+                        <div class="aboutUsSec2Img fadein">
                             <img src="{{ Storage::url($product->thumbnail) }}" alt="thumbnail" class="img-fluid">
                         </div>  
                     </div>  
@@ -77,18 +77,20 @@
                         <div class="aboutUsSec1Content">
                             <div class="aboutUsSec1Para">
                                 <div class="broilerBreederHeadGroup">
-                                    <div class="broilBreederImg">
+                                    <div class="broilBreederImg fadein">
                                         <img src="{{ Storage::url($product->icon) }}" alt="Broiler-Breeder" class="img-fluid">
                                     </div>
-                                    <div class="broilBreederHeading">
+                                    <div class="broilBreederHeading fadein">
                                         <h2 class="mb-0">{{ $product->name }}</h2>
                                     </div>
                                 </div>
-                                <p>{!! $product->about !!}</p>
+                                <div class="broilerBreederPara fadein">
+                                    <p>{!! $product->about !!}</p>
+                                </div>
                                 <br>
                             </div> 
-                            <div class="latestNewsCardBtn fadein">
-                                <a class="btnCustom2 btn-1 hover-slide-down" href="{{ $product->link_whatsapp }}">
+                            <div class="latestNewsCardBtn">
+                                <a class="btnCustom2 btn-1 hover-slide-down fadein" href="{{ $product->link_whatsapp }}" target="_blank" rel="noopener noreferrer">
                                     <span>Hubungi Kami <img src="{{ asset('images/icon/icon-right.png') }}" alt="right" class="img-fluid"></span>
                                 </a>
                             </div>
@@ -99,9 +101,9 @@
         </section>
     @empty
     @endforelse
-    <!--about us sec1 end-->
+    <!--product end-->
 
-    <!--broiler breeder start-->
+    <!--service start-->
     <section class="w-100 clearfix broilerBreeder" id="broilerBreeder">
         <div class="broilerBreederInner">
 
@@ -118,14 +120,14 @@
                                 <div class="pigFactsTxtInner">
                                     <div class="broilerBreederContent">
                                         <div class="broilerBreederHeadGroup">
-                                            <div class="broilBreederImg">
+                                            <div class="broilBreederImg fadein">
                                                 <img src="{{ Storage::url($service->icon) }}" alt="Broiler-Breeder" class="img-fluid">
                                             </div>
-                                            <div class="broilBreederHeading">
+                                            <div class="broilBreederHeading fadein">
                                                 <h2 class="mb-0">{{ $service->name }}</h2>
                                             </div>
                                         </div>
-                                        <div class="broilerBreederPara">
+                                        <div class="broilerBreederPara fadein">
                                             <p>{!! $service->about !!}</p>
 
                                             @if($service->keypoints && count($service->keypoints) > 0)
@@ -139,8 +141,8 @@
                                             @endif
 
                                         </div>
-                                        <a href="{{ $service->link_whatsapp }}" class="btnCustom5 btn-1 hover-slide-down">
-                                            <span>Hubungi Kami <img src="{{ asset('images/icon/icon-right.png') }}" alt="right" class="img-fluid"></span>
+                                        <a class="btnCustom5 btn-1 hover-slide-down fadein" href="{{ $service->link_whatsapp }}" target="_blank" rel="noopener noreferrer">
+                                            <span>Hubungi Kami <img src="{{ asset('images/icon/icon-black-right.png') }}" alt="right" class="img-fluid"></span>
                                         </a>
                                     </div>
                                 </div>
@@ -153,16 +155,16 @@
 
         </div>
     </section>
-    <!--broiler breeder end-->
+    <!--service end-->
 
-    <!--testimonials box start-->
+    <!--testimonial start-->
     <section class="w-100 clearfix testimonialsBox" id="testimonialsBox">
         <div class="testimonialsRow">
             <div class="testimonialsCol testimonialsCol1">
                 <h4 class="fadein">TESTIMONI</h4>
                 <h2 class="fadein">Pengalaman Peternak Dalam Bermitra</h2>
-                <a class="btn btn-1 hover-slide-down mt-3 fadein" href="javascript:void(0);">
-                    <!-- <span>Selengkapnya <img src="{{ asset('images/icon/icon-black-right.png') }}" alt="icon" class="img-fluid"></span> -->
+                <a class="btn btn-1 hover-slide-down mt-3 fadein" href="https://api.whatsapp.com/send/?phone=6281400561146&text=Halo%2C+saya+ingin+memberikan+Testimoni%2C+mohon+informasinya&2C+terima+kasih&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer">
+                    <span>Hubungi Kami <img src="{{ asset('images/icon/icon-black-right.png') }}" alt="icon" class="img-fluid"></span>
                 </a>
             </div>
             <div class="testimonialsCol testimonialsCol2">
@@ -204,9 +206,9 @@
             </div>
         </div>
     </section>
-    <!--testimonials box end-->
+    <!--testimonial end-->
 
-    <!--latest news & articles start-->
+    <!--article start-->
     <section class="w-100 clearfix latestNewsArticles" id="latestNewsArticles">
         <div class="container">
             <div class="latestNewsArticlesInner">
@@ -221,11 +223,12 @@
                             <div class="col-md-12 col-lg-4">
                                 <div class="latestNewsCardInner fadein">
                                     <div class="latestNewsCardImg">
-                                        <a href="{{ route('front.article-detail', $article->id) }}"><img src="{{ Storage::url($article->thumbnail) }}" alt="img" class="w-100 img-fluid"></a>
+                                        <a href="{{ route('front.article-detail', $article->slug) }}"><img src="{{ Storage::url($article->thumbnail) }}" alt="img" class="w-100 img-fluid"></a>
                                         <div class="latestNewsDate">
                                             <a href="javascript:void(0);">
-                                                <h5>{{ $article->publish_at->format('d') }}</h5>
-                                                <span>{{ $article->publish_at->format('M') }}</span>
+                                                <h5>{{ $article->publish_at->locale('id')->isoFormat('d') }}</h5>
+                                                <span>{{ $article->publish_at->locale('id')->isoFormat('MMM') }}</span>
+                                                
                                             </a>
                                         </div>
                                     </div>
@@ -244,11 +247,11 @@
                                             @include('front.partials.like-post', ['model' => $article, 'type' => 'article'])
                                         </div>
                                         <div class="latestNewsTxt">
-                                            <h4><a href="{{ route('front.article-detail', $article->id) }}">{{ $article->title }}</a></h4>
+                                            <h4><a href="{{ route('front.article-detail', $article->slug) }}">{{ $article->title }}</a></h4>
                                             <p>{{ $article->subtitle }}</p>
                                         </div>
                                         <div class="latestNewBtn">
-                                            <a class="btnCustom2 btn-1 hover-slide-down" href="{{ route('front.article-detail', $article->id) }}">
+                                            <a class="btnCustom2 btn-1 hover-slide-down" href="{{ route('front.article-detail', $article->slug) }}">
                                                 <span>Selengkapnya <img src="{{ asset('images/icon/icon-right.png') }}" alt="right" class="img-fluid"></span>
                                             </a>
                                         </div>
@@ -268,9 +271,9 @@
             </div>
         </div>
     </section>
-    <!--latest news & articles end-->
+    <!--article end-->
 
-    <!--maps section start-->
+    <!--map start-->
     <section class="w-100 clearfix mapsSection" id="mapsSection">
         <div class="commonHeading text-center">
             <h4 class="fadein">Wilayah Persebaran</h4>
@@ -284,13 +287,13 @@
             </div>
         </div>
     </section>
-    <!--maps section end-->
+    <!--map end-->
 
 @endsection
 
 @push('after-styles')
     <style type="text/css">
-        /* Modify testimonial stars */
+        /* Modify Testimonial */
         .testimonialsBox .testimonialSliderItem .stars {
             display: inline-flex;
             gap: 4px;
@@ -306,10 +309,6 @@
 
 @push('after-scripts')
     <script>
-        $(document).ready(function ($) {
-            // Script here
-        });
-
         // Header active class toggle on scroll
         const header = document.querySelector(".headerOne");
         const toggleClass = "headerActive";
@@ -323,11 +322,13 @@
         });
 
         // Initialize Leaflet Maps
-        var map = L.map('map').setView([-6.9175, 107.6191], 10); // Center on Bandung, West Java
+        var map = L.map('map', {
+            attributionControl: false
+        }).setView([-6.9175, 107.6191], 10); // Center on Bandung, West Java
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            attribution: ''
         }).addTo(map);
 
         // Add coverage area markers

@@ -23,13 +23,13 @@
     </div>
     <!--breadcrumb end-->
 
-    <!-- about us sec1 start-->
+    <!--product start-->
     @forelse ($products as $product)
         <section class="w-100 clearfix aboutUsSec1" id="aboutUsSec1">
             <div class="container">
                 <div class="row aboutUsRow1">
                     <div class="col-xl-6 aboutUsCol1">
-                        <div class="aboutUsSec2Img">
+                        <div class="aboutUsSec2Img fadein">
                             <img src="{{ Storage::url($product->thumbnail) }}" alt="thumbnail" class="img-fluid">
                         </div>  
                     </div>  
@@ -37,18 +37,20 @@
                         <div class="aboutUsSec1Content">
                             <div class="aboutUsSec1Para">
                                 <div class="broilerBreederHeadGroup">
-                                    <div class="broilBreederImg">
+                                    <div class="broilBreederImg fadein">
                                         <img src="{{ Storage::url($product->icon) }}" alt="Broiler-Breeder" class="img-fluid">
                                     </div>
-                                    <div class="broilBreederHeading">
+                                    <div class="broilBreederHeading fadein">
                                         <h2 class="mb-0">{{ $product->name }}</h2>
                                     </div>
                                 </div>
-                                <p>{!! $product->about !!}</p>
+                                <div class="broilerBreederPara fadein">
+                                    <p>{!! $product->about !!}</p>
+                                </div>
                                 <br>
                             </div> 
-                            <div class="latestNewsCardBtn fadein">
-                                <a class="btnCustom2 btn-1 hover-slide-down" href="{{ $product->link_whatsapp }}">
+                            <div class="latestNewsCardBtn">
+                                <a class="btnCustom2 btn-1 hover-slide-down fadein" href="{{ $product->link_whatsapp }}" target="_blank" rel="noopener noreferrer">
                                     <span>Hubungi Kami <img src="{{ asset('images/icon/icon-right.png') }}" alt="right" class="img-fluid"></span>
                                 </a>
                             </div>
@@ -59,9 +61,9 @@
         </section>
     @empty
     @endforelse
-    <!--about us sec1 end-->
+    <!--product end-->
 
-    <!--broiler breeder start-->
+    <!--service start-->
     <section class="w-100 clearfix broilerBreeder" id="broilerBreeder">
         <div class="broilerBreederInner">
 
@@ -78,14 +80,14 @@
                                 <div class="pigFactsTxtInner">
                                     <div class="broilerBreederContent">
                                         <div class="broilerBreederHeadGroup">
-                                            <div class="broilBreederImg">
+                                            <div class="broilBreederImg fadein">
                                                 <img src="{{ Storage::url($service->icon) }}" alt="Broiler-Breeder" class="img-fluid">
                                             </div>
-                                            <div class="broilBreederHeading">
+                                            <div class="broilBreederHeading fadein">
                                                 <h2 class="mb-0">{{ $service->name }}</h2>
                                             </div>
                                         </div>
-                                        <div class="broilerBreederPara">
+                                        <div class="broilerBreederPara fadein">
                                             <p>{!! $service->about !!}</p>
 
                                             @if($service->keypoints && count($service->keypoints) > 0)
@@ -99,8 +101,8 @@
                                             @endif
 
                                         </div>
-                                        <a href="{{ $service->link_whatsapp }}" class="btnCustom5 btn-1 hover-slide-down">
-                                            <span>Hubungi Kami <img src="{{ asset('images/icon/icon-right.png') }}" alt="right" class="img-fluid"></span>
+                                        <a class="btnCustom5 btn-1 hover-slide-down fadein" href="{{ $service->link_whatsapp }}" target="_blank" rel="noopener noreferrer">
+                                            <span>Hubungi Kami <img src="{{ asset('images/icon/icon-black-right.png') }}" alt="right" class="img-fluid"></span>
                                         </a>
                                     </div>
                                 </div>
@@ -113,16 +115,16 @@
 
         </div>
     </section>
-    <!--broiler breeder end-->
+    <!--service end-->
 
-    <!--testimonials box start-->
+    <!--testimonial start-->
     <section class="w-100 clearfix testimonialsBox" id="testimonialsBox" style="margin-bottom: 100px;">
         <div class="testimonialsRow">
             <div class="testimonialsCol testimonialsCol1">
                 <h4 class="fadein">TESTIMONI</h4>
                 <h2 class="fadein">Pengalaman Peternak Dalam Bermitra</h2>
-                <a class="btn btn-1 hover-slide-down mt-3 fadein" href="javascript:void(0);">
-                    <!-- <span>Selengkapnya <img src="{{ asset('images/icon/icon-black-right.png') }}" alt="icon" class="img-fluid"></span> -->
+                <a class="btn btn-1 hover-slide-down mt-3 fadein" href="https://api.whatsapp.com/send/?phone=6281400561146&text=Halo%2C+saya+ingin+memberikan+Testimoni%2C+mohon+informasinya&2C+terima+kasih&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer">
+                    <span>Hubungi Kami <img src="{{ asset('images/icon/icon-black-right.png') }}" alt="icon" class="img-fluid"></span>
                 </a>
             </div>
             <div class="testimonialsCol testimonialsCol2">
@@ -164,13 +166,13 @@
             </div>
         </div>
     </section>
-    <!--testimonials box end-->
+    <!--testimonial end-->
 
 @endsection
 
 @push('after-styles')
     <style type="text/css">
-        /* Modify testimonial stars */
+        /* Modify Testimonial */
         .testimonialsBox .testimonialSliderItem .stars {
             display: inline-flex;
             gap: 4px;
@@ -186,10 +188,6 @@
 
 @push('after-scripts')
     <script>
-        $(document).ready(function ($) {
-            // Script here
-        });
-
         // Header active class toggle on scroll
         const header = document.querySelector(".headerOne");
         const toggleClass = "headerActive";

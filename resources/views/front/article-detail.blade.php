@@ -4,21 +4,22 @@
 
 @section('content')
 
-    <!--banner sec start-->
+    <!--banner start-->
     <section class="w-100 clearfix bannerSec" id="bannerSec" style="background-image: url('{{ asset('images/inner-banner.png') }}');">
         <div class="container">
             <div class="bannerContent">
                 <h1>Artikel Detail</h1>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('front.index') }}">Beranda</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('front.articles') }}">Artikel</a></li>
                     <li class="breadcrumb-item active">Artikel Detail</li>
                 </ul>
             </div>
         </div>
     </section>
-    <!--banner sec end-->
+    <!--banner end-->
    
-    <!--blog single start-->
+    <!--article single start-->
     <section class="w-100 clearfix blogSingle" id="blogSingle">
         <div class="container">
             <div class="blogSingleInner">
@@ -27,11 +28,11 @@
                         <div class="blogSingleBlog">
                             <div class="latestNewsCardInner">
                                 <div class="latestNewsCardImg">
-                                <a href="javascript:void(0);"><img src="{{ Storage::url($article->thumbnail) }}" alt="img" class="w-100 img-fluid"></a>
+                                    <a href="javascript:void(0);"><img src="{{ Storage::url($article->thumbnail) }}" alt="img" class="w-100 img-fluid"></a>
                                     <div class="latestNewsDate">
                                         <a href="javascript:void(0);">
-                                            <h5>{{ $article->publish_at->format('d') }}</h5>
-                                            <span>{{ $article->publish_at->format('M') }}</span>
+                                            <h5>{{ $article->publish_at->locale('id')->isoFormat('d') }}</h5>
+                                            <span>{{ $article->publish_at->locale('id')->isoFormat('MMM') }}</span>
                                         </a>
                                     </div>
                                 </div>
@@ -47,7 +48,9 @@
                                                 <i class="fa fa-eye" style="color: #3c5fac;"></i><span>{{ $article->viewer }} Viewers</span>
                                             </a>
                                         </div>
+
                                         @include('front.partials.like-post', ['model' => $article, 'type' => 'article'])
+
                                     </div>
                                     <div class="latestNewsTxt">
                                         <h4><a href="javascript:void(0);">{{ $article->title }}</a></h4>
@@ -120,7 +123,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <button type="submit" class="btnCustom2 btn-1 hover-slide-down"><span>Kirim <img src="{{ asset('images/icon/icon-right.png') }}" alt="right" class="img-fluid"></span></button>
+                                                <button type="button" class="btnCustom2 btn-1 hover-slide-down"><span>Kirim <img src="{{ asset('images/icon/icon-right.png') }}" alt="right" class="img-fluid"></span></button>
                                             </form>
                                         </div>
                                     </div>
@@ -136,7 +139,7 @@
 
                                     @forelse($recentArticles as $recentArticle)
                                         <div class="recentPostGroupList">
-                                            <a href="{{ route('front.article-detail', $recentArticle->id) }}">
+                                            <a href="{{ route('front.article-detail', $recentArticle->slug) }}">
                                                 <div class="recentPostImg">
                                                     <img src="{{ Storage::url($recentArticle->thumbnail) }}" alt="recentPost" class="img-fluid">
                                                 </div>
@@ -179,16 +182,34 @@
             </div>
         </div>
     </section>
-    <!--blog single end-->
+    <!--article single end-->
 
 @endsection
 
+@push('after-styles')
+    <style>
+        /* Restore list styling for content */
+        .latestNewsTxt ul {
+            list-style-type: disc;
+            padding-left: 40px;
+            margin: 15px 0;
+        }
+        
+        .latestNewsTxt ol {
+            list-style-type: decimal;
+            padding-left: 40px;
+            margin: 15px 0;
+        }
+        
+        .latestNewsTxt li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+    </style>
+@endpush
+
 @push('after-scripts')
     <script>
-        $(document).ready(function ($) {
-            // Script here
-        });
-
         // Header active class toggle on scroll
         const header = document.querySelector(".headerOne");
         const toggleClass = "headerActive";

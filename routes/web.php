@@ -44,7 +44,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [FrontController::class, 'index'])->name('front.index');
 Route::get('/search', [FrontController::class, 'search'])->name('front.search');
 Route::get('/articles', [FrontController::class, 'article'])->name('front.articles');
-Route::get('/article/{id}', [FrontController::class, 'articleDetail'])->name('front.article-detail');
+Route::get('/article/{slug}', [FrontController::class, 'articleDetail'])->name('front.article-detail');
 Route::get('/about', [FrontController::class, 'about'])->name('front.about');
 Route::get('/business', [FrontController::class, 'business'])->name('front.business');;
 Route::get('/career', [FrontController::class, 'career'])->name('front.career');
@@ -55,9 +55,9 @@ Route::get('/contact', [FrontController::class, 'contact'])->name('front.contact
 Route::post('/contact/store', [FrontController::class, 'questionStore'])->name('question.store');
 Route::get('/safety', [FrontController::class, 'safety'])->name('front.safety');
 Route::get('/socials', [FrontController::class, 'social'])->name('front.socials');
-Route::get('/social/{id}', [FrontController::class, 'socialDetail'])->name('front.social-detail');
+Route::get('/social/{slug}', [FrontController::class, 'socialDetail'])->name('front.social-detail');
 Route::get('/initiatives', [FrontController::class, 'initiative'])->name('front.initiatives');
-Route::get('/initiative/{id}', [FrontController::class, 'initiativeDetail'])->name('front.initiative-detail');
+Route::get('/initiative/{slug}', [FrontController::class, 'initiativeDetail'])->name('front.initiative-detail');
 Route::post('/like', [FrontController::class, 'toggleLike'])->name('front.like.toggle');
 Route::get('/documents', [FrontController::class, 'document'])->name('front.documents');
 Route::get('/document/download/{id}', [FrontController::class, 'documentDownload'])->name('front.document.download');
@@ -154,9 +154,10 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::middleware('can:manage careers applicants')->group(function () {
-            Route::resource('applicants', CareerApplicantController::class);
             Route::get('applicants/career/{career}', [CareerApplicantController::class, 'getCareerApplicants'])->name('applicants.career');
             Route::get('applicants/export/career/{career}', [CareerApplicantController::class, 'exportCareerApplicants'])->name('applicants.export.career');
+            Route::get('applicants/download-cv/{applicant}', [CareerApplicantController::class, 'downloadCV'])->name('applicants.download.cv');
+            Route::resource('applicants', CareerApplicantController::class);
         });
 
         Route::middleware('can:manage contacts')->group(function () {

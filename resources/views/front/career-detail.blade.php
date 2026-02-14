@@ -4,21 +4,22 @@
 
 @section('content')
 
-    <!--banner sec start-->
+    <!--banner start-->
     <section class="w-100 clearfix bannerSec" id="bannerSec" style="background-image: url('{{ asset('images/inner-banner.png') }}');">
         <div class="container">
             <div class="bannerContent">
                 <h1>Karir Detail</h1>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('front.index') }}">Beranda</a></li>
-                <li class="breadcrumb-item active">Karir Detail</li>
+                    <li class="breadcrumb-item"><a href="{{ route('front.career') }}">Karir</a></li>
+                    <li class="breadcrumb-item active">Karir Detail</li>
                 </ul>
             </div>
         </div>
     </section>
-    <!--banner sec end-->
+    <!--banner end-->
 
-    <!--blog single start-->
+    <!--article single start-->
     <section class="w-100 clearfix blogSingle" id="blogSingle">
         <div class="container">
             <div class="blogSingleInner">
@@ -85,17 +86,6 @@
                     </div>
                     <div class="col-lg-4">
                         <div class="blogSingleAside">
-                            <!-- <div class="searchKeyword customCard">
-                                <div class="searchKeywordInner">
-                                <h4>Temukan Pekerjaan</h4>
-                                    <form>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Search" value="">
-                                            <button type="submit" class="input-group-text"><img src="{{ asset('images/icon/search.png') }}" alt="search" class="img-fluid"></button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div> -->
                             <div class="recentPost customCard">
                                 <h4>Postingan Terbaru</h4>
                                 <div class="recentPostList">
@@ -124,13 +114,12 @@
             </div>
         </div>
     </section>
-    <!--blog single end-->
+    <!--article single end-->
 
 @endsection
 
 @push('after-styles')
     <style type="text/css">
-
         /* Remove top gap when needed */
         .blogSingle .blogSingleInner .blogSingleBlog .latestNewsCardInner .commentBox.no-top-gap {
             margin-top: 0;
@@ -260,10 +249,6 @@
 
 @push('after-scripts')
     <script>
-        $(document).ready(function ($) {
-            // Script here
-        });
-
         // Header active class toggle on scroll
         const header = document.querySelector(".headerOne");
         const toggleClass = "headerActive";

@@ -3,6 +3,8 @@
 @section('title', 'Subscription')
 
 @section('content')
+
+    <!--breadcrumb start-->
     <div class="breadcrumb">
         <div class="container">
             <ul>
@@ -11,7 +13,9 @@
             </ul>
         </div>
     </div>
+    <!--breadcrumb end-->
 
+    <!--all article start-->
     <section class="w-100 clearfix blogArticles blogPg">
         <div class="container">
             <div class="row justify-content-center">
@@ -27,6 +31,8 @@
             </div>
         </div>
     </section>
+    <!--all article end-->
+    
 @endsection
 
 @push('after-styles')

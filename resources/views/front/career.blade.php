@@ -25,7 +25,7 @@
     </div>
     <!--breadcrumb end-->
 
-    <!--blog section start-->
+    <!--all article start-->
     <section class="w-100 clearfix blogArticles blogPg" id="blogArticles">
         <div class="container">
             <div class="blogArticlesInner">
@@ -36,7 +36,7 @@
 
                                 @forelse($careers as $career)
                                     <div class="col-md-12 col-lg-6 blogWithSidebarCol">
-                                        <div class="latestNewsCardInner mb-4">
+                                        <div class="latestNewsCardInner mb-4 fadein">
                                             <div class="latestNewsCardInnerContent">
                                                 <div class="latestNewsTxt">
                                                     <div class="careerDetailHeading">
@@ -76,28 +76,31 @@
 
                             </div>
                         </div>
+
                         {{ $careers->links('front.partials.pagination') }}
+
                     </div>
                     <div class="col-lg-4">
                         <div class="blogSingleAside">
+
                             @include('front.partials.search-post', [
                                 'title' => 'Temukan Karir',
-                                'placeholder' => 'Cari posisi',
+                                'placeholder' => 'Search',
                                 'action' => route('front.career'),
                             ])
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!--blog section end-->
+    <!--all article end-->
 
 @endsection
 
 @push('after-styles')
     <style type="text/css">
-        
         /* Modify Career Detail */
         .careerDetailHeading {
             padding: 0px;
@@ -176,10 +179,6 @@
 
 @push('after-scripts')
     <script>
-        $(document).ready(function ($) {
-            // Script here
-        });
-
         // Header active class toggle on scroll
         const header = document.querySelector(".headerOne");
         const toggleClass = "headerActive";

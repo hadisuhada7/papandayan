@@ -34,6 +34,7 @@
                                 <th style="width: 200px;">Title</th>
                                 <th scope="col">Subtitle</th>
                                 <th style="width: 100px;">Author</th>
+                                <th style="width: 100px;">Viewers</th>
                                 <th style="width: 100px;">Thumbnail</th>
                                 <th style="width: 65px;">&nbsp;</th>
                             </tr>
@@ -48,6 +49,7 @@
                                     <td>{{ $social->title }}</td>
                                     <td>{{ $social->subtitle }}</td>
                                     <td>{{ $social->author }}</td>
+                                    <td>{{ $social->viewer }}</td>
                                     <td><img src="{{ Storage::url($social->thumbnail) }}" alt="" style="max-width: 100px;"></td>
                                     <td class="text-center">
                                         <a href="{{ route('admin.socials.edit', $social) }}" class="btn btn-sm btn-primary item-edit"><i class="fas fa-pencil-alt"></i></a>
@@ -134,7 +136,7 @@
                 },
 
                 columnDefs: [
-                    { targets: 5, orderable: false }
+                    { targets: 6, orderable: false }
                 ],
 
                 initComplete: function(settings, json) {

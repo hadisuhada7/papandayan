@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 use Kilobyteno\LaravelUserGuestLike\Traits\HasUserGuestLike;
 
 class Article extends Model
@@ -18,6 +19,7 @@ class Article extends Model
 
     protected $fillable = [
         'title',
+        'slug',
         'subtitle',
         'about',
         'author',
@@ -31,6 +33,43 @@ class Article extends Model
         'publish_at' => 'date',
         'viewer' => 'integer',
     ];
+
+    /**
+     * Boot the model.
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($article) {
+            if (empty($article->slug)) {
+                $article->slug = static::generateUniqueSlug($article->title);
+            }
+        });
+
+        static::updating(function ($article) {
+            if ($article->isDirty('title') && empty($article->slug)) {
+                $article->slug = static::generateUniqueSlug($article->title);
+            }
+        });
+    }
+
+    /**
+     * Generate a unique slug from title.
+     */
+    public static function generateUniqueSlug($title, $id = null)
+    {
+        $slug = Str::slug($title);
+        $originalSlug = $slug;
+        $count = 1;
+
+        while (static::where('slug', $slug)->where('id', '!=', $id)->exists()) {
+            $slug = $originalSlug . '-' . $count;
+            $count++;
+        }
+
+        return $slug;
+    }
 
     /**
      * Get the tags for the article.

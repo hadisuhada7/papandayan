@@ -16,6 +16,7 @@
                 <h1>Form Karir</h1>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('front.index') }}">Beranda</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('front.career') }}">Karir</a></li>
                     <li class="breadcrumb-item active">Form Karir</li>
                 </ul>
             </div>
@@ -23,7 +24,7 @@
     </section>
     <!--banner sec end-->
 
-    <!--FAQ start-->
+    <!--form career start-->
     <section class="w-100 clearfix checkout" id="checkout">
         <div class="container">
             <div class="checkoutInner">
@@ -208,7 +209,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <button type="submit" class="btnCustom5 btn-1 hover-slide-down"><span>Kirim <img src="{{ asset('images/icon/icon-right.png') }}" alt="right" class="img-fluid"></span></button>
+                                                <button type="submit" class="btnCustom2 btn-1 hover-slide-down"><span>Kirim <img src="{{ asset('images/icon/icon-right.png') }}" alt="right" class="img-fluid"></span></button>
                                             </form>
 
                                         </div>
@@ -336,13 +337,12 @@
             </div>
         </div>
     </section>
-    <!--FAQ end-->
+    <!--form career end-->
 
 @endsection
 
 @push('after-styles')
     <style type="text/css">
-
         /* Modify Select2 to match form inputs */
         .select2-container--bootstrap4 .select2-selection--single {
             height: auto !important;
@@ -645,7 +645,6 @@
 @endpush
 
 @push('after-scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js" integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         $(document).ready(function () {
             // Initialize DatePicker

@@ -147,9 +147,9 @@
                                     <td>{{ $applicant->education }} {{ $applicant->major }}</td>
                                     <td><span class="badge {{ getStatusBadgeClass($applicant->status) }}">{{ getStatusDisplayText($applicant->status) }}</span></td>
                                     <td class="text-center">
-                                        <a href="javascript:void(0)" class="btn btn-sm btn-primary item-detail" data-id="{{ $applicant->id }}"><i class="fas fa-eye"></i></a>
+                                        <a href="javascript:void(0)" class="btn btn-sm btn-info item-detail" data-id="{{ $applicant->id }}"><i class="fas fa-eye"></i></a>
                                         @if($applicant->curriculum_vitae)
-                                            <a href="{{ asset('storage/' . $applicant->curriculum_vitae) }}" class="btn btn-sm btn-success item-download" target="_blank" title="Download CV">
+                                            <a href="{{ route('admin.applicants.download.cv', $applicant->id) }}" class="btn btn-sm btn-success item-download" title="Download CV">
                                                 <i class="fas fa-download"></i>
                                             </a>
                                         @endif

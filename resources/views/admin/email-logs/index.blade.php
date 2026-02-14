@@ -6,25 +6,25 @@
 @section('plugins.Toastr', true)
 
 @php
-function emailLogStatusBadge($status) {
-    return match(strtolower($status)) {
-        'queued' => 'bg-secondary',
-        'sending' => 'bg-info',
-        'sent' => 'bg-success',
-        'failed' => 'bg-danger',
-        default => 'bg-secondary'
-    };
-}
+    function emailLogStatusBadge($status) {
+        return match(strtolower($status)) {
+            'queued' => 'bg-secondary',
+            'sending' => 'bg-info',
+            'sent' => 'bg-success',
+            'failed' => 'bg-danger',
+            default => 'bg-secondary'
+        };
+    }
 
-function emailLogStatusLabel($status) {
-    return match(strtolower($status)) {
-        'queued' => 'Queued',
-        'sending' => 'Sending',
-        'sent' => 'Sent',
-        'failed' => 'Failed',
-        default => ucfirst($status)
-    };
-}
+    function emailLogStatusLabel($status) {
+        return match(strtolower($status)) {
+            'queued' => 'Queued',
+            'sending' => 'Sending',
+            'sent' => 'Sent',
+            'failed' => 'Failed',
+            default => ucfirst($status)
+        };
+    }
 @endphp
 
 @section('content_header')
@@ -34,7 +34,7 @@ function emailLogStatusLabel($status) {
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
                 <li class="breadcrumb-item active">Email Logs</li>
             </ol>
         </div>
@@ -46,41 +46,45 @@ function emailLogStatusLabel($status) {
         <div class="col-12">
             <div class="card card-primary card-outline">
                 <div class="card-header">
-                    <h3 class="card-title">Log Pengiriman Email</h3>
+                    <h3 class="card-title">Data Tables</h3>
                 </div>
                 <div class="card-body">
                     <table id="datagrid" class="table table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th style="width: 30px;">No</th>
-                                <th>Recipient</th>
-                                <th>Sender</th>
-                                <th>Subject</th>
-                                <th>Template</th>
-                                <th>Status</th>
-                                <th style="width: 160px;">Sent At</th>
-                                <th style="width: 60px;">&nbsp;</th>
+                                <th scope="col">Recipient</th>
+                                <th style="width: 150px;">Sender</th>
+                                <th style="width: 120px;">Subject</th>
+                                <!-- <th style="width: 100px;">Template</th> -->
+                                <th style="width: 100px;">Status</th>
+                                <th style="width: 150px;">Sent At</th>
+                                <th style="width: 30px;">&nbsp;</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @php $index = 1; @endphp
+                            @php 
+                                $index = 1; 
+                            @endphp
                             @foreach($logs as $log)
                                 <tr>
-                                    <td>{{ $index }}</td>
+                                    <td scope="row">{{ $index }}</td>
                                     <td>
                                         <div>{{ $log->recipient_email }}</div>
                                         <small class="text-muted">Ticket: {{ $log->ticket?->ticket_number ?? '-' }}</small>
                                     </td>
                                     <td>{{ $log->sender_email ?? '-' }}</td>
                                     <td>{{ $log->subject }}</td>
-                                    <td>{{ $log->template }}</td>
+                                    <!-- <td>{{ $log->template }}</td> -->
                                     <td><span class="badge {{ emailLogStatusBadge($log->status) }}">{{ emailLogStatusLabel($log->status) }}</span></td>
                                     <td>{{ $log->sent_at?->format('d M Y H:i') ?? '-' }}</td>
                                     <td class="text-center">
                                         <a href="{{ route('admin.email-logs.show', $log) }}" class="btn btn-sm btn-info"><i class="fas fa-eye"></i></a>
                                     </td>
                                 </tr>
-                                @php $index++; @endphp
+                                @php 
+                                    $index++; 
+                                @endphp
                             @endforeach
                         </tbody>
                     </table>
@@ -92,12 +96,14 @@ function emailLogStatusLabel($status) {
 
 @section('css')
     <style type="text/css">
+        /* Modify DataGrid Filter */
         #datagrid_filter input {
             margin-left: 0 !important;
             width: 180px;
             border-radius: 3px;
         }
 
+        /* Modify DataGrid Length */
         #datagrid_length {
             float: left !important;
         }
@@ -108,6 +114,8 @@ function emailLogStatusLabel($status) {
     @include('partials.toastr')
     <script type="text/javascript">
         $(document).ready(function () {
+
+            // Initialize DataTable
             $("#datagrid").DataTable({
                 paging: true,
                 ordering: true,
@@ -119,10 +127,12 @@ function emailLogStatusLabel($status) {
                     emptyTable: "No data available in table",
                     zeroRecords: "No matching records found"
                 },
+
                 columnDefs: [
-                    { targets: 7, orderable: false }
+                    { targets: 6, orderable: false }
                 ],
-                initComplete: function() {
+
+                initComplete: function(settings, json) {
                     $('#datagrid_filter label').contents().filter(function() {
                         return this.nodeType === 3;
                     }).remove();

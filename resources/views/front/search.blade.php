@@ -255,7 +255,7 @@
                                         @if(!empty($item['excerpt']))
                                             <p>{{ $item['excerpt'] }}</p>
                                         @endif
-                                        <a class="btnCustom5 btn-1 hover-slide-down" href="{{ $item['url'] }}">
+                                        <a class="btnCustom2 btn-1 hover-slide-down" href="{{ $item['url'] }}">
                                             <span>Selengkapnya <img src="{{ asset('images/icon/icon-right.png') }}" alt="right" class="img-fluid"></span>
                                         </a>
                                     </div>

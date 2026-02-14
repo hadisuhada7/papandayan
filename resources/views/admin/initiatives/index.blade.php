@@ -34,6 +34,7 @@
                                 <th style="width: 200px;">Title</th>
                                 <th scope="col">Subtitle</th>
                                 <th style="width: 100px;">Author</th>
+                                <th style="width: 100px;">Viewers</th>
                                 <th style="width: 100px;">Thumbnail</th>
                                 <th style="width: 65px;">&nbsp;</th>
                             </tr>
@@ -48,6 +49,7 @@
                                     <td>{{ $initiative->title }}</td>
                                     <td>{{ $initiative->subtitle }}</td>
                                     <td>{{ $initiative->author }}</td>
+                                    <td>{{ $initiative->viewer }}</td>
                                     <td><img src="{{ Storage::url($initiative->thumbnail) }}" alt="" style="max-width: 100px;"></td>
                                     <td class="text-center">
                                         <a href="{{ route('admin.initiatives.edit', $initiative) }}" class="btn btn-sm btn-primary item-edit"><i class="fas fa-pencil-alt"></i></a>
@@ -134,7 +136,7 @@
                 },
 
                 columnDefs: [
-                    { targets: 5, orderable: false }
+                    { targets: 6, orderable: false }
                 ],
 
                 initComplete: function(settings, json) {

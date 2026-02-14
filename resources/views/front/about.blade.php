@@ -2,34 +2,6 @@
 
 @section('title', 'Tentang Kami')
 
-@push('after-styles')
-	<style>
-		.section-scroll-target {
-			scroll-margin-top: 140px;
-		}
-
-		.anchor-alias {
-			scroll-margin-top: 140px;
-			display: block;
-		}
-
-		.management-name-trigger {
-			background: none;
-			border: 0;
-			color: inherit;
-			font: inherit;
-			padding: 0;
-			cursor: pointer;
-			text-decoration: none;
-		}
-
-		.management-name-trigger:focus {
-			outline: 2px solid #3c5fac;
-			outline-offset: 2px;
-		}
-	</style>
-@endpush
-
 @section('content')
 
    	<!--banner start-->
@@ -51,7 +23,7 @@
     </div>
     <!--breadcrumb end-->
    
-	<!--about us sec1 start-->
+	<!--profile start-->
 	<section class="w-100 clearfix aboutUsSec1 section-scroll-target" id="profiles">
 		<span id="profiles" class="anchor-alias" aria-hidden="true"></span>
 		<div class="container">
@@ -59,16 +31,18 @@
 			@forelse($profiles as $profile)
 				<div class="row aboutUsRow1">
 					<div class="col-xl-6 aboutUsCol1">
-						<div class="aboutUsSec1Img">
+						<div class="aboutUsSec1Img fadein">
 							<img src="{{ Storage::url($profile->thumbnail) }}" alt="" class="img-fluid">
 						</div>  
 					</div>  
 					<div class="col-xl-6 aboutUsCol1">
 						<div class="aboutUsSec1Content">
 							<div class="aboutUsSec1Para">
-								<h5 class="fadein visible" style="color: #3c5fac;">Tentang Kami</h5>
-								<h4 class="fadein visible">{{ $profile->name }}</h4>
-								<p>{!! $profile->description !!}</p>
+								<h5 class="fadein" style="color: #3c5fac;">Tentang Kami</h5>
+								<h4 class="fadein">{{ $profile->name }}</h4>
+								<div class="broilerBreederPara fadein">
+									<p>{!! $profile->description !!}</p>
+								</div>
 							</div> 
 							<!-- <div class="aboutUsSec1Counter">
 								<div class="aboutUsSec1Row" id="counter-stats">
@@ -94,13 +68,14 @@
 
 		</div>
 	</section>
-	<!--about us sec1 end-->
+	<!--profile end-->
 
-	<!--broiler breeder start-->
+	<!--vision mission start-->
 	@php
 		$visionThumbnail = optional($visions->first())->thumbnail;
 		$missionThumbnail = optional($missions->first())->thumbnail;
 	@endphp
+
 	<section class="w-100 clearfix broilerBreeder section-scroll-target" id="vision-mission">
 		<span id="vision-mission" class="anchor-alias" aria-hidden="true"></span>
 		<div class="broilerBreederInner">
@@ -113,14 +88,14 @@
 								@forelse ($visions as $vision)
 									<div class="broilerBreederContent">
 										<div class="broilerBreederHeadGroup">
-											<div class="broilBreederImg">
+											<div class="broilBreederImg fadein">
 												<img src="{{ Storage::url($vision->icon) }}" alt="Broiler-Breeder" class="img-fluid">
 											</div>
-											<div class="broilBreederHeading">
+											<div class="broilBreederHeading fadein">
 												<h2 class="mb-0">{{ $vision->name }}</h2>
 											</div>
 										</div>
-										<div class="broilerBreederPara">
+										<div class="broilerBreederPara fadein">
 											<p>{{ $vision->description }}</p>
 
 											@if($vision->keypoints && count($vision->keypoints) > 0)
@@ -148,14 +123,14 @@
 								@forelse ($missions as $mission)
 									<div class="broilerBreederContent">
 										<div class="broilerBreederHeadGroup">
-											<div class="broilBreederImg">
+											<div class="broilBreederImg fadein">
 												<img src="{{ Storage::url($mission->icon) }}" alt="Broiler-Breeder" class="img-fluid">
 											</div>
-											<div class="broilBreederHeading">
+											<div class="broilBreederHeading fadein">
 												<h2 class="mb-0">{{ $mission->name }}</h2>
 											</div>
 										</div>
-										<div class="broilerBreederPara">
+										<div class="broilerBreederPara fadein">
 											<p>{{ $mission->description }}</p>
 
 											@if($mission->keypoints && count($mission->keypoints) > 0)
@@ -180,9 +155,9 @@
 			</div>
 		</div>
 	</section>
-	<!--broiler breeder end-->
+	<!--vision mission end-->
 
-	<!--poultry feed start-->
+	<!--histories start-->
 	<section class="w-100 clearfix poultryFeed section-scroll-target" id="histories">
 		<div class="commonHeading text-center">
 			<h4 class="fadein">Jejak Langkah</h4>
@@ -190,7 +165,7 @@
 		</div>
 		<div class="container">
 			<div class="poultryFeedInner">
-				<div class="poultryFeedBanner">
+				<div class="poultryFeedBanner fadein">
 					<div class="timeline">
 						<div class="timeline__wrap">
 							<div class="timeline__items">
@@ -212,9 +187,9 @@
 			</div>
 		</div>
 	</section>
-	<!--poultry feed end-->
+	<!--histories end-->
 
-	<!--poultry feed start-->
+	<!--organization start-->
 	<section class="w-100 clearfix poultryFeed section-scroll-target" id="organizations">
 		<div class="commonHeading text-center">
 			<h4 class="fadein">Struktur Organisasi</h4>
@@ -224,7 +199,7 @@
 			<div class="poultryFeedInner">
 
 				@forelse ($organizations as $organization)
-					<div class="poultryFeedBanner">
+					<div class="poultryFeedBanner fadein">
 						<img src="{{ Storage::url($organization->thumbnail) }}" alt="poultry-feed" class="w-100 img-fluid">
 					</div>
 				@empty
@@ -233,9 +208,9 @@
 			</div>
 		</div>
 	</section>
-	<!--poultry feed end-->
+	<!--organization end-->
 
-	<!--team four wrapper start-->
+	<!--management start-->
 	<div class="team-four-wrapper padd-100 w-100 team-bg section-scroll-target" id="managements">
 		<div class="commonHeading text-center">
 			<h4 class="fadein">Manajemen Kami</h4>
@@ -244,7 +219,7 @@
 		<div class="container shoCustomContainer">
 			<div class="row">
 				<div class="col-lg-12 col-md-12 col-sm-12 col-12">
-					<div class="team-four-wrapper">
+					<div class="team-four-wrapper fadein">
 						<div class="owl-carousel owl-theme">
 							
 							@forelse ($managements as $management)
@@ -261,6 +236,7 @@
 											</h6>
 											<span>{{ $management->occupation }}</span>
 											<div class="social-icon-four">
+
 												@if($management->facebook)
 													<a href="{{ $management->facebook }}">
 														<i class="fab fa-facebook-f"></i>
@@ -281,6 +257,7 @@
 														<i class="fab fa-linkedin-in"></i>
 													</a>
 												@endif
+
 											</div>
 										</div>
 									</div>
@@ -299,13 +276,13 @@
 						<div class="modal-dialog modal-lg">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h4 class="modal-title" id="management-modal-label-{{ $management->id }}">Detail Management</h4>
-									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									<h4 class="modal-title" id="management-modal-label-{{ $management->id }}">Detail Manajemen</h4>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
 								</div>
 								<div class="modal-body">
 									<div class="row">
 										<div class="col-md-4 text-center">
-											<img src="{{ Storage::url($management->avatar) }}" alt="{{ $management->name }}" class="img-fluid mb-3">
+											<img src="{{ Storage::url($management->avatar) }}" alt="{{ $management->name }}" class="img-fluid mb-3" style="border-radius: 5px;">
 											<h5>{{ $management->name }}</h5>
 											<p>{{ $management->occupation }}</p>
 										</div>
@@ -315,7 +292,7 @@
 									</div>
 								</div>
 								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
 								</div>
 							</div>
 						</div>
@@ -325,9 +302,9 @@
 
 		</div>
 	</div>
-	<!--team four wrapper end-->
+	<!--management end-->
 
-   	<!--maps section start-->
+   	<!--map start-->
 	<section class="w-100 clearfix mapsSection section-scroll-target" id="areas">
         <div class="commonHeading text-center">
             <h4 class="fadein">Wilayah Persebaran</h4>
@@ -341,9 +318,39 @@
             </div>
         </div>
     </section>
-    <!--maps section end-->
+    <!--map end-->
 
 @endsection
+
+@push('after-styles')
+	<style>
+		/* Modify Adjust Scroll*/
+		.section-scroll-target {
+			scroll-margin-top: 140px;
+		}
+
+		.anchor-alias {
+			scroll-margin-top: 140px;
+			display: block;
+		}
+
+		/* Modify Management Name */
+		.management-name-trigger {
+			background: none;
+			border: 0;
+			color: inherit;
+			font: inherit;
+			padding: 0;
+			cursor: pointer;
+			text-decoration: none;
+		}
+
+		.management-name-trigger:focus {
+			outline: 2px solid #3c5fac;
+			outline-offset: 2px;
+		}
+	</style>
+@endpush
 
 @push('after-scripts')
 	<script>
@@ -422,11 +429,13 @@
 		});
 
 		// Initialize Leaflet Maps
-        var map = L.map('map').setView([-6.9175, 107.6191], 10); // Center on Bandung, West Java
+        var map = L.map('map', {
+            attributionControl: false
+        }).setView([-6.9175, 107.6191], 10); // Center on Bandung, West Java
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            attribution: ''
         }).addTo(map);
 
         // Add coverage area markers

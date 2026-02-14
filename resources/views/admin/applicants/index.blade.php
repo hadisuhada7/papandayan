@@ -90,7 +90,7 @@
                                     <td>{{ $career->career_applicants_count ?? 0 }} applicant(s)</td>
                                     <td class="text-center">
                                         @if($career->career_applicants_count > 0)
-                                            <a href="javascript:void(0)" class="btn btn-sm btn-primary item-detail" data-id="{{ $career->id }}"><i class="fas fa-eye"></i></a>
+                                            <a href="javascript:void(0)" class="btn btn-sm btn-info item-detail" data-id="{{ $career->id }}"><i class="fas fa-eye"></i></a>
                                             <a href="{{ route('admin.applicants.export.career', $career->id) }}" class="btn btn-sm btn-success item-export" title="Export to Excel">
                                                 <i class="fas fa-file-excel"></i>
                                             </a>

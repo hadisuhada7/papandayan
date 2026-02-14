@@ -22,7 +22,7 @@ function subscriberStatusLabel(bool $isActive): string {
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
                 <li class="breadcrumb-item active">Report Subscribers</li>
             </ol>
         </div>
@@ -34,24 +34,26 @@ function subscriberStatusLabel(bool $isActive): string {
         <div class="col-12">
             <div class="card card-primary card-outline">
                 <div class="card-header">
-                    <h3 class="card-title">List Subscriber Notifikasi Laporan</h3>
+                    <h3 class="card-title">Data Tables</h3>
                 </div>
                 <div class="card-body">
                     <table id="datagrid" class="table table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th style="width: 30px;">No</th>
-                                <th>Email</th>
-                                <th style="width: 120px;">Status</th>
-                                <th style="width: 180px;">Subscribed At</th>
-                                <th style="width: 180px;">Unsubscribed At</th>
+                                <th scope="col">Email</th>
+                                <th style="width: 100px;">Status</th>
+                                <th style="width: 150px;">Subscribed At</th>
+                                <th style="width: 150px;">Unsubscribed At</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @php $index = 1; @endphp
+                            @php 
+                                $index = 1; 
+                            @endphp
                             @foreach($subscribers as $subscriber)
                                 <tr>
-                                    <td>{{ $index }}</td>
+                                    <td scope="row">{{ $index }}</td>
                                     <td>{{ $subscriber->email }}</td>
                                     <td>
                                         <span class="badge {{ subscriberStatusBadge($subscriber->is_active) }}">
@@ -61,7 +63,9 @@ function subscriberStatusLabel(bool $isActive): string {
                                     <td>{{ $subscriber->subscribed_at?->format('d M Y H:i') ?? '-' }}</td>
                                     <td>{{ $subscriber->unsubscribed_at?->format('d M Y H:i') ?? '-' }}</td>
                                 </tr>
-                                @php $index++; @endphp
+                                @php 
+                                    $index++;
+                                @endphp
                             @endforeach
                         </tbody>
                     </table>
@@ -73,12 +77,14 @@ function subscriberStatusLabel(bool $isActive): string {
 
 @section('css')
     <style type="text/css">
+        /* Modify DataGrid Filter */
         #datagrid_filter input {
             margin-left: 0 !important;
             width: 180px;
             border-radius: 3px;
         }
 
+        /* Modify DataGrid Length */
         #datagrid_length {
             float: left !important;
         }
@@ -89,6 +95,8 @@ function subscriberStatusLabel(bool $isActive): string {
     @include('partials.toastr')
     <script type="text/javascript">
         $(document).ready(function () {
+
+            // Initialize DataTable
             $("#datagrid").DataTable({
                 paging: true,
                 ordering: true,
@@ -100,7 +108,8 @@ function subscriberStatusLabel(bool $isActive): string {
                     emptyTable: "No data available in table",
                     zeroRecords: "No matching records found"
                 },
-                initComplete: function() {
+
+                initComplete: function(settings, json) {
                     $('#datagrid_filter label').contents().filter(function() {
                         return this.nodeType === 3;
                     }).remove();

@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <!--banner sec start-->
+    <!--banner start-->
     <section class="w-100 clearfix bannerSec" id="bannerSec" style="background-image: url('{{ asset('images/inner-banner.png') }}');">
         <div class="container">
             <div class="bannerContent">
@@ -16,32 +16,34 @@
             </div>
         </div>
     </section>
-    <!--banner sec end-->
+    <!--banner end-->
    
-    <!--blog section start-->
+    <!--all article start-->
     <section class="w-100 clearfix blogArticles blogPg" id="blogArticles">
         <div class="container">
             <div class="blogArticlesInner">
                 <div class="row">
                     <div class="col-lg-8">
+
                         @if(isset($selectedTag) && $selectedTag)
                             <div class="alert alert-info d-flex justify-content-between align-items-center mb-4">
                                 <span>Menampilkan artikel dengan tag: <strong>{{ $selectedTag->name }}</strong></span>
                                 <a href="{{ route('front.articles') }}" class="btn btn-sm btn-outline-primary">Tampilkan Semua</a>
                             </div>
                         @endif
+
                         <div class="latestNewsCard">
                             <div class="row blogWithSidebarRow">
 
                                 @forelse ($articles as $article)
                                     <div class="col-md-12 col-lg-6 blogWithSidebarCol">
-                                        <div class="latestNewsCardInner mb-4">
+                                        <div class="latestNewsCardInner mb-4 fadein">
                                             <div class="latestNewsCardImg">
-                                                <a href="{{ route('front.article-detail', $article->id) }}"><img src="{{ Storage::url($article->thumbnail) }}" alt="img" class="w-100 img-fluid"></a>
+                                                <a href="{{ route('front.article-detail', $article->slug) }}"><img src="{{ Storage::url($article->thumbnail) }}" alt="img" class="w-100 img-fluid"></a>
                                                 <div class="latestNewsDate">
                                                     <a href="javascript:void(0);">
-                                                        <h5>{{ $article->publish_at->format('d') }}</h5>
-                                                        <span>{{ $article->publish_at->format('M') }}</span>
+                                                        <h5>{{ $article->publish_at->locale('id')->isoFormat('d') }}</h5>
+                                                        <span>{{ $article->publish_at->locale('id')->isoFormat('MMM') }}</span>
                                                     </a>
                                                 </div>
                                             </div>
@@ -57,14 +59,16 @@
                                                             <i class="fa fa-eye" style="color: #3c5fac;"></i><span>{{ $article->viewer }} Viewers</span>
                                                         </a>
                                                     </div>
+
                                                     @include('front.partials.like-post', ['model' => $article, 'type' => 'article'])
+
                                                 </div>
                                                 <div class="latestNewsTxt">
-                                                    <h4><a href="{{ route('front.article-detail', $article->id) }}">{{ $article->title }}</a></h4>
+                                                    <h4><a href="{{ route('front.article-detail', $article->slug) }}">{{ $article->title }}</a></h4>
                                                     <p>{{ $article->subtitle }}</p>
                                                 </div>
                                                 <div class="latestNewBtn">
-                                                    <a class="btnCustom2 btn-1 hover-slide-down" href="{{ route('front.article-detail', $article->id) }}">
+                                                    <a class="btnCustom2 btn-1 hover-slide-down" href="{{ route('front.article-detail', $article->slug) }}">
                                                         <span>Selengkapnya <img src="{{ asset('images/icon/icon-right.png') }}" alt="right" class="img-fluid"></span>
                                                     </a>
                                                 </div>
@@ -76,13 +80,16 @@
 
                             </div>
                         </div>
+
                         {{ $articles->links('front.partials.pagination') }}
+
                     </div>
                     <div class="col-lg-4">
                         <div class="blogSingleAside">
+                            
                             @include('front.partials.search-post', [
                                 'title' => 'Temukan Artikel',
-                                'placeholder' => 'Cari judul artikel',
+                                'placeholder' => 'Search',
                                 'action' => route('front.articles'),
                             ])
 
@@ -114,16 +121,12 @@
             </div>
         </div>
     </section>
-    <!--blog section end-->
+    <!--all article end-->
 
 @endsection
 
 @push('after-scripts')
     <script>
-        $(document).ready(function ($) {
-            // Script here
-        });
-
         // Header active class toggle on scroll
         const header = document.querySelector(".headerOne");
         const toggleClass = "headerActive";

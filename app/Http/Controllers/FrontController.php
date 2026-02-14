@@ -82,6 +82,7 @@ class FrontController extends Controller
         $articles = Article::where('status', 'Published')
             ->orderBy('id')
             ->withCount('likes')
+            ->take(3)
             ->get();
         $coverageAreas = CoverageArea::whereNotNull('latitude')
                                     ->whereNotNull('longitude')
@@ -118,15 +119,15 @@ class FrontController extends Controller
         return view('front.article', compact('banners', 'articles', 'search', 'selectedTag'));
     }
 
-    public function articleDetail($id) {
-        $article = Article::with('tags')->withCount('likes')->findOrFail($id);
+    public function articleDetail($slug) {
+        $article = Article::where('slug', $slug)->with('tags')->withCount('likes')->firstOrFail();
         
         // Increment viewer count
         $this->incrementViewerCount($article);
 
         // Get recent articles (excluding current article)
         $recentArticles = Article::where('status', 'Published')
-            ->where('id', '!=', $id)
+            ->where('id', '!=', $article->id)
             ->orderBy('created_at', 'desc')
             ->limit(5)
             ->get();
@@ -243,15 +244,15 @@ class FrontController extends Controller
         return view('front.social', compact('banners', 'socials', 'search'));
     }
 
-    public function socialDetail($id) {
-        $social = CorporateSocial::withCount('likes')->findOrFail($id);
+    public function socialDetail($slug) {
+        $social = CorporateSocial::where('slug', $slug)->withCount('likes')->firstOrFail();
         
         // Increment viewer count
         $this->incrementViewerCount($social);
         
         // Get recent socials (excluding current social)
         $recentSocials = CorporateSocial::where('status', 'Published')
-            ->where('id', '!=', $id)
+            ->where('id', '!=', $social->id)
             ->orderBy('created_at', 'desc')
             ->limit(5)
             ->get();
@@ -275,15 +276,15 @@ class FrontController extends Controller
         return view('front.initiative', compact('banners', 'initiatives', 'search'));
     }
 
-    public function initiativeDetail($id) {
-        $initiative = Initiative::withCount('likes')->findOrFail($id);
+    public function initiativeDetail($slug) {
+        $initiative = Initiative::where('slug', $slug)->withCount('likes')->firstOrFail();
         
         // Increment viewer count
         $this->incrementViewerCount($initiative);
         
         // Get recent initiatives (excluding current initiative)
         $recentInitiatives = Initiative::where('status', 'Published')
-            ->where('id', '!=', $id)
+            ->where('id', '!=', $initiative->id)
             ->orderBy('created_at', 'desc')
             ->limit(5)
             ->get();

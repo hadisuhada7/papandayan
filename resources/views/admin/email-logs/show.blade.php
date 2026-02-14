@@ -4,6 +4,28 @@
 
 @section('plugins.Toastr', true)
 
+@php
+    function emailLogStatusBadge($status) {
+        return match(strtolower($status)) {
+            'queued' => 'bg-secondary',
+            'sending' => 'bg-info',
+            'sent' => 'bg-success',
+            'failed' => 'bg-danger',
+            default => 'bg-secondary'
+        };
+    }
+
+    function emailLogStatusLabel($status) {
+        return match(strtolower($status)) {
+            'queued' => 'Queued',
+            'sending' => 'Sending',
+            'sent' => 'Sent',
+            'failed' => 'Failed',
+            default => ucfirst($status)
+        };
+    }
+@endphp
+
 @section('content_header')
     <div class="row mb-2">
         <div class="col-sm-6">
@@ -11,7 +33,7 @@
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('admin.email-logs.index') }}">Email Logs</a></li>
                 <li class="breadcrumb-item active">Detail</li>
             </ol>
@@ -41,7 +63,7 @@
                         <dd class="col-sm-8">{{ $log->template }}</dd>
 
                         <dt class="col-sm-4">Status</dt>
-                        <dd class="col-sm-8">{{ ucfirst($log->status) }}</dd>
+                        <dd class="col-sm-8"><span class="badge {{ emailLogStatusBadge($log->status) }}">{{ emailLogStatusLabel($log->status) }}</span></dd>
 
                         <dt class="col-sm-4">Fail Interval</dt>
                         <dd class="col-sm-8">{{ $log->fail_interval ?? 0 }}</dd>

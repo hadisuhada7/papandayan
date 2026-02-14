@@ -21,7 +21,7 @@ function emailConfigTypeLabel($type) {
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
                 <li class="breadcrumb-item active">Email Configs</li>
             </ol>
         </div>
@@ -33,45 +33,50 @@ function emailConfigTypeLabel($type) {
         <div class="col-12">
             <div class="card card-primary card-outline">
                 <div class="card-header">
-                    <h3 class="card-title">SMTP Configurations</h3>
+                    <h3 class="card-title">Data Tables</h3>
                 </div>
                 <div class="card-body">
                     <table id="datagrid" class="table table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th style="width: 30px;">No</th>
-                                <th>Name</th>
-                                <th>Type</th>
-                                <th>Host</th>
-                                <th>Username</th>
-                                <th>From</th>
-                                <th>Status</th>
-                                <th style="width: 110px;">&nbsp;</th>
+                                <th scope="col">Name</th>
+                                <th style="width: 100px;">Type</th>
+                                <th style="width: 200px;">Host</th>
+                                <th style="width: 200px;">Username</th>
+                                <!-- <th scope="col">From</th> -->
+                                <th style="width: 100px;">Status</th>
+                                <th style="width: 65px;">&nbsp;</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @php $index = 1; @endphp
+                            @php 
+                                $index = 1; 
+                            @endphp
                             @foreach($configs as $config)
                                 <tr>
-                                    <td>{{ $index }}</td>
+                                    <td scope="row">{{ $index }}</td>
                                     <td>{{ $config->name ?? '-' }}</td>
                                     <td>{{ emailConfigTypeLabel($config->type) }}</td>
                                     <td>{{ $config->host }}:{{ $config->port }}</td>
                                     <td>{{ $config->username }}</td>
-                                    <td>{{ $config->from_name }} ({{ $config->from_address }})</td>
+                                    <!-- <td>{{ $config->from_name }} ({{ $config->from_address }})</td> -->
                                     <td><span class="badge {{ emailConfigStatusBadge($config->is_active) }}">{{ $config->is_active ? 'Active' : 'Inactive' }}</span></td>
                                     <td class="text-center">
                                         <a href="{{ route('admin.email-configs.edit', $config) }}" class="btn btn-sm btn-primary"><i class="fas fa-pencil-alt"></i></a>
                                         <a href="javascript:void(0)" class="btn btn-sm btn-danger item-remove" data-id="{{ $config->id }}"><i class="fas fa-trash-alt"></i></a>
                                     </td>
                                 </tr>
-                                @php $index++; @endphp
+                                @php
+                                    $index++; 
+                                @endphp
                             @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
 
+            <!-- Delete Modal -->
             <div class="modal fade" id="modal-delete" tabindex="-1" role="dialog">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
@@ -96,6 +101,7 @@ function emailConfigTypeLabel($type) {
                 </div>
             </div>
 
+            <!-- Hidden Form for Delete Action -->
             <form id="delete-form" method="POST" style="display: none;">
                 @csrf
                 @method('DELETE')
@@ -106,12 +112,14 @@ function emailConfigTypeLabel($type) {
 
 @section('css')
     <style type="text/css">
+        /* Modify DataGrid Filter */
         #datagrid_filter input {
             margin-left: 0 !important;
             width: 180px;
             border-radius: 3px;
         }
 
+        /* Modify DataGrid Length */
         #datagrid_length {
             float: left !important;
         }
@@ -122,8 +130,10 @@ function emailConfigTypeLabel($type) {
     @include('partials.toastr')
     <script type="text/javascript">
         $(document).ready(function () {
+
             var selectedRow;
 
+            // Initialize DataTable
             $("#datagrid").DataTable({
                 paging: true,
                 ordering: true,
@@ -135,10 +145,12 @@ function emailConfigTypeLabel($type) {
                     emptyTable: "No data available in table",
                     zeroRecords: "No matching records found"
                 },
+
                 columnDefs: [
-                    { targets: 7, orderable: false }
+                    { targets: 6, orderable: false }
                 ],
-                initComplete: function() {
+
+                initComplete: function(settings, json) {
                     $('#datagrid_filter label').contents().filter(function() {
                         return this.nodeType === 3;
                     }).remove();
@@ -158,11 +170,13 @@ function emailConfigTypeLabel($type) {
                 }
             });
 
+            // Handle Delete Button Handler
             $(document).on("click", ".item-remove", function(){
                 selectedRow = $(this).data("id");
                 $("#modal-delete").modal("show");
             });
 
+            // Remove Button Handler
             $("#btn-modal-delete").on("click", function(){
                 if (selectedRow) {
                     var deleteUrl = "{{ route('admin.email-configs.index') }}/" + selectedRow;

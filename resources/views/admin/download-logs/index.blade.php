@@ -5,6 +5,12 @@
 @section('plugins.Datatables', true)
 @section('plugins.Toastr', true)
 
+@php
+function downloadStatusBadge(string $status): string {
+    return $status === 'success' ? 'bg-success' : 'bg-secondary';
+}
+@endphp
+
 @section('content_header')
     <div class="row mb-2">
         <div class="col-sm-6">
@@ -12,7 +18,7 @@
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
                 <li class="breadcrumb-item active">Download Logs</li>
             </ol>
         </div>
@@ -33,10 +39,9 @@
                                 <th style="width: 30px;">No</th>
                                 <th style="width: 150px;">Name</th>
                                 <th style="width: 150px;">Email</th>
-                                <th style="width: 150px;">Report Name</th>
-                                <th style="width: 150px;">Status</th>
-                                <th scope="col">Downloaded At</th>
-                                <th style="width: 65px;">&nbsp;</th>
+                                <th scope="col">Report Name</th>
+                                <th style="width: 100px;">Status</th>
+                                <th style="width: 150px;">Downloaded At</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -49,12 +54,12 @@
                                     <td>{{ $log->name }}</td>
                                     <td>{{ $log->email }}</td>
                                     <td>{{ $log->type_report }}</td>
-                                    <td>{{ $log->status }}</td>
-                                    <td>{{ $log->downloaded_at->format('d F Y') }}</td>
-                                    <td class="text-center">
-                                        <!-- <a href="{{ route('admin.download-logs.edit', $log) }}" class="btn btn-sm btn-primary item-edit"><i class="fas fa-pencil-alt"></i></a>
-                                        <a href="javascript:void(0)" class="btn btn-sm btn-danger item-remove" data-id="{{ $log->id }}"><i class="fas fa-trash-alt"></i></a> -->
+                                    <td>
+                                        <span class="badge {{ downloadStatusBadge($log->status) }}">
+                                            {{ ucfirst($log->status) }}
+                                        </span>
                                     </td>
+                                    <td>{{ $log->downloaded_at->format('d M Y H:i') }}</td>
                                 </tr>
                                 @php 
                                     $index++; 
@@ -64,44 +69,12 @@
                     </table>
                 </div>
             </div>
-
-            <!-- Delete Modal -->
-            <div class="modal fade" id="modal-delete" tabindex="-1" role="dialog">
-                <div class="modal-dialog modal-sm">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Delete Confirmation</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="text-center">
-                                <i class="fa fa-question-circle" style="color: #f39c12; font-size: 48px; margin-bottom: 10px; display: block;"></i>
-                                <h4 style="font-size: 16px; margin-bottom: 5px;">Are you sure you want to delete this?</h4>
-                                <p class="text-muted">This action cannot be undone.</p>
-                            </div>
-                        </div>
-                        <div class="modal-footer text-right">
-                            <button type="button" id="btn-modal-cancel" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                            <button type="button" id="btn-modal-delete" class="btn btn-danger">Delete</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Hidden Form for Delete Action -->
-            <form id="delete-form" method="POST" style="display: none;">
-                @csrf
-                @method('DELETE')
-            </form>
         </div>
     </div>
 @stop
 
 @section('css')
     <style type="text/css">
-        
         /* Modify DataGrid Filter */
         #datagrid_filter input {
             margin-left: 0 !important;
@@ -121,8 +94,6 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
-            var selectedRow;
-
             // Initialize DataTable
             $("#datagrid").DataTable({
                 paging: true,
@@ -136,10 +107,6 @@
                     zeroRecords: "No matching records found"
                 },
 
-                columnDefs: [
-                    { targets: 6, orderable: false }
-                ],
-
                 initComplete: function(settings, json) {
                     $('#datagrid_filter label').contents().filter(function() {
                         return this.nodeType === 3;
@@ -151,27 +118,9 @@
                         .attr('name', 'datagrid_search')
                         .addClass('form-control input-sm');
                     
-                    // $('<a href="{{ route('admin.download-logs.create') }}" class="btn btn-sm btn-primary" style="margin-left: 10px;">Add New</a>')
-                    //     .appendTo($('#datagrid_filter'));
-                    
                     $('#datagrid_length label').contents().filter(function() {
                         return this.nodeType === 3;
                     }).remove();
-                }
-            });
-
-            // Modal Delete Button Handler
-            $(document).on("click", ".item-remove", function(){
-                selectedRow = $(this).data("id");
-                $("#modal-delete").modal("show");
-            });
-
-            // Remove Button Handler
-            $("#btn-modal-delete").on("click", function(){
-                if (selectedRow) {
-                    var deleteUrl = "{{ route('admin.download-logs.index') }}/" + selectedRow;
-                    $("#delete-form").attr("action", deleteUrl);
-                    $("#delete-form").submit();
                 }
             });
         });

@@ -17,18 +17,19 @@
         <div class="container">
             <ul>
                 <li><a href="{{ route('front.index') }}">Beranda</a></li>
+                <li><a href="javascript:void(0);">Keberlanjutan</a></li>
                 <li><a>K3</a></li>
             </ul>
         </div>
     </div>
     <!--breadcrumb end-->
    
-    <!--blog single start-->
+    <!--article single start-->
     <section class="w-100 clearfix blogSingle" id="blogSingle">
         <div class="container">
             <div class="blogSingleInner">
                 <div class="row">
-                    <div class="col-lg-8">
+                    <div class="col-lg-12">
                         <div class="blogSingleBlog">
                             <div class="latestNewsCardInner">
                                 <div class="latestNewsCardInnerContent">
@@ -45,22 +46,38 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
-                    </div>
                 </div>
             </div>
         </div>
     </section>
-    <!--blog single end-->
+    <!--article single end-->
 
 @endsection
 
+@push('after-styles')
+    <style>
+        /* Restore list styling for content */
+        .latestNewsTxt ul {
+            list-style-type: disc;
+            padding-left: 40px;
+            margin: 15px 0;
+        }
+        
+        .latestNewsTxt ol {
+            list-style-type: decimal;
+            padding-left: 40px;
+            margin: 15px 0;
+        }
+        
+        .latestNewsTxt li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+    </style>
+@endpush
+
 @push('after-scripts')
     <script>
-        $(document).ready(function ($) {
-            // Script here
-        });
-
         // Header active class toggle on scroll
         const header = document.querySelector(".headerOne");
         const toggleClass = "headerActive";

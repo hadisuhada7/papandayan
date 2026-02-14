@@ -329,14 +329,14 @@ a{
 		  }
 	}
 	&.btnCustom5{
-		background: #3c5fac;
+		background: #fff;
 		border-radius: 5px;
 		text-decoration: none;
 		&:hover{
 			background: #2e3192;
 		}
 		span{
-			color: #fff;
+			color: #000;
 		}
 		&::before {
 			background-color: #2e3192;

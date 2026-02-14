@@ -17,13 +17,14 @@
         <div class="container">
             <ul>
                 <li><a href="{{ route('front.index') }}">Beranda</a></li>
+                <li><a href="javascript:void(0);">Keberlanjutan</a></li>
                 <li><a>Laporan Dokumen</a></li>
             </ul>
         </div>
     </div>
     <!--breadcrumb end-->
    
-    <!--blog articles start-->
+    <!--all article start-->
     <section class="w-100 clearfix blogArticles blogPg" id="blogArticles">
         <div class="container">
             <div class="blogArticlesInner">
@@ -32,16 +33,16 @@
 
                         @forelse ($documents as $document)
                             <div class="col-md-12 col-lg-3 blogWithSidebarCol">
-                                <div class="latestNewsCardInner mb-4" id="document-{{ $document->id }}">
+                                <div class="latestNewsCardInner mb-4 fadein" id="document-{{ $document->id }}">
                                     <div class="latestNewsCardImg">
                                         <a href="javascript:void(0);"><img src="{{ Storage::url($document->thumbnail) }}" alt="img" class="w-100 img-fluid"></a>
                                     </div>
                                     <div class="latestNewsCardInnerContent">
-                                        <div class="latestNewsTxt" style="margin-top: 20px; margin-bottom: 15px;">
+                                        <div class="latestNewsTxt" style="margin-top: 20px; margin-bottom: 20px;">
                                             <h4><a href="javascript:void(0);">{{ $document->name }}</a></h4>
                                         </div>
                                         <div class="latestNewBtn">
-                                            <a class="btnCustom2 btn-1 item-download" href="javascript:void(0);" data-id="{{ $document->id }}">
+                                            <a class="btnCustom2 btn-1 hover-slide-down item-download" href="javascript:void(0);" data-id="{{ $document->id }}">
                                                 <span>Download <i class="fa fa-download"></i></span>
                                             </a>
                                         </div>
@@ -55,8 +56,8 @@
                 </div>
                 
                 <!-- Download Modal -->
-                <div class="modal fade" id="modal-download" tabindex="-1" role="dialog">
-                    <div class="modal-dialog modal-md">
+                <div class="modal fade" id="modal-download" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-md" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title">Download Dokumen</h4>
@@ -69,23 +70,23 @@
                                     @csrf
                                     <div class="row">
                                         <div class="col-12">
-                                            <div class="form-group row">
-                                                <label for="modal-name" class="col-sm-3 col-form-label">Nama Lengkap <span class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
+                                            <div class="form-group row" style="margin-bottom: 15px;">
+                                                <label for="modal-name" class="col-sm-4 col-form-label">Nama Lengkap <span class="text-danger">*</span></label>
+                                                <div class="col-sm-8">
                                                     <input type="text" class="form-control" id="modal-name" name="name" maxlength="50" placeholder="Nama Lengkap" required>
                                                     <span class="error invalid-feedback" id="name-error"></span>
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
-                                                <label for="modal-email" class="col-sm-3 col-form-label">Email <span class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
+                                            <div class="form-group row" style="margin-bottom: 15px;">
+                                                <label for="modal-email" class="col-sm-4 col-form-label">Email <span class="text-danger">*</span></label>
+                                                <div class="col-sm-8">
                                                     <input type="email" class="form-control" id="modal-email" name="email" maxlength="50" placeholder="Email" required>
                                                     <span class="error invalid-feedback" id="email-error"></span>
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
-                                                <label for="document" class="col-sm-3 col-form-label">Document</label>
-                                                <div class="col-sm-9">
+                                            <div class="form-group row" style="margin-bottom: 0px;">
+                                                <label class="col-sm-4 col-form-label">Dokumen</label>
+                                                <div class="col-sm-8">
                                                     <span id="document-name" class="form-control-plaintext font-weight-bold"></span>
                                                 </div>
                                             </div>
@@ -102,15 +103,16 @@
                 </div>
 
                 {{ $documents->links('front.partials.pagination') }}
+
             </div>
         </div>
     </section>
-    <!--blog section end-->
+    <!--all article end-->
 
 @endsection
 
 @push('after-styles')
-    <style>
+    <style type="text/css">
         /* Highlight selected document card */
         .latestNewsCardInner:target {
             outline: 2px solid var(--accent-color, #3c5fac);
@@ -158,7 +160,6 @@
 @endpush
 
 @push('after-scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js" integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         $(function () {
             const $modal = $('#modal-download');
@@ -243,7 +244,7 @@
                 },
                 submitHandler: function () {
                     if (!selectedDocument.id) {
-                        Toast.error('Error: Tidak ada dokumen yang dipilih');
+                        Toast.error('Error: Tidak ada dokumen yang dipilih. Silakan coba lagi.');
                         return false;
                     }
 
@@ -255,7 +256,7 @@
 
                     const submitUrl = "{{ route('front.document.download.with.log', ':id') }}".replace(':id', selectedDocument.id);
 
-                    $submitButton.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Processing...');
+                    $submitButton.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Processing');
 
                     $.ajax({
                         url: submitUrl,
@@ -264,7 +265,7 @@
                         dataType: 'json'
                     }).done(function () {
                         $modal.modal('hide');
-                        Toast.success('Download dokumen dimulai...');
+                        Toast.success('Permintaan download berhasil. Dokumen akan segera diunduh.');
 
                         const downloadUrl = "{{ route('front.document.download', ':id') }}".replace(':id', selectedDocument.id);
                         const iframe = document.createElement('iframe');
@@ -339,6 +340,5 @@
                 header.classList.remove(toggleClass);
             }
         });
-
     </script>
 @endpush

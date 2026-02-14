@@ -6,131 +6,113 @@
 
    <!--banner start-->
     @forelse ($banners as $banner)
-        <section class="w-100 clearfix poultryPerformanceBanner" id="poultryPerformanceBanner"
-            style="background-image: url('{{ Storage::url($banner->banner) }}');">
+        <section class="w-100 clearfix poultryPerformanceBanner" id="poultryPerformanceBanner" style="background-image: url('{{ Storage::url($banner->banner) }}');">
         </section>
     @empty
-        
     @endforelse
     <!--banner end-->
 
-   <div class="breadcrumb">
+    <!--breadcrumb start-->
+    <div class="breadcrumb">
         <div class="container">
-    <ul>
-        <li><a href="{{ route('front.index') }}">Beranda</a></li>
-         <li><a>Laporan Tahunan</a></li>
-      </ul>
-      </div>
-   </div>
+            <ul>
+                <li><a href="{{ route('front.index') }}">Beranda</a></li>
+                <li><a href="javascript:void(0);">Keberlanjutan</a></li>
+                <li><a>Laporan Tahunan</a></li>
+            </ul>
+        </div>
+    </div>
+    <!--breadcrumb end-->
 
-   <!--blog section start-->
-   <section class="w-100 clearfix blogArticles blogPg" id="blogArticles">
-      <div class="container">
-         <div class="blogArticlesInner">
-            <div class="latestNewsCard">
-               <div class="row blogWithSidebarRow">
+    <!--all article start-->
+    <section class="w-100 clearfix blogArticles blogPg" id="blogArticles">
+        <div class="container">
+            <div class="blogArticlesInner">
+                <div class="latestNewsCard">
+                    <div class="row blogWithSidebarRow">
 
-                  @forelse ($reports as $report)
-                  <div class="col-md-12 col-lg-3 blogWithSidebarCol">
-                     <div class="latestNewsCardInner mb-4">
-                        <div class="latestNewsCardImg">
-                           <a href="blog-single.html"><img src="{{ Storage::url($report->thumbnail) }}" alt="img"
-                                 class="w-100 img-fluid"></a>
-                           <!-- <div class="latestNewsDate">
-                              <a href="javascript:void(0);">
-                                 <h5>25</h5>
-                                 <span>Mar</span>
-                              </a>
-                           </div> -->
-                        </div>
-                        <div class="latestNewsCardInnerContent">
-                           <!-- <div class="latestNewsList">
-                              <div class="latestNewsUser">
-                                 <a href="javascript:void(0);">
-                                    <img src="{{ asset('images/icon/user.png') }}" alt="icon" class="img-fluid"><span>by admin</span>
-                                 </a>
-                              </div>
-                              <div class="latestNewsMessage">
-                                 <a href="javascript:void(0);">
-                                    <img src="{{ asset('images/icon/message.png') }}" alt="icon" class="img-fluid"><span>2
-                                       comments</span>
-                                 </a>
-                              </div>
-                           </div> -->
-                           <div class="latestNewsTxt" style="margin-top: 20px;">
-                              <h4><a href="blog-single.html">{{ $report->name }}</a></h4>
-                              <!-- <p>{{ $report->subtitle }}</p> -->
-                           </div>
-                           <div class="latestNewBtn">
-                              <a class="btnCustom5 btn-1 item-download" href="javascript:void(0);" data-id="{{ $report->id }}">
-                                 <span>Download <i class="fa fa-download"></i></span>
-                              </a>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-                  @empty
-                  
-                  @endforelse
-               </div>
-            </div>
-            
-            <!-- Download Modal -->
-            <div class="modal fade" id="modal-download" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog modal-md" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Download Laporan Tahunan</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="download-form">
-                                @csrf
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="form-group row">
-                                            <label for="modal-name" class="col-sm-3 col-form-label">Nama Lengkap <span class="text-danger">*</span></label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="modal-name" name="name" maxlength="50" placeholder="Nama Lengkap" required>
-                                                <span class="error invalid-feedback" id="name-error"></span>
-                                            </div>
+                        @forelse ($reports as $report)
+                            <div class="col-md-12 col-lg-3 blogWithSidebarCol">
+                                <div class="latestNewsCardInner mb-4 fadein" id="report-{{ $report->id }}">
+                                    <div class="latestNewsCardImg">
+                                        <a href="javascript:void(0);"><img src="{{ Storage::url($report->thumbnail) }}" alt="img" class="w-100 img-fluid"></a>
+                                    </div>
+                                    <div class="latestNewsCardInnerContent">
+                                        <div class="latestNewsTxt" style="margin-top: 20px; margin-bottom: 20px;">
+                                            <h4><a href="javascript:void(0);">{{ $report->name }}</a></h4>
                                         </div>
-                                        <div class="form-group row">
-                                            <label for="modal-email" class="col-sm-3 col-form-label">Email <span class="text-danger">*</span></label>
-                                            <div class="col-sm-9">
-                                                <input type="email" class="form-control" id="modal-email" name="email" maxlength="50" placeholder="Email" required>
-                                                <span class="error invalid-feedback" id="email-error"></span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="report" class="col-sm-3 col-form-label">Laporan</label>
-                                            <div class="col-sm-9">
-                                                <span id="report-name" class="form-control-plaintext font-weight-bold"></span>
-                                            </div>
+                                        <div class="latestNewBtn">
+                                            <a class="btnCustom2 btn-1 hover-slide-down item-download" href="javascript:void(0);" data-id="{{ $report->id }}">
+                                                <span>Download <i class="fa fa-download"></i></span>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                            <button type="button" class="btn btn-primary" id="btn-modal-download">Kirim</button>
+                            </div>
+                        @empty
+                        @endforelse
+
+                    </div>
+                </div>
+                
+                <!-- Download Modal -->
+                <div class="modal fade" id="modal-download" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-md" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Download Dokumen</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="download-form">
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="form-group row" style="margin-bottom: 15px;">
+                                                <label for="modal-name" class="col-sm-4 col-form-label">Nama Lengkap <span class="text-danger">*</span></label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="modal-name" name="name" maxlength="50" placeholder="Nama Lengkap" required>
+                                                    <span class="error invalid-feedback" id="name-error"></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row" style="margin-bottom: 15px;">
+                                                <label for="modal-email" class="col-sm-4 col-form-label">Email <span class="text-danger">*</span></label>
+                                                <div class="col-sm-8">
+                                                    <input type="email" class="form-control" id="modal-email" name="email" maxlength="50" placeholder="Email" required>
+                                                    <span class="error invalid-feedback" id="email-error"></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row" style="margin-bottom: 0px;">
+                                                <label class="col-sm-4 col-form-label">Dokumen</label>
+                                                <div class="col-sm-8">
+                                                    <span id="report-name" class="form-control-plaintext font-weight-bold"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                <button type="button" class="btn btn-primary" id="btn-modal-download">Kirim</button>
+                            </div>
                         </div>
                     </div>
                 </div>
+                
+                {{ $reports->links('front.partials.pagination') }}
+
             </div>
-            
-            {{ $reports->links('front.partials.pagination') }}
-         </div>
-      </div>
-   </section>
-   <!--blog section end-->
+        </div>
+    </section>
+    <!--all article end-->
+
 @endsection
 
 @push('after-styles')
-    <style>
+    <style type="text/css">
         /* Highlight selected report card */
         .latestNewsCardInner:target {
             outline: 2px solid var(--accent-color, #3c5fac);
@@ -178,7 +160,6 @@
 @endpush
 
 @push('after-scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js" integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         $(function () {
             const $modal = $('#modal-download');
@@ -263,7 +244,7 @@
                 },
                 submitHandler: function () {
                     if (!selectedReport.id) {
-                        Toast.error('Error: Tidak ada laporan yang dipilih');
+                        Toast.error('Error: Tidak ada laporan yang dipilih. Silakan coba lagi.');
                         return false;
                     }
 
@@ -275,7 +256,7 @@
 
                     const submitUrl = "{{ route('front.report.download.with.log', ':id') }}".replace(':id', selectedReport.id);
 
-                    $submitButton.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Processing...');
+                    $submitButton.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Processing');
 
                     $.ajax({
                         url: submitUrl,
@@ -284,7 +265,7 @@
                         dataType: 'json'
                     }).done(function () {
                         $modal.modal('hide');
-                        Toast.success('Download laporan dimulai...');
+                        Toast.success('Permintaan download berhasil. Dokumen akan segera diunduh.');
 
                         const downloadUrl = "{{ route('front.report.download', ':id') }}".replace(':id', selectedReport.id);
                         const iframe = document.createElement('iframe');
@@ -359,6 +340,5 @@
                 header.classList.remove(toggleClass);
             }
         });
-
     </script>
 @endpush

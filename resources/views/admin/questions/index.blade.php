@@ -57,8 +57,8 @@ function getStatusDisplayText($status) {
                                 <th style="width: 200px;">Email</th>
                                 <th style="width: 200px;">Phone Number</th>
                                 <th style="width: 150px;">Question Type</th>
-                                <!-- <th style="width: 100px;">Status</th> -->
-                                <th style="width: 65px;">&nbsp;</th>
+                                <!-- <th style="width: 100px;">Status</th>
+                                <th style="width: 65px;">&nbsp;</th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -72,11 +72,11 @@ function getStatusDisplayText($status) {
                                     <td>{{ $question->email }}</td>
                                     <td>{{ $question->phone_number }}</td>
                                     <td>{{ $question->question_type->name }}</td>
-                                    <!-- <td><span class="badge {{ getStatusBadgeClass($question->status) }}">{{ getStatusDisplayText($question->status) }}</span></td> -->
+                                    <!-- <td><span class="badge {{ getStatusBadgeClass($question->status) }}">{{ getStatusDisplayText($question->status) }}</span></td>
                                     <td class="text-center">
-                                        <!-- <a href="{{ route('admin.questions.edit', $question) }}" class="btn btn-sm btn-primary item-edit"><i class="fas fa-pencil-alt"></i></a>
-                                        <a href="javascript:void(0)" class="btn btn-sm btn-danger item-remove" data-id="{{ $question->id }}"><i class="fas fa-trash-alt"></i></a> -->
-                                    </td>
+                                        <a href="{{ route('admin.questions.edit', $question) }}" class="btn btn-sm btn-primary item-edit"><i class="fas fa-pencil-alt"></i></a>
+                                        <a href="javascript:void(0)" class="btn btn-sm btn-danger item-remove" data-id="{{ $question->id }}"><i class="fas fa-trash-alt"></i></a>
+                                    </td> -->
                                 </tr>
                                 @php 
                                     $index++; 
@@ -157,9 +157,9 @@ function getStatusDisplayText($status) {
                     zeroRecords: "No matching records found"
                 },
 
-                columnDefs: [
-                    { targets: 5, orderable: false }
-                ],
+                // columnDefs: [
+                //     { targets: 5, orderable: false }
+                // ],
 
                 initComplete: function(settings, json) {
                     $('#datagrid_filter label').contents().filter(function() {

@@ -42,7 +42,7 @@
                                                 <a href="{{ route('front.article-detail', $article->slug) }}"><img src="{{ Storage::url($article->thumbnail) }}" alt="img" class="w-100 img-fluid"></a>
                                                 <div class="latestNewsDate">
                                                     <a href="javascript:void(0);">
-                                                        <h5>{{ $article->publish_at->locale('id')->isoFormat('d') }}</h5>
+                                                        <h5>{{ $article->publish_at->locale('id')->isoFormat('DD') }}</h5>
                                                         <span>{{ $article->publish_at->locale('id')->isoFormat('MMM') }}</span>
                                                     </a>
                                                 </div>

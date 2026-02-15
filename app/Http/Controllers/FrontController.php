@@ -136,7 +136,7 @@ class FrontController extends Controller
     }
 
     public function about() {
-        $banners = $this->getBannerByMenuName('Tentang Kami');
+        $banners = $this->getBannerByMenuName('Profile Perusahaan');
         $profiles = CompanyProfile::orderByDesc('id')->take(1)->get();
         $visions = CompanyAbout::where('type', 'visions')->orderBy('id')->take(1)->get();
         $missions = CompanyAbout::where('type', 'missions')->orderBy('id')->take(1)->get();
@@ -185,7 +185,7 @@ class FrontController extends Controller
     }
 
     public function career(Request $request) {
-        $banners = $this->getBannerByMenuName('Karier');
+        $banners = $this->getBannerByMenuName('Karir');
         // Update status careers before displaying
         $this->updateStatusCareers();
 
@@ -868,7 +868,7 @@ class FrontController extends Controller
             $newDataRecord = CareerApplicant::create($validated);
         });
 
-        return redirect()->route('front.career')->with('success', 'Your application has been submitted successfully.');
+        return redirect()->route('front.career')->with('success', 'Lamaran Anda telah berhasil dikirim.');
     }
 
     public function contact() {
@@ -896,7 +896,7 @@ class FrontController extends Controller
             TicketingJob::dispatch($newDataRecord->id)->onQueue('tickets')->afterCommit();
         }
 
-        return redirect()->route('front.contact')->with('success', 'Your question has been submitted successfully.');
+        return redirect()->route('front.contact')->with('success', 'Pertanyaan Anda telah berhasil dikirim.');
     }
 
     private function buildSearchSections(string $query)

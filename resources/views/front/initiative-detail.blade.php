@@ -31,7 +31,7 @@
                                     <a href="javascript:void(0);"><img src="{{ Storage::url($initiative->thumbnail) }}" alt="img" class="w-100 img-fluid"></a>
                                     <div class="latestNewsDate">
                                         <a href="javascript:void(0);">
-                                            <h5>{{ $initiative->publish_at->locale('id')->isoFormat('d') }}</h5>
+                                            <h5>{{ $initiative->publish_at->locale('id')->isoFormat('DD') }}</h5>
                                             <span>{{ $initiative->publish_at->locale('id')->isoFormat('MMM') }}</span>
                                         </a>
                                     </div>
@@ -129,7 +129,7 @@
                                             </div>
                                             <div class="recentPostTxt">
                                                 <p>{{ $recentInitiative->title }}</p>
-                                                <span><img src="{{ asset('images/icon/calendar.png') }}" alt="whatsapp" class="img-fluid"> {{ $recentInitiative->created_at->format('d F Y') }} </span>
+                                                <span><img src="{{ asset('images/icon/calendar.png') }}" alt="whatsapp" class="img-fluid"> {{ $recentInitiative->publish_at->locale('id')->isoFormat('D MMMM Y') }} </span>
                                             </div>
                                         </a>
                                     </div>

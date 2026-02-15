@@ -31,7 +31,7 @@
                                     <a href="javascript:void(0);"><img src="{{ Storage::url($social->thumbnail) }}" alt="img" class="w-100 img-fluid"></a>
                                     <div class="latestNewsDate">
                                         <a href="javascript:void(0);">
-                                            <h5>{{ $social->publish_at->locale('id')->isoFormat('d') }}</h5>
+                                            <h5>{{ $social->publish_at->locale('id')->isoFormat('DD') }}</h5>
                                             <span>{{ $social->publish_at->locale('id')->isoFormat('MMM') }}</span>
                                         </a>
                                     </div>

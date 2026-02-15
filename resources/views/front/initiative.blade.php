@@ -40,7 +40,7 @@
                                                 <a href="{{ route('front.initiative-detail', $initiative->slug) }}"><img src="{{ Storage::url($initiative->thumbnail) }}" alt="img" class="w-100 img-fluid"></a>
                                                 <div class="latestNewsDate">
                                                     <a href="javascript:void(0);">
-                                                        <h5>{{ $initiative->publish_at->locale('id')->isoFormat('d') }}</h5>
+                                                        <h5>{{ $initiative->publish_at->locale('id')->isoFormat('DD') }}</h5>
                                                         <span>{{ $initiative->publish_at->locale('id')->isoFormat('MMM') }}</span>
                                                     </a>
                                                 </div>

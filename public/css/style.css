@@ -2637,7 +2637,6 @@ body, html {
 
 .mapsSection {
   padding: 30px 0 100px 0;
-  background-color: #f7f7f7;
 }
 .mapsSection .commonHeading {
   width: 50%;
@@ -6637,9 +6636,9 @@ body, html {
   margin-bottom: 20px;
 }
 .blogSingle .blogSingleInner .blogSingleBlog .latestNewsCardInner .commentBox .commentBoxInner .commentBoxForm .commentFormGroup .form-control {
-  background-color: #F9F5F3;
+  background-color: #f3f9ff;
   border-radius: 5px;
-  border-color: #F9F5F3;
+  border-color: #f3f9ff;
 }
 .blogSingle .blogSingleInner .blogSingleBlog .latestNewsCardInner .commentBox .commentBoxInner .commentBoxForm .commentFormGroup input.form-control {
   height: 50px;
@@ -6741,14 +6740,14 @@ body, html {
   overflow: hidden;
 }
 .blogArticles .blogArticlesInner .blogSingleAside .searchKeyword .searchKeywordInner form .input-group .form-control {
-  background-color: transparent;
-  border-color: #f9f5f3;
+  background-color: #f3f9ff;
+  border-color: #f3f9ff;
   border-radius: 0;
   height: 50px;
 }
 .blogArticles .blogArticlesInner .blogSingleAside .searchKeyword .searchKeywordInner form .input-group .input-group-text {
-  background-color: transparent;
-  border-color: #f9f5f3;
+  background-color: #f3f9ff;
+  border-color: #f3f9ff;
   border-radius: 0;
 }
 .blogArticles .blogArticlesInner .blogSingleAside .searchKeyword .searchKeywordInner form .input-group .input-group-text img {
@@ -8070,9 +8069,9 @@ body, html {
   margin-bottom: 20px;
 }
 .checkout .checkoutInner .blogSingleBlog .latestNewsCardInner .commentBox .commentBoxInner .commentBoxForm .commentFormGroup .form-control {
-  background-color: #F9F5F3;
+  background-color: #f3f9ff;
   border-radius: 5px;
-  border-color: #F9F5F3;
+  border-color: #f3f9ff;
 }
 .checkout .checkoutInner .blogSingleBlog .latestNewsCardInner .commentBox .commentBoxInner .commentBoxForm .commentFormGroup input.form-control {
   height: 50px;

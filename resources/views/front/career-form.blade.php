@@ -354,7 +354,7 @@
         .select2-container--bootstrap4 .select2-selection--single .select2-selection__rendered {
             padding: 0.875rem 0.75rem !important;
             line-height: 1.5 !important;
-            background-color: #F9F5F3 !important;
+            background-color: #f3f9ff !important;
             border-radius: 5px !important;
             color: #6c757d !important;
 

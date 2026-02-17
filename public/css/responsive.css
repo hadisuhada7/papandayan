@@ -499,6 +499,12 @@
   .aboutUsSec1 .aboutUsSec1Content .aboutUsSec1Para h4 {
     font-size: 40px;
   }
+  .aboutUsSec1 .aboutUsSec1Content .aboutUsSec1Para .broilerBreederHeadGroup .broilBreederHeading h2 {
+    font-size: 36px;
+  }
+  .broilBreederImg img {
+    width: 85px;
+  }
   .aboutUsSec1 .aboutUsSec1Counter .aboutUsSec1Row {
     padding: 20px;
   }
@@ -615,6 +621,9 @@
   }
   .broilerBreeder .broilerBreederInner .broilerBreederContentBox .broilerBreederContent .broilerBreederHeadGroup .broilBreederHeading h2, .broilerBreeder .pigFactsTopics .pigFactsTopicsRow .pigFactsTopicsCol .pigFactsTxt .pigFactsTxtInner .broilerBreederContent .broilerBreederHeadGroup .broilBreederHeading h2 {
     font-size: 35px;
+  }
+  .broilBreederImg img {
+    width: 75px;
   }
   .actigen .blogSingleInner .poultryProductAside .growthBoosterOuter a .growthBooster .growthBoosterInner .growthBoosterInnerGroup {
     padding: 80px;
@@ -766,6 +775,9 @@
   }
   .aboutUs .aboutUsGroup .aboutUsHead h2, .farmManagement .farmManagementHeadingBox h2, .pigsFarmingVideo .pigsFarmingVideoTxt h4, .pigFactsTopics .pigFactsTxt .pigFactsTxtInner .pigFactsHead h4, .aboutUsSec1 .aboutUsSec1Content .aboutUsSec1Para h4 {
     font-size: 30px;
+  }
+  .aboutUsSec1 .aboutUsSec1Content .aboutUsSec1Para .broilerBreederHeadGroup .broilBreederHeading h2 {
+    font-size: 28px;
   }
   .aboutUsSec1 .aboutUsSec1Counter .aboutUsSec1Row .aboutUsSec1Col h5 span {
     font-size: 36px;
@@ -929,6 +941,9 @@
   }
   .broilBreederImg img {
     width: 60px;
+  }
+  .aboutUsSec1 .aboutUsSec1Content .aboutUsSec1Para .broilerBreederHeadGroup .broilBreederHeading h2 {
+    font-size: 22px;
   }
   .broilerBreeder .pigFactsTopics .pigFactsTopicsRow .pigFactsTopicsCol .pigFactsTxt .pigFactsTxtInner .broilerBreederContent .broilerBreederPara .paraBold, .broilerBreeder .broilerBreederInner .broilerBreederContentBox .broilerBreederContent .broilerBreederPara .paraBold {
     font-size: 16px;

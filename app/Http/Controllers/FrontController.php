@@ -35,6 +35,7 @@ use App\Models\StockInformation;
 use App\Models\ShareholderReport;
 use App\Models\Shareholder;
 use App\Models\CoverageArea;
+use App\Models\Tag;
 use App\Jobs\TicketingJob;
 use App\Http\Requests\StoreQuestionRequest;
 use App\Http\Requests\StoreCareerApplicantRequest;
@@ -79,15 +80,18 @@ class FrontController extends Controller
         $products = Product::orderByDesc('id')->get();
         $services = Service::orderByDesc('id')->take(1)->get();
         $testimonials = Testimonial::take(5)->get();
+
         $articles = Article::where('status', 'Published')
             ->orderBy('id')
             ->withCount('likes')
             ->take(3)
             ->get();
+
         $coverageAreas = CoverageArea::whereNotNull('latitude')
-                                    ->whereNotNull('longitude')
-                                    ->whereNotNull('partner_name')
-                                    ->get();
+            ->whereNotNull('longitude')
+            ->whereNotNull('partner_name')
+            ->get();
+
         return view('front.index', compact('banners', 'statistics', 'products', 'services', 'testimonials', 'articles', 'coverageAreas'));
     }
 
@@ -98,7 +102,11 @@ class FrontController extends Controller
 
         $articles = Article::where('status', 'Published')
             ->when($search !== '', function ($builder) use ($search) {
-                $builder->where('title', 'like', '%' . $search . '%');
+                $builder->where(function ($query) use ($search) {
+                    $query->where('title', 'like', '%' . $search . '%')
+                        ->orWhere('subtitle', 'like', '%' . $search . '%')
+                        ->orWhere('about', 'like', '%' . $search . '%');
+                });
             })
             ->when($tagSlug !== '', function ($builder) use ($tagSlug) {
                 $builder->whereHas('tags', function ($query) use ($tagSlug) {
@@ -113,7 +121,7 @@ class FrontController extends Controller
         // Get selected tag for display
         $selectedTag = null;
         if ($tagSlug !== '') {
-            $selectedTag = \App\Models\Tag::where('slug', $tagSlug)->first();
+            $selectedTag = Tag::where('slug', $tagSlug)->first();
         }
 
         return view('front.article', compact('banners', 'articles', 'search', 'selectedTag'));
@@ -142,11 +150,13 @@ class FrontController extends Controller
         $missions = CompanyAbout::where('type', 'missions')->orderBy('id')->take(1)->get();
         $histories = TrackRecord::orderBy('track_record_at', 'asc')->get();
         $organizations = OrganizationStructure::orderByDesc('id')->take(1)->get();
-        $managements = OurManagement::orderBy('id')->take(10)->get();
+        $managements = OurManagement::orderBy('id')->get();
+
         $coverageAreas = CoverageArea::whereNotNull('latitude')
-                                    ->whereNotNull('longitude')
-                                    ->whereNotNull('partner_name')
-                                    ->get();
+            ->whereNotNull('longitude')
+            ->whereNotNull('partner_name')
+            ->get();
+
         return view('front.about', compact('banners', 'profiles', 'visions', 'missions', 'histories', 'organizations', 'managements', 'coverageAreas'));
     }
 
@@ -155,6 +165,7 @@ class FrontController extends Controller
         $products = Product::orderByDesc('id')->get();
         $services = Service::orderByDesc('id')->take(1)->get();
         $testimonials = Testimonial::take(5)->get();
+
         return view('front.business', compact('banners', 'products', 'services', 'testimonials'));
     }
 
@@ -186,25 +197,24 @@ class FrontController extends Controller
 
     public function career(Request $request) {
         $banners = $this->getBannerByMenuName('Karir');
-        // Update status careers before displaying
-        $this->updateStatusCareers();
 
+        $this->updateStatusCareers();
         $search = trim((string) $request->query('q', ''));
 
         $careers = Career::where('status', 'Published')
-                        ->where('closing_at', '>=', now()->startOfDay())
-                        ->when($search !== '', function ($builder) use ($search) {
-                            $builder->where('position', 'like', '%' . $search . '%');
-                        })
-                        ->orderByDesc('id')
-                        ->paginate(10)
-                        ->withQueryString();
+            ->where('closing_at', '>=', now()->startOfDay())
+            ->when($search !== '', function ($builder) use ($search) {
+                $builder->where('position', 'like', '%' . $search . '%');
+            })
+            ->orderByDesc('id')
+            ->paginate(10)
+            ->withQueryString();
+
         return view('front.career', compact('banners', 'careers', 'search'));
     }
 
     public function careerDetail($id) {
         $this->updateStatusCareers();
-
         $career = Career::findOrFail($id);
 
         $recentCareers = Career::where('status', 'Published')
@@ -219,12 +229,14 @@ class FrontController extends Controller
 
     public function careerForm($id) {
         $career = Career::findOrFail($id);
+
         return view('front.career-form', compact('career'));
     }
 
     public function safety() {
         $banners = $this->getBannerByMenuName('K3');
         $safeties = SafetyManagement::orderByDesc('id')->first();
+
         return view('front.safety', compact('banners', 'safeties'));
     }
 
@@ -234,7 +246,11 @@ class FrontController extends Controller
 
         $socials = CorporateSocial::where('status', 'Published')
             ->when($search !== '', function ($builder) use ($search) {
-                $builder->where('title', 'like', '%' . $search . '%');
+                $builder->where(function ($query) use ($search) {
+                    $query->where('title', 'like', '%' . $search . '%')
+                        ->orWhere('subtitle', 'like', '%' . $search . '%')
+                        ->orWhere('about', 'like', '%' . $search . '%');
+                });
             })
             ->orderBy('id')
             ->withCount('likes')
@@ -266,7 +282,11 @@ class FrontController extends Controller
 
         $initiatives = Initiative::where('status', 'Published')
             ->when($search !== '', function ($builder) use ($search) {
-                $builder->where('title', 'like', '%' . $search . '%');
+                $builder->where(function ($query) use ($search) {
+                    $query->where('title', 'like', '%' . $search . '%')
+                        ->orWhere('subtitle', 'like', '%' . $search . '%')
+                        ->orWhere('about', 'like', '%' . $search . '%');
+                });
             })
             ->orderBy('id')
             ->withCount('likes')
@@ -340,6 +360,7 @@ class FrontController extends Controller
             ->orderByDesc('id')
             ->paginate(8)
             ->withQueryString();
+
         return view('front.document', compact('banners', 'documents'));
     }
 
@@ -379,7 +400,7 @@ class FrontController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'type_report' => $document->name,
-            'ip_address' => $clientIp, // IP dari PC/laptop yang download
+            'ip_address' => $clientIp,
             'status' => 'success',
             'downloaded_at' => now(),
             'document_report_id' => $document->id,
@@ -387,6 +408,7 @@ class FrontController extends Controller
         
         \Log::info('Creating log entry', $logData);
         
+        // Save to database
         $log = LogDownloadReport::create($logData);
         
         \Log::info('Log entry created', ['log_id' => $log->id, 'client_ip' => $clientIp]);
@@ -396,7 +418,7 @@ class FrontController extends Controller
             'success' => true,
             'message' => 'Data berhasil disimpan. File akan segera didownload.',
             'log_id' => $log->id,
-            'ip_address' => $clientIp // IP dari PC/laptop yang download
+            'ip_address' => $clientIp
         ]);
     }
     
@@ -413,18 +435,21 @@ class FrontController extends Controller
             ->orderByDesc('id')
             ->paginate(8)
             ->withQueryString();
+
         return view('front.report', compact('banners', 'reports'));
     }
 
     public function reportDownload($id) {
         $report = AnnualReport::findOrFail($id);
-
+        
+        // Return the file for download
         $filePath = storage_path('app/public/' . $report->report);
+
         if (file_exists($filePath)) {
             return response()->download($filePath, $report->name . '.' . pathinfo($report->report, PATHINFO_EXTENSION));
         }
 
-        abort(404, 'File tidak ditemukan');
+        return redirect()->back()->with('error', 'File tidak ditemukan.');
     }
 
     public function reportDownloadWithLog(Request $request, $id) {
@@ -438,7 +463,6 @@ class FrontController extends Controller
             'ip' => $clientIp
         ]);
         
-        // Validasi input
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
@@ -446,7 +470,7 @@ class FrontController extends Controller
 
         $report = AnnualReport::findOrFail($id);
 
-        // Create log data
+        // Create log entry with client IP address
         $logData = [
             'name' => $request->name,
             'email' => $request->email,
@@ -464,12 +488,12 @@ class FrontController extends Controller
         
         \Log::info('Log entry created', ['log_id' => $log->id, 'client_ip' => $clientIp]);
 
-        // Return success response dengan IP address
+        // Return success response with IP info
         return response()->json([
             'success' => true,
             'message' => 'Data berhasil disimpan. File akan segera didownload.',
             'log_id' => $log->id,
-            'ip_address' => $clientIp // IP dari PC/laptop yang download
+            'ip_address' => $clientIp
         ]);
     }
 
@@ -496,7 +520,7 @@ class FrontController extends Controller
     }
 
     public function financialDownload($id) {
-        $financialReport = \App\Models\FinancialReport::findOrFail($id);
+        $financialReport = FinancialReport::findOrFail($id);
         
         // Return the file for download
         $filePath = storage_path('app/public/' . $financialReport->report);
@@ -524,14 +548,14 @@ class FrontController extends Controller
             'email' => 'required|email|max:255',
         ]);
 
-        $financialReport = \App\Models\FinancialReport::findOrFail($id);
+        $financialReport = FinancialReport::findOrFail($id);
         
         // Create log entry with client IP address
         $logData = [
             'name' => $request->name,
             'email' => $request->email,
             'type_report' => $financialReport->name,
-            'ip_address' => $clientIp, // IP dari PC/laptop yang download
+            'ip_address' => $clientIp,
             'status' => 'success',
             'downloaded_at' => now(),
             'financial_report_id' => $financialReport->id,
@@ -548,7 +572,7 @@ class FrontController extends Controller
             'success' => true,
             'message' => 'Data berhasil disimpan. File akan segera didownload.',
             'log_id' => $log->id,
-            'ip_address' => $clientIp // IP dari PC/laptop yang download
+            'ip_address' => $clientIp
         ]);
     }
 
@@ -610,7 +634,7 @@ class FrontController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'type_report' => $investorReport->name,
-            'ip_address' => $clientIp, // IP dari PC/laptop yang download
+            'ip_address' => $clientIp,
             'status' => 'success',
             'downloaded_at' => now(),
             'investor_report_id' => $investorReport->id,
@@ -627,7 +651,7 @@ class FrontController extends Controller
             'success' => true,
             'message' => 'Data berhasil disimpan. File akan segera didownload.',
             'log_id' => $log->id,
-            'ip_address' => $clientIp // IP dari PC/laptop yang download
+            'ip_address' => $clientIp
         ]);
     }
 
@@ -689,7 +713,7 @@ class FrontController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'type_report' => $stockReport->name,
-            'ip_address' => $clientIp, // IP dari PC/laptop yang download
+            'ip_address' => $clientIp,
             'status' => 'success',
             'downloaded_at' => now(),
             'stock_report_id' => $stockReport->id,
@@ -706,7 +730,7 @@ class FrontController extends Controller
             'success' => true,
             'message' => 'Data berhasil disimpan. File akan segera didownload.',
             'log_id' => $log->id,
-            'ip_address' => $clientIp // IP dari PC/laptop yang download
+            'ip_address' => $clientIp
         ]);
     }
 
@@ -730,6 +754,63 @@ class FrontController extends Controller
             ->withQueryString();
 
         return view('front.shareholder', compact('banners', 'shareholders', 'yearOptions', 'selectedYear', 'selectedSort'));
+    }
+
+    public function shareholderDownload($id) {
+        $shareholderReport = ShareholderReport::findOrFail($id);
+        
+        // Return the file for download
+        $filePath = storage_path('app/public/' . $shareholderReport->report);
+        
+        if (file_exists($filePath)) {
+            return response()->download($filePath, $shareholderReport->name . '.' . pathinfo($shareholderReport->report, PATHINFO_EXTENSION));
+        }
+        
+        return redirect()->back()->with('error', 'File tidak ditemukan.');
+    }
+
+    public function shareholderDownloadWithLog(Request $request, $id) {
+        // Get real IP address from client (handles proxy/forwarded IPs)
+        $clientIp = $this->getClientIpAddress($request);
+        
+        // Debug incoming request
+        \Log::info('shareholderDownloadWithLog called', [
+            'id' => $id,
+            'request_data' => $request->all(),
+            'ip' => $clientIp
+        ]);
+        
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+        ]);
+
+        $shareholderReport = ShareholderReport::findOrFail($id);
+        
+        // Create log entry with client IP address
+        $logData = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'type_report' => $shareholderReport->name,
+            'ip_address' => $clientIp,
+            'status' => 'success',
+            'downloaded_at' => now(),
+            'shareholder_report_id' => $shareholderReport->id,
+        ];
+        
+        \Log::info('Creating log entry', $logData);
+        
+        $log = LogDownloadReport::create($logData);
+        
+        \Log::info('Log entry created', ['log_id' => $log->id, 'client_ip' => $clientIp]);
+        
+        // Return success response with IP info
+        return response()->json([
+            'success' => true,
+            'message' => 'Data berhasil disimpan. File akan segera didownload.',
+            'log_id' => $log->id,
+            'ip_address' => $clientIp
+        ]);
     }
 
     private function getReportYearOptions(): array
@@ -778,63 +859,6 @@ class FrontController extends Controller
     private function normalizeReportSortFilter($sort): string
     {
         return $sort === 'asc' ? 'asc' : 'desc';
-    }
-
-    public function shareholderDownload($id) {
-        $shareholderReport = ShareholderReport::findOrFail($id);
-        
-        // Return the file for download
-        $filePath = storage_path('app/public/' . $shareholderReport->report);
-        
-        if (file_exists($filePath)) {
-            return response()->download($filePath, $shareholderReport->name . '.' . pathinfo($shareholderReport->report, PATHINFO_EXTENSION));
-        }
-        
-        return redirect()->back()->with('error', 'File tidak ditemukan.');
-    }
-
-    public function shareholderDownloadWithLog(Request $request, $id) {
-        // Get real IP address from client (handles proxy/forwarded IPs)
-        $clientIp = $this->getClientIpAddress($request);
-        
-        // Debug incoming request
-        \Log::info('shareholderDownloadWithLog called', [
-            'id' => $id,
-            'request_data' => $request->all(),
-            'ip' => $clientIp
-        ]);
-        
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-        ]);
-
-        $shareholderReport = ShareholderReport::findOrFail($id);
-        
-        // Create log entry with client IP address
-        $logData = [
-            'name' => $request->name,
-            'email' => $request->email,
-            'type_report' => $shareholderReport->name,
-            'ip_address' => $clientIp, // IP dari PC/laptop yang download
-            'status' => 'success',
-            'downloaded_at' => now(),
-            'shareholder_report_id' => $shareholderReport->id,
-        ];
-        
-        \Log::info('Creating log entry', $logData);
-        
-        $log = LogDownloadReport::create($logData);
-        
-        \Log::info('Log entry created', ['log_id' => $log->id, 'client_ip' => $clientIp]);
-        
-        // Return success response with IP info
-        return response()->json([
-            'success' => true,
-            'message' => 'Data berhasil disimpan. File akan segera didownload.',
-            'log_id' => $log->id,
-            'ip_address' => $clientIp // IP dari PC/laptop yang download
-        ]);
     }
 
     public function careerStore(StoreCareerApplicantRequest $request) {
@@ -928,7 +952,7 @@ class FrontController extends Controller
                 return [
                     'title' => $article->title,
                     'excerpt' => Str::limit(strip_tags($article->subtitle ?? $article->about ?? ''), 150),
-                    'url' => route('front.article-detail', $article->id),
+                    'url' => route('front.article-detail', $article->slug),
                     'badge' => 'Artikel',
                     'meta' => $article->publish_at ? $article->publish_at->format('d M Y') : null,
                 ];
@@ -954,7 +978,7 @@ class FrontController extends Controller
                 return [
                     'title' => $social->title,
                     'excerpt' => Str::limit(strip_tags($social->subtitle ?? $social->about ?? ''), 150),
-                    'url' => route('front.social-detail', $social->id),
+                    'url' => route('front.social-detail', $social->slug),
                     'badge' => 'CSR',
                     'meta' => $social->publish_at ? $social->publish_at->format('d M Y') : null,
                 ];
@@ -980,7 +1004,7 @@ class FrontController extends Controller
                 return [
                     'title' => $initiative->title,
                     'excerpt' => Str::limit(strip_tags($initiative->subtitle ?? $initiative->about ?? ''), 150),
-                    'url' => route('front.initiative-detail', $initiative->id),
+                    'url' => route('front.initiative-detail', $initiative->slug),
                     'badge' => 'Inisiatif',
                     'meta' => $initiative->publish_at ? $initiative->publish_at->format('d M Y') : null,
                 ];
@@ -993,31 +1017,17 @@ class FrontController extends Controller
             ]);
         }
 
-        $safetyItems = SafetyManagement::where(function ($builder) use ($pattern) {
-                $builder->where('title', 'like', $pattern)
-                    ->orWhere('about', 'like', $pattern);
-            })
-            ->limit($limit)
-            ->get()
-            ->map(function ($safety) {
-                return [
-                    'title' => $safety->title,
-                    'excerpt' => Str::limit(strip_tags($safety->about ?? ''), 150),
-                    'url' => route('front.safety'),
-                    'badge' => 'K3',
-                    'meta' => 'Halaman K3',
-                ];
-            });
-        if ($safetyItems->isNotEmpty()) {
-            $sections->push([
-                'key' => 'safety',
-                'label' => 'Program K3',
-                'items' => $safetyItems,
-            ]);
-        }
+        $documentKeywordMatch = $this->queryMatchesKeywords($query, [
+            'dokumen',
+            'document',
+            'laporan dokumen',
+        ]);
 
-        $documents = DocumentReport::where('name', 'like', $pattern)
-            ->orderByDesc('id')
+        $documents = DocumentReport::where('status', 'Published')
+            ->when(!$documentKeywordMatch, function ($builder) use ($pattern) {
+                $builder->where('name', 'like', $pattern);
+            })
+            ->orderByDesc('created_at')
             ->limit($limit)
             ->get()
             ->map(function ($document) {
@@ -1026,7 +1036,7 @@ class FrontController extends Controller
                     'excerpt' => 'Dokumen perusahaan yang siap diunduh.',
                     'url' => route('front.documents') . '#document-' . $document->id,
                     'badge' => 'Dokumen',
-                    'meta' => 'Memerlukan formulir unduhan',
+                    'meta' => optional($document->created_at)->format('d M Y'),
                 ];
             });
         if ($documents->isNotEmpty()) {
@@ -1034,6 +1044,149 @@ class FrontController extends Controller
                 'key' => 'documents',
                 'label' => 'Laporan Dokumen',
                 'items' => $documents,
+            ]);
+        }
+
+        $annualReports = AnnualReport::where('status', 'Published')
+            ->where('name', 'like', $pattern)
+            ->orderByDesc('id')
+            ->limit($limit)
+            ->get()
+            ->map(function ($report) {
+                return [
+                    'title' => $report->name,
+                    'excerpt' => 'Laporan tahunan perusahaan yang siap diunduh.',
+                    'url' => route('front.report') . '#report-' . $report->id,
+                    'badge' => 'Laporan Tahunan',
+                    'meta' => optional($report->created_at)->format('d M Y'),
+                ];
+            });
+        if ($annualReports->isNotEmpty()) {
+            $sections->push([
+                'key' => 'annual_reports',
+                'label' => 'Laporan Tahunan',
+                'items' => $annualReports,
+            ]);
+        }
+
+        $financialStatements = FinancialStatement::where('status', 'Published')
+            ->where('title', 'like', $pattern)
+            ->orderByDesc('publish_at')
+            ->limit($limit)
+            ->get()
+            ->map(function ($financial) {
+                return [
+                    'title' => $financial->title,
+                    'excerpt' => 'Laporan keuangan perusahaan.',
+                    'url' => route('front.financial') . '#financial-' . $financial->id,
+                    'badge' => 'Laporan Keuangan',
+                    'meta' => $financial->publish_at ? $financial->publish_at->format('d M Y') : null,
+                ];
+            });
+        if ($financialStatements->isNotEmpty()) {
+            $sections->push([
+                'key' => 'financial_statements',
+                'label' => 'Laporan Keuangan',
+                'items' => $financialStatements,
+            ]);
+        }
+
+        $investorPresentations = InvestorPresentation::where('status', 'Published')
+            ->where('title', 'like', $pattern)
+            ->orderByDesc('publish_at')
+            ->limit($limit)
+            ->get()
+            ->map(function ($investor) {
+                return [
+                    'title' => $investor->title,
+                    'excerpt' => 'Presentasi untuk investor.',
+                    'url' => route('front.investor') . '#investor-' . $investor->id,
+                    'badge' => 'Presentasi Investor',
+                    'meta' => $investor->publish_at ? $investor->publish_at->format('d M Y') : null,
+                ];
+            });
+        if ($investorPresentations->isNotEmpty()) {
+            $sections->push([
+                'key' => 'investor_presentations',
+                'label' => 'Presentasi Investor',
+                'items' => $investorPresentations,
+            ]);
+        }
+
+        $stockInformations = StockInformation::where('status', 'Published')
+            ->where('title', 'like', $pattern)
+            ->orderByDesc('publish_at')
+            ->limit($limit)
+            ->get()
+            ->map(function ($stock) {
+                return [
+                    'title' => $stock->title,
+                    'excerpt' => 'Informasi mengenai saham dan obligasi perusahaan.',
+                    'url' => route('front.stock') . '#stock-' . $stock->id,
+                    'badge' => 'Saham & Obligasi',
+                    'meta' => $stock->publish_at ? $stock->publish_at->format('d M Y') : null,
+                ];
+            });
+        if ($stockInformations->isNotEmpty()) {
+            $sections->push([
+                'key' => 'stock_informations',
+                'label' => 'Informasi Saham dan Obligasi',
+                'items' => $stockInformations,
+            ]);
+        }
+
+        $shareholders = Shareholder::where('status', 'Published')
+            ->where('title', 'like', $pattern)
+            ->orderByDesc('publish_at')
+            ->limit($limit)
+            ->get()
+            ->map(function ($shareholder) {
+                return [
+                    'title' => $shareholder->title,
+                    'excerpt' => 'Dokumen rapat umum pemegang saham.',
+                    'url' => route('front.shareholder') . '#shareholder-' . $shareholder->id,
+                    'badge' => 'RUPS',
+                    'meta' => $shareholder->publish_at ? $shareholder->publish_at->format('d M Y') : null,
+                ];
+            });
+        if ($shareholders->isNotEmpty()) {
+            $sections->push([
+                'key' => 'shareholders',
+                'label' => 'Rapat Umum Pemegang Saham',
+                'items' => $shareholders,
+            ]);
+        }
+
+        $careers = Career::where('status', 'Published')
+            ->where('closing_at', '>=', now()->startOfDay())
+            ->where(function ($builder) use ($pattern) {
+                $builder->where('position', 'like', $pattern)
+                    ->orWhere('work_type', 'like', $pattern)
+                    ->orWhere('location', 'like', $pattern);
+            })
+            ->orderByDesc('posting_at')
+            ->limit($limit)
+            ->get()
+            ->map(function ($career) {
+                $details = array_filter([
+                    $career->work_type,
+                    $career->location,
+                    $career->closing_at ? 'Ditutup: ' . $career->closing_at->format('d M Y') : null,
+                ]);
+
+                return [
+                    'title' => $career->position,
+                    'excerpt' => $details ? implode(' - ', $details) : 'Lowongan Tersedia',
+                    'url' => route('front.career-detail', $career->id),
+                    'badge' => 'Karir',
+                    'meta' => 'Lowongan Tersedia',
+                ];
+            });
+        if ($careers->isNotEmpty()) {
+            $sections->push([
+                'key' => 'careers',
+                'label' => 'Lowongan Karir',
+                'items' => $careers,
             ]);
         }
 

@@ -98,7 +98,38 @@
 
         .footerPara.officeInfo .officeInfoIcon {
             font-size: 18px;
-            color: #fff;
+        }
+
+        /* Search Chips Styling */
+        .searchChips {
+            margin-top: 18px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .searchChips span {
+            font-weight: 600;
+            color: #1d2746;
+            margin-right: 6px;
+        }
+
+        .searchChips a {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            background: rgba(60, 95, 172, 0.12);
+            color: #3c5fac;
+            text-decoration: none;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .searchChips a:hover {
+            background: rgba(60, 95, 172, 0.2);
+            transform: translateY(-1px);
             line-height: 1.4;
         }
 
@@ -119,6 +150,8 @@
         .breadcrumb {
             border-radius: 8px;
             margin-top: 1rem;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
       
         .breadcrumb ul {
@@ -129,6 +162,7 @@
             align-items: center;
             justify-content: flex-start;
             flex-wrap: wrap;
+            min-width: fit-content;
         }
       
         .breadcrumb ul li {
@@ -136,6 +170,7 @@
             align-items: center;
             position: relative;
             padding: 0 10px;
+            white-space: nowrap;
         }
       
         .breadcrumb ul li:not(:last-child)::after {
@@ -163,32 +198,87 @@
             cursor: default;
             pointer-events: none;
         }
-
-        /* Modify Maps Section */
-        /* .mapsSection {
-            padding: 40px 0 0;
-            background-color: #fafafa;
-        } */
       
-        @media (max-width: 768px) {
-            .breadcrumb ul {
-                justify-content: flex-start;
-                padding-left: 15px;
-            }
-            
-            .breadcrumb ul li {
-                padding: 0 10px;
+        /* Tablet Responsive */
+        @media (max-width: 992px) {
+            .breadcrumb ul li a {
+                padding: 6px 10px;
+                font-size: 0.95rem;
             }
             
             .breadcrumb ul li:not(:last-child)::after {
-                right: -3px;
                 font-size: 18px;
             }
+        }
+      
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .breadcrumb {
+                margin-top: 0.5rem;
+                border-radius: 0;
+            }
+            
+            .breadcrumb ul {
+                justify-content: flex-start;
+                padding: 8px 0;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+            }
+            
+            .breadcrumb ul li {
+                padding: 0 8px;
+            }
+            
+            .breadcrumb ul li a {
+                padding: 6px 8px;
+                font-size: 0.875rem;
+            }
+            
+            .breadcrumb ul li:not(:last-child)::after {
+                right: -2px;
+                font-size: 16px;
+            }
+        }
+      
+        /* Small Mobile Responsive */
+        @media (max-width: 480px) {
+            .breadcrumb ul li {
+                padding: 0 5px;
+            }
+            
+            .breadcrumb ul li a {
+                padding: 5px 6px;
+                font-size: 0.8rem;
+            }
+            
+            .breadcrumb ul li:not(:last-child)::after {
+                font-size: 14px;
+                right: -1px;
+            }
+        }
 
-            /* .mapsSection {
-                padding: 30px 0 0;
-                background-color: #fafafa;
-            } */
+        /* Modify Dropdown Labels Wrap on Mobile */
+        @media (max-width: 1199px) {
+            .mainHeader .navbar .container #collapsibleNavbar .navbar-nav li.dropdown {
+                position: static;
+            }
+
+            .mainHeader .navbar .container #collapsibleNavbar .navbar-nav li.dropdown .dropdown-menu {
+                position: static;
+                transform: none !important;
+                width: 100%;
+                min-width: 0;
+                margin-top: 8px;
+                padding: 12px;
+                border-radius: 12px;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            }
+
+            .mainHeader .navbar .container #collapsibleNavbar .navbar-nav li.dropdown .dropdown-menu .dropdown-item {
+                white-space: normal;
+                line-height: 1.4;
+                padding: 10px 14px;
+            }
         }
     </style>
 
@@ -206,7 +296,7 @@
                 </div>
             </div>
             <div class="loader" id="dotsLoader">
-               <span></span>
+                <span></span>
                 <span></span>
                 <span></span>
             </div>
@@ -387,25 +477,19 @@
                         </div>
                     </form>
                 </div>
-                <div class="quickSearch">
-
+                <div class="searchChips">
                     @php
                         $quickSearchTerms = config('papandayan.search.quick_terms', []);
                     @endphp
 
-                    <p>
-                        <span>Quick Search:</span>
+                    <span>Quick Search:</span>
 
-                        @if(!empty($quickSearchTerms))
-                            @foreach($quickSearchTerms as $term)
-                                @php $queryValue = $term['query'] ?? $term['label']; @endphp
-                                <a href="{{ route('front.search', ['q' => $queryValue]) }}">{{ $term['label'] }}</a>@if(!$loop->last), @endif
-                            @endforeach
-                        @else
-                            K3, CSR, Inisiatif, Laporan Dokumen
-                        @endif
-
-                    </p>
+                    @if(!empty($quickSearchTerms))
+                        @foreach($quickSearchTerms as $term)
+                            @php $queryValue = $term['query'] ?? $term['label']; @endphp
+                            <a href="{{ route('front.search', ['q' => $queryValue]) }}">{{ $term['label'] }}</a>
+                        @endforeach
+                    @endif
                 </div>
             </div>
         </div>
@@ -765,7 +849,7 @@
             var $button = $('.subscriptionBtn');
             var isSubmitting = false;
 
-            // Validasi email dengan domain lengkap (seperti di financial.blade.php)
+            // Email validation function
             var isValidEmail = function (email) {
                 return /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
             };

@@ -48,8 +48,8 @@ class Article extends Model
         });
 
         static::updating(function ($article) {
-            if ($article->isDirty('title') && empty($article->slug)) {
-                $article->slug = static::generateUniqueSlug($article->title);
+            if ($article->isDirty('title')) {
+                $article->slug = static::generateUniqueSlug($article->title, $article->id);
             }
         });
     }

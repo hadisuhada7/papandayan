@@ -23,9 +23,11 @@
                     <div class="card p-4">
                         <h3 class="mb-3">{{ $title }}</h3>
                         <p class="mb-4">{{ $message }}</p>
+
                         @if (!empty($actionUrl))
                             <a href="{{ $actionUrl }}" class="btn btn-primary">{{ $actionLabel }}</a>
                         @endif
+
                     </div>
                 </div>
             </div>
@@ -36,7 +38,7 @@
 @endsection
 
 @push('after-styles')
-    <style>
+    <style type="text/css">
         .card {
             border-radius: 12px;
             border: 1px solid #e5e7eb;

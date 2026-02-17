@@ -47,7 +47,7 @@ class Initiative extends Model
         });
 
         static::updating(function ($initiative) {
-            if ($initiative->isDirty('title') && empty($initiative->slug)) {
+            if ($initiative->isDirty('title')) {
                 $initiative->slug = static::generateUniqueSlug($initiative->title, $initiative->id);
             }
         });

@@ -131,7 +131,6 @@
             border: 1px solid #aeaeae;
             border-radius: 8px;
             display: flex;
-            margin-bottom: 30px;
             padding: 26px 36px;
         }
 
@@ -196,6 +195,99 @@
             justify-content: space-between;
             padding: 1rem;
             border-bottom: 1px solid #dee2e6;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .file-list .list {
+                flex-direction: column;
+                padding: 16px;
+            }
+
+            .file-list .list .list-date {
+                flex: 0 0 auto;
+                max-width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .file-list .list .list-date h6 {
+                font-size: 13px;
+                color: #666;
+                margin: 0;
+            }
+
+            .file-list .list .list-field {
+                flex: 0 0 auto;
+                max-width: 100%;
+                padding-left: 0;
+            }
+
+            .file-list .list .list-field h5 {
+                font-size: 14px;
+                line-height: 1.5;
+                margin-bottom: 0;
+            }
+
+            .file-list .list .list-field .download-file {
+                margin-top: 15px;
+            }
+
+            .file-list .list .list-field .download-file .file-list {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 10px;
+            }
+
+            .file-list .list .list-field .download-file .file-list h6 {
+                flex: 1;
+                font-size: 13px;
+                margin-bottom: 0;
+                padding-right: 15px;
+                word-break: break-word;
+            }
+
+            .file-list .list .list-field .download-file .file-list .link {
+                flex-shrink: 0;
+                font-size: 13px;
+                white-space: nowrap;
+                padding: 4px 8px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .file-list .list {
+                padding: 14px;
+            }
+
+            .file-list .list .list-date h6 {
+                font-size: 12px;
+            }
+
+            .file-list .list .list-field h5 {
+                font-size: 13px;
+            }
+
+            .file-list .list .list-field .download-file .file-list h6 {
+                font-size: 12px;
+            }
+
+            .file-list .list .list-field .download-file .file-list .link {
+                font-size: 12px;
+            }
+
+            #modal-download .modal-dialog {
+                margin: 0.5rem;
+            }
+
+            #modal-download .form-group.row {
+                margin-bottom: 10px !important;
+            }
+
+            #modal-download .form-group.row label {
+                text-align: left;
+                margin-bottom: 5px;
+            }
         }
     </style>
 @endpush

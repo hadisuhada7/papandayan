@@ -48,7 +48,7 @@ class CorporateSocial extends Model
         });
 
         static::updating(function ($social) {
-            if ($social->isDirty('title') && empty($social->slug)) {
+            if ($social->isDirty('title')) {
                 $social->slug = static::generateUniqueSlug($social->title, $social->id);
             }
         });

@@ -245,3 +245,15 @@ Route::middleware('auth')->group(function () {
 });
 
 Auth::routes();
+
+// 2FA Routes
+Route::get('/login/2fa', [App\Http\Controllers\Auth\LoginController::class, 'show2faForm'])->name('login.2fa');
+Route::post('/login/2fa', [App\Http\Controllers\Auth\LoginController::class, 'verify2fa'])->name('login.2fa.verify');
+
+// Account 2FA Management Routes
+Route::middleware('auth')->prefix('account')->name('account.')->group(function () {
+    Route::get('/two-factor', [App\Http\Controllers\Account\TwoFactorController::class, 'index'])->name('two-factor.index');
+    Route::get('/two-factor/enable', [App\Http\Controllers\Account\TwoFactorController::class, 'enable'])->name('two-factor.enable');
+    Route::post('/two-factor/verify', [App\Http\Controllers\Account\TwoFactorController::class, 'verify'])->name('two-factor.verify');
+    Route::post('/two-factor/disable', [App\Http\Controllers\Account\TwoFactorController::class, 'disable'])->name('two-factor.disable');
+});

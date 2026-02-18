@@ -520,6 +520,11 @@ return [
             'route' => 'account.password.edit',
             'icon' => 'fas fa-fw fa-lock',
         ],
+        [
+            'text' => 'Two-Factor Auth',
+            'url'  => 'account/two-factor',
+            'icon' => 'fas fa-shield-alt',
+        ],
     ],
 
     /*

@@ -7,13 +7,18 @@ use Illuminate\View\View;
 
 class LogEmailSenderController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index(): View
     {
         $logs = LogEmailSender::with(['question', 'ticket'])->latest('id')->get();
-
         return view('admin.email-logs.index', compact('logs'));
     }
 
+    /**
+     * Display the specified resource.
+     */
     public function show(LogEmailSender $email_log): View
     {
         $email_log->load(['question', 'ticket']);

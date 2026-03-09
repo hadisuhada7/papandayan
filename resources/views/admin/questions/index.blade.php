@@ -6,25 +6,27 @@
 @section('plugins.Toastr', true)
 
 @php
-function getStatusBadgeClass($status) {
-    return match(strtolower($status)) {
-        'open' => 'bg-success',
-        'pending' => 'bg-danger', 
-        'in progress' => 'bg-warning',
-        'closed' => 'bg-info',
-        default => 'bg-secondary'
-    };
-}
+    function ticketStatusBadge($status)
+    {
+        return match (strtolower($status)) {
+            'new' => 'badge bg-primary',
+            'open' => 'badge bg-info',
+            'responded' => 'badge bg-warning',
+            'closed' => 'badge bg-success',
+            default => 'badge bg-secondary',
+        };
+    }
 
-function getStatusDisplayText($status) {
-    return match(strtolower($status)) {
-        'open' => 'Open',
-        'pending' => 'Pending',
-        'in progress' => 'In Progress',
-        'closed' => 'Closed',
-        default => ucfirst($status)
-    };
-}
+    function ticketStatusLabel($status)
+    {
+        return match (strtolower($status)) {
+            'new' => 'New',
+            'open' => 'Open',
+            'responded' => 'Responded',
+            'closed' => 'Closed',
+            default => ucfirst($status),
+        };
+    }
 @endphp
 
 @section('content_header')
@@ -56,9 +58,9 @@ function getStatusDisplayText($status) {
                                 <th scope="col">Name</th>
                                 <th style="width: 200px;">Email</th>
                                 <th style="width: 200px;">Phone Number</th>
-                                <th style="width: 150px;">Question Type</th>
-                                <!-- <th style="width: 100px;">Status</th>
-                                <th style="width: 65px;">&nbsp;</th> -->
+                                <th style="width: 100px;">Question</th>
+                                <th style="width: 100px;">Status</th>
+                                <!-- <th style="width: 65px;">&nbsp;</th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -68,12 +70,12 @@ function getStatusDisplayText($status) {
                             @foreach($questions as $question)
                                 <tr>
                                     <td scope="row">{{ $index }}</td>
-                                    <td>{{ $question->name }}</td>
-                                    <td>{{ $question->email }}</td>
-                                    <td>{{ $question->phone_number }}</td>
-                                    <td>{{ $question->question_type->name }}</td>
-                                    <!-- <td><span class="badge {{ getStatusBadgeClass($question->status) }}">{{ getStatusDisplayText($question->status) }}</span></td>
-                                    <td class="text-center">
+                                    <td>{{ $question->requester_name }}</td>
+                                    <td>{{ $question->requester_email }}</td>
+                                    <td>{{ $question->requester_phone }}</td>
+                                    <td>{{ $question->subject }}</td>
+                                    <td><span class="badge {{ ticketStatusBadge($question->status->value ?? $question->status) }}">{{ ticketStatusLabel($question->status->value ?? $question->status) }}</span></td>
+                                    <!-- <td class="text-center">
                                         <a href="{{ route('admin.questions.edit', $question) }}" class="btn btn-sm btn-primary item-edit"><i class="fas fa-pencil-alt"></i></a>
                                         <a href="javascript:void(0)" class="btn btn-sm btn-danger item-remove" data-id="{{ $question->id }}"><i class="fas fa-trash-alt"></i></a>
                                     </td> -->

@@ -110,7 +110,7 @@ return [
     */
 
     'preloader' => [
-        'enabled' => true,
+        'enabled' => false,
         'mode' => 'fullscreen',
         'img' => [
             'path' => 'images/logo/logo5.png',
@@ -462,6 +462,10 @@ return [
                     'text' => 'Ticketing',
                     'url' => 'admin/tickets',
                 ],
+                // [
+                //     'text' => 'Become a Partners',
+                //     'url' => 'admin/partners',
+                // ],
                 [
                     'text' => 'Questions',
                     'url' => 'admin/questions',
@@ -510,11 +514,6 @@ return [
             'icon' => 'fas fa-fw fa-envelope',
         ],
         ['header' => 'ACCOUNT SETTINGS'],
-        // [
-        //     'text' => 'Users',
-        //     'url' => '#',
-        //     'icon' => 'fas fa-fw fa-user',
-        // ],
         [
             'text' => 'Change Password',
             'route' => 'account.password.edit',

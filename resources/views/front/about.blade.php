@@ -277,7 +277,7 @@
 							<div class="modal-content">
 								<div class="modal-header">
 									<h4 class="modal-title" id="management-modal-label-{{ $management->id }}">Detail Manajemen</h4>
-									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>
 								<div class="modal-body">
 									<div class="row">

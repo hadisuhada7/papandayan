@@ -8,11 +8,15 @@ $(window).on('load', function () {
     $("#preloader").delay(450).fadeOut("slow");
 });
 
+// Improved dropdown handling to prevent jittery behavior
+var dropdownTimer;
+
 $('.dropdown').on('show.bs.dropdown', function(e){
     $(this).find('.dropdown-menu').first().stop(true, true).slideDown(300);
-  });
+});
+
 $('.dropdown').on('hide.bs.dropdown', function(e){
-  $(this).find('.dropdown-menu').first().stop(true, true).slideUp(200);
+    $(this).find('.dropdown-menu').first().stop(true, true).slideUp(200);
 });
 
 $(document).ready(function($) {
@@ -60,17 +64,120 @@ var incrementMinus = buttonMinus.click(function() {
   }
 });
 
+// Improved hover dropdown with delay to prevent jittery behavior
 $(document).ready(function(){
-  $(".navbar-nav .dropdown").hover(            
-      function() {
-          $('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideDown("400");
-          $(this).toggleClass('open');        
-      },
-      function() {
-          $('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideUp("400");
-          $(this).toggleClass('open');       
-      }
-  );
+  // Only apply hover behavior on desktop (width >= 1200px)
+  function initDropdownBehavior() {
+    var windowWidth = $(window).width();
+    
+    if (windowWidth >= 1200) {
+      // Desktop: Use hover behavior
+      $(".navbar-nav .dropdown").each(function() {
+        var $dropdown = $(this);
+        var $dropdownMenu = $dropdown.find('.dropdown-menu');
+        var $dropdownLink = $dropdown.find('.dropdown-toggle-custom');
+        var closeTimer;
+        
+        // Prevent default click behavior on desktop
+        $dropdownLink.on('click', function(e) {
+          e.preventDefault();
+          return false;
+        });
+        
+        // Handle mouseenter on dropdown item
+        $dropdown.on('mouseenter', function() {
+          clearTimeout(closeTimer);
+          var $menu = $('.dropdown-menu', this);
+          
+          if (!$menu.is(':visible')) {
+            $menu.stop(true, true).slideDown(300);
+            $(this).addClass('show');
+            $menu.addClass('show');
+          }
+        });
+        
+        // Handle mouseleave with delay
+        $dropdown.on('mouseleave', function() {
+          var $menu = $('.dropdown-menu', this);
+          var $item = $(this);
+          
+          clearTimeout(closeTimer);
+          closeTimer = setTimeout(function() {
+            $menu.stop(true, true).slideUp(200);
+            $item.removeClass('show');
+            $menu.removeClass('show');
+          }, 150); // Small delay to prevent accidental closing
+        });
+        
+        // Keep dropdown open when hovering over the menu itself
+        $dropdownMenu.on('mouseenter', function() {
+          clearTimeout(closeTimer);
+        });
+        
+        $dropdownMenu.on('mouseleave', function() {
+          var $menu = $(this);
+          var $item = $dropdown;
+          
+          clearTimeout(closeTimer);
+          closeTimer = setTimeout(function() {
+            $menu.stop(true, true).slideUp(200);
+            $item.removeClass('show');
+            $menu.removeClass('show');
+          }, 150);
+        });
+      });
+    } else {
+      // Mobile: Use click behavior
+      $(".navbar-nav .dropdown").each(function() {
+        var $dropdown = $(this);
+        var $dropdownMenu = $dropdown.find('.dropdown-menu');
+        var $dropdownLink = $dropdown.find('.dropdown-toggle-custom');
+        
+        // Remove hover event handlers
+        $dropdown.off('mouseenter mouseleave');
+        $dropdownMenu.off('mouseenter mouseleave');
+        
+        // Add click behavior for mobile
+        $dropdownLink.on('click', function(e) {
+          e.preventDefault();
+          var $menu = $(this).next('.dropdown-menu');
+          var $parent = $(this).parent();
+          
+          // Close other open dropdowns
+          $('.navbar-nav .dropdown').not($parent).removeClass('show');
+          $('.navbar-nav .dropdown .dropdown-menu').not($menu).removeClass('show').slideUp(200);
+          
+          // Toggle current dropdown
+          if ($menu.is(':visible')) {
+            $menu.stop(true, true).slideUp(200);
+            $parent.removeClass('show');
+            $menu.removeClass('show');
+          } else {
+            $menu.stop(true, true).slideDown(300);
+            $parent.addClass('show');
+            $menu.addClass('show');
+          }
+        });
+      });
+    }
+  }
+  
+  // Initialize on load
+  initDropdownBehavior();
+  
+  // Reinitialize on window resize
+  var resizeTimer;
+  $(window).on('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      // Remove all event handlers before reinitializing
+      $(".navbar-nav .dropdown").off('mouseenter mouseleave');
+      $(".navbar-nav .dropdown .dropdown-menu").off('mouseenter mouseleave');
+      $(".navbar-nav .dropdown .dropdown-toggle-custom").off('click');
+      
+      initDropdownBehavior();
+    }, 250);
+  });
 });
 
 

@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateArticleRequest;
 use App\Models\Article;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
 class ArticleController extends Controller
@@ -61,7 +62,7 @@ class ArticleController extends Controller
 
                     $newTag = Tag::firstOrCreate(
                         ['name' => $tagValue],
-                        ['slug' => \Illuminate\Support\Str::slug($tagValue)]
+                        ['slug' => Str::slug($tagValue)]
                     );
                     $tagIds[] = $newTag->id;
                 }
@@ -122,7 +123,7 @@ class ArticleController extends Controller
 
                     $newTag = Tag::firstOrCreate(
                         ['name' => $tagValue],
-                        ['slug' => \Illuminate\Support\Str::slug($tagValue)]
+                        ['slug' => Str::slug($tagValue)]
                     );
                     $tagIds[] = $newTag->id;
                 }

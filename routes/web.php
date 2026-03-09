@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Account\PasswordController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CompanyStatisticController;
 use App\Http\Controllers\TestimonialController;
@@ -36,11 +35,14 @@ use App\Http\Controllers\EmailConfigController;
 use App\Http\Controllers\LogEmailSenderController;
 use App\Http\Controllers\LogDownloadReportController;
 use App\Http\Controllers\FrontController;
+use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ReportSubscriptionController;
 use App\Http\Controllers\ReportSubscriberController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Account\TwoFactorController;
+use App\Http\Controllers\Account\PasswordController;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/', [FrontController::class, 'index'])->name('front.index');
 Route::get('/search', [FrontController::class, 'search'])->name('front.search');
 Route::get('/articles', [FrontController::class, 'article'])->name('front.articles');
@@ -80,6 +82,8 @@ Route::post('/shareholder/download-with-log/{id}', [FrontController::class, 'sha
 Route::post('/subscription', [ReportSubscriptionController::class, 'store'])->name('front.subscription.store');
 Route::get('/subscription/unsubscribe/{token}', [ReportSubscriptionController::class, 'unsubscribe'])->name('front.subscription.unsubscribe');
 Route::get('/subscription/resubscribe/{token}', [ReportSubscriptionController::class, 'resubscribe'])->name('front.subscription.resubscribe');
+Route::get('/partner', [FrontController::class, 'partner'])->name('front.partner');
+Route::post('/partner/store', [FrontController::class, 'partnerStore'])->name('front.partner.store');
 
 Route::get('/home', function () {
     return redirect('/dashboard');
@@ -240,6 +244,10 @@ Route::middleware('auth')->group(function () {
             Route::resource('report-subscribers', ReportSubscriberController::class)->only(['index']);
         });
 
+        Route::middleware('can:manage partners')->group(function () {
+            Route::resource('partners', PartnerController::class);
+        });
+
     });
     
 });
@@ -247,13 +255,13 @@ Route::middleware('auth')->group(function () {
 Auth::routes();
 
 // 2FA Routes
-Route::get('/login/2fa', [App\Http\Controllers\Auth\LoginController::class, 'show2faForm'])->name('login.2fa');
-Route::post('/login/2fa', [App\Http\Controllers\Auth\LoginController::class, 'verify2fa'])->name('login.2fa.verify');
+Route::get('/login/2fa', [LoginController::class, 'show2faForm'])->name('login.2fa');
+Route::post('/login/2fa', [LoginController::class, 'verify2fa'])->name('login.2fa.verify');
 
 // Account 2FA Management Routes
 Route::middleware('auth')->prefix('account')->name('account.')->group(function () {
-    Route::get('/two-factor', [App\Http\Controllers\Account\TwoFactorController::class, 'index'])->name('two-factor.index');
-    Route::get('/two-factor/enable', [App\Http\Controllers\Account\TwoFactorController::class, 'enable'])->name('two-factor.enable');
-    Route::post('/two-factor/verify', [App\Http\Controllers\Account\TwoFactorController::class, 'verify'])->name('two-factor.verify');
-    Route::post('/two-factor/disable', [App\Http\Controllers\Account\TwoFactorController::class, 'disable'])->name('two-factor.disable');
+    Route::get('/two-factor', [TwoFactorController::class, 'index'])->name('two-factor.index');
+    Route::get('/two-factor/enable', [TwoFactorController::class, 'enable'])->name('two-factor.enable');
+    Route::post('/two-factor/verify', [TwoFactorController::class, 'verify'])->name('two-factor.verify');
+    Route::post('/two-factor/disable', [TwoFactorController::class, 'disable'])->name('two-factor.disable');
 });

@@ -13,6 +13,9 @@ use Illuminate\View\View;
 
 class TicketController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index(): View
     {
         $tickets = Ticket::with('question')->latest('id')->get();
@@ -25,12 +28,18 @@ class TicketController extends Controller
         return view('admin.tickets.index', compact('tickets', 'stats'));
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create(): View
     {
         $questions = Question::latest('id')->get();
         return view('admin.tickets.create', compact('questions'));
     }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
@@ -52,17 +61,26 @@ class TicketController extends Controller
         return redirect()->route('admin.tickets.index')->with('toast', ['type' => 'success', 'message' => 'Ticket created successfully.']);
     }
 
+    /**
+     * Display the specified resource.
+     */
     public function show(Ticket $ticket): View
     {
         return view('admin.tickets.show', compact('ticket'));
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     */
     public function edit(Ticket $ticket): View
     {
         $questions = Question::latest('id')->get();
         return view('admin.tickets.edit', compact('ticket', 'questions'));
     }
 
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, Ticket $ticket, EmailService $emailService): RedirectResponse
     {
         $previousStatus = $ticket->status?->value;
@@ -94,6 +112,9 @@ class TicketController extends Controller
         return redirect()->route('admin.tickets.index')->with('toast', ['type' => 'success', 'message' => 'Ticket updated successfully.']);
     }
 
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(Ticket $ticket): RedirectResponse
     {
         $ticket->delete();

@@ -35,11 +35,13 @@ use App\Models\StockInformation;
 use App\Models\ShareholderReport;
 use App\Models\Shareholder;
 use App\Models\CoverageArea;
+use App\Models\Partner;
 use App\Models\Tag;
 use App\Jobs\TicketingJob;
 use App\Http\Requests\StoreQuestionRequest;
 use App\Http\Requests\StoreCareerApplicantRequest;
 use App\Http\Requests\StoreExperiencedApplicantRequest;
+use App\Http\Requests\StorePartnerRequest;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -656,7 +658,7 @@ class FrontController extends Controller
     }
 
     public function stock(Request $request) {
-        $banners = $this->getBannerByMenuName('Informasi Saham dan Obligasi');
+        $banners = $this->getBannerByMenuName('Informasi Saham & Obligasi');
         $yearOptions = $this->getReportYearOptions();
         $selectedYear = $this->normalizeReportYearFilter($request->query('year'), $yearOptions);
         $selectedSort = $this->normalizeReportSortFilter($request->query('sort'));
@@ -921,6 +923,22 @@ class FrontController extends Controller
         }
 
         return redirect()->route('front.contact')->with('success', 'Pertanyaan Anda telah berhasil dikirim.');
+    }
+
+    public function partner() {
+        return view('front.partner-form');
+    }
+
+    public function partnerStore(StorePartnerRequest $request) {
+        
+        // Closure-based transaction
+        DB::transaction(function () use ($request) {
+            $validated = $request->validated();
+            
+            Partner::create($validated);
+        });
+
+        return redirect()->route('front.partner')->with('success', 'Data kemitraan Anda telah berhasil dikirim. Kami akan menghubungi Anda segera.');
     }
 
     private function buildSearchSections(string $query)

@@ -31,7 +31,7 @@ class ReportSubscriptionService
             'file_name' => $this->resolveFileName($document->original_filename ?? null, $document->report),
             'file_original_name' => $document->original_filename,
             'publish_date' => $publishAt->toDateString(),
-            'publish_date_label' => $publishAt->format('d F Y'),
+            'publish_date_label' => $publishAt->locale('id')->isoFormat('DD MMMM Y'),
             'list_url' => route('front.documents', ['publish_date' => $publishAt->toDateString()]),
         ]);
     }
@@ -46,7 +46,7 @@ class ReportSubscriptionService
             'file_name' => $this->resolveFileName($report->original_filename ?? null, $report->report),
             'file_original_name' => $report->original_filename,
             'publish_date' => $publishAt->toDateString(),
-            'publish_date_label' => $publishAt->format('d F Y'),
+            'publish_date_label' => $publishAt->locale('id')->isoFormat('DD MMMM Y'),
             'list_url' => route('front.report', ['publish_date' => $publishAt->toDateString()]),
         ]);
     }
@@ -61,7 +61,7 @@ class ReportSubscriptionService
             'file_name' => $this->resolveFileName($report->original_filename ?? null, $report->report),
             'file_original_name' => $report->original_filename,
             'publish_date' => $publishAt->toDateString(),
-            'publish_date_label' => $publishAt->format('d F Y'),
+            'publish_date_label' => $publishAt->locale('id')->isoFormat('DD MMMM Y'),
             'list_url' => route('front.financial', ['publish_date' => $publishAt->toDateString()]),
         ]);
     }
@@ -76,7 +76,7 @@ class ReportSubscriptionService
             'file_name' => $this->resolveFileName($report->original_filename ?? null, $report->report),
             'file_original_name' => $report->original_filename,
             'publish_date' => $publishAt->toDateString(),
-            'publish_date_label' => $publishAt->format('d F Y'),
+            'publish_date_label' => $publishAt->locale('id')->isoFormat('DD MMMM Y'),
             'list_url' => route('front.investor', ['publish_date' => $publishAt->toDateString()]),
         ]);
     }
@@ -91,7 +91,7 @@ class ReportSubscriptionService
             'file_name' => $this->resolveFileName($report->original_filename ?? null, $report->report),
             'file_original_name' => $report->original_filename,
             'publish_date' => $publishAt->toDateString(),
-            'publish_date_label' => $publishAt->format('d F Y'),
+            'publish_date_label' => $publishAt->locale('id')->isoFormat('DD MMMM Y'),
             'list_url' => route('front.stock', ['publish_date' => $publishAt->toDateString()]),
         ]);
     }
@@ -106,7 +106,7 @@ class ReportSubscriptionService
             'file_name' => $this->resolveFileName($report->original_filename ?? null, $report->report),
             'file_original_name' => $report->original_filename,
             'publish_date' => $publishAt->toDateString(),
-            'publish_date_label' => $publishAt->format('d F Y'),
+            'publish_date_label' => $publishAt->locale('id')->isoFormat('DD MMMM Y'),
             'list_url' => route('front.shareholder', ['publish_date' => $publishAt->toDateString()]),
         ]);
     }

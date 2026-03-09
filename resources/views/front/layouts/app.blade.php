@@ -146,6 +146,57 @@
             color: #a0a0a0;
         }
 
+        /* Scroll to Top & WhatsApp Floating Buttons */
+        #scroll-top,
+        #whatsapp-float {
+            position: fixed;
+            right: 1.8rem;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            text-align: center;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+        }
+
+        /* Scroll to top - positioned on top */
+        #scroll-top {
+            bottom: 5.3rem;
+        }
+
+        #scroll-top.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* WhatsApp button - positioned below scroll-top */
+        #whatsapp-float {
+            bottom: 1.8rem;
+            background: #25D366;
+            color: #fff;
+            font-size: 26px;
+        }
+
+        #whatsapp-float.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        #whatsapp-float:hover {
+            background: #128C7E;
+            transform: translateY(0);
+            box-shadow: 2px 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
         /* Modify Breadcrumb */
         .breadcrumb {
             border-radius: 8px;
@@ -209,6 +260,22 @@
             .breadcrumb ul li:not(:last-child)::after {
                 font-size: 18px;
             }
+
+            /* #scroll-top,
+            #whatsapp-float {
+                right: 18px;
+                width: 42px;
+                height: 42px;
+            }
+
+            #scroll-top {
+                bottom: 75px;
+            }
+
+            #whatsapp-float {
+                bottom: 18px;
+                font-size: 24px;
+            } */
         }
       
         /* Mobile Responsive */
@@ -238,6 +305,22 @@
                 right: -2px;
                 font-size: 16px;
             }
+
+            /* #scroll-top,
+            #whatsapp-float {
+                right: 2rem;
+                width: 40px;
+                height: 40px;
+            }
+
+            #scroll-top {
+                bottom: 70px;
+            }
+
+            #whatsapp-float {
+                bottom: 15px;
+                font-size: 22px;
+            } */
         }
       
         /* Small Mobile Responsive */
@@ -255,6 +338,22 @@
                 font-size: 14px;
                 right: -1px;
             }
+
+            /* #scroll-top,
+            #whatsapp-float {
+                right: 12px;
+                width: 38px;
+                height: 38px;
+            }
+
+            #scroll-top {
+                bottom: 65px;
+            }
+
+            #whatsapp-float {
+                bottom: 12px;
+                font-size: 20px;
+            } */
         }
 
         /* Modify Dropdown Labels Wrap on Mobile */
@@ -278,6 +377,47 @@
                 white-space: normal;
                 line-height: 1.4;
                 padding: 10px 14px;
+            }
+        }
+
+        /* Fix dropdown positioning to prevent jitter on desktop */
+        @media (min-width: 1200px) {
+            .mainHeader .navbar .container #collapsibleNavbar .navbar-nav li.dropdown {
+                position: relative;
+            }
+
+            .mainHeader .navbar .container #collapsibleNavbar .navbar-nav li.dropdown .dropdown-menu {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                margin-top: 0 !important;  /* Remove gap between menu and submenu */
+                display: none;
+                z-index: 1000;
+            }
+
+            .mainHeader .navbar .container #collapsibleNavbar .navbar-nav li.dropdown.show .dropdown-menu {
+                display: block;
+            }
+
+            /* Extend hover area to prevent gap issues */
+            .mainHeader .navbar .container #collapsibleNavbar .navbar-nav li.dropdown::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 2px;  /* Small bridge to prevent hover gap */
+                background: transparent;
+            }
+
+            /* Smooth dropdown transition */
+            .mainHeader .navbar .container #collapsibleNavbar .navbar-nav li.dropdown .dropdown-menu {
+                transition: opacity 0.2s ease;
+            }
+
+            /* Cursor pointer for dropdown links */
+            .mainHeader .navbar .container #collapsibleNavbar .navbar-nav li.dropdown > a {
+                cursor: pointer;
             }
         }
     </style>
@@ -409,7 +549,7 @@
                                         </li>
                                     @else
                                         <li class="nav-item dropdown">
-                                            <a class="nav-link" href="#" data-bs-toggle="dropdown">
+                                            <a class="nav-link dropdown-toggle-custom" href="#" role="button">
                                                 {{ $group->name }}
                                                 <i class="fa fa-angle-right" aria-hidden="true"></i>
                                             </a>
@@ -538,7 +678,7 @@
                                                 <i class="fa fa-map-marker" aria-hidden="true"></i>
                                             </div>
                                             <div class="officeInfoText">
-                                                <p style="font-weight: bold;">PT Papandayan Inti Plasma</p>
+                                                <p style="font-weight: bold;">PT. Papandayan Inti Plasma</p>
                                                 <p>Apartemen Permata Eksekutif Lt. 2</p>
                                                 <p>Jl. Pos Pengumben RT.01 / RW.06 </p>
                                                 <p>Kebon Jeruk, Jakarta Barat</p>
@@ -556,6 +696,9 @@
                                     <hr class="hrLine">
                                     <div class="socialMediaIcon">
                                         <ul class="nav">
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="https://maps.app.goo.gl/oUpVnLnRh27anmai6" target="_blank" rel="noopener noreferrer"><i class="fa fa-map-marker" aria-hidden="true"></i></a>
+                                            </li>
                                             <li class="nav-item">
                                                 <a class="nav-link" href="https://api.whatsapp.com/send/?phone=6281400561146&text=Halo%2C+saya+mau+tanya+seputar+Papandayan%2C+mohon+informasinya&2C+terima+kasih&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer"><i class="fa fa-whatsapp" aria-hidden="true"></i></a>
                                             </li>
@@ -763,6 +906,16 @@
     <!--scroll to top start-->
     <a href="#" id="scroll-top" class="scroll-top"><i class="fa fa-arrow-up"></i></a>
     <!--scroll to top end-->
+
+    <!--whatsapp floating button start-->
+    <a href="https://api.whatsapp.com/send/?phone=6281400561146&text=Halo%2C+saya+mau+tanya+seputar+Papandayan%2C+mohon+informasinya%2C+terima+kasih&type=phone_number&app_absent=0" 
+       id="whatsapp-float" 
+       class="whatsapp-float" 
+       target="_blank" 
+       rel="noopener noreferrer">
+        <i class="fa fa-whatsapp"></i>
+    </a>
+    <!--whatsapp floating button end-->
     
     @stack('before-scripts')
     
@@ -776,7 +929,7 @@
     <script src="{{ asset('js/contact_form.js') }}"></script>
     <script src="{{ asset('js/grt-youtube-popup.js') }}"></script>
     <script src="{{ asset('js/jquery.fancybox.min.js') }}"></script>
-    <script src="{{ asset('js/custom.js') }}"></script>
+    <script src="{{ asset('js/custom.js') }}?v={{ time() }}"></script>
     <script src="{{ asset('vendor/jquery-timeline/js/timeline.min.js') }}"></script>
     <script src="{{ asset('vendor/leaflet/dist/leaflet.js') }}"></script>
     <script src="{{ asset('vendor/select2/js/select2.min.js') }}"></script>
@@ -787,6 +940,9 @@
     <script src="{{ asset('vendor/jquery-validation/jquery.validate.min.js') }}"></script>
 
     <script>
+        // Activate WhatsApp floating button
+        $('#whatsapp-float').addClass('active');
+
         // Scroll to top button
         $(window).scroll(function() {
             if ($(this).scrollTop() > 100) {

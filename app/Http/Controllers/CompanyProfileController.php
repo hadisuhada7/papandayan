@@ -41,6 +41,7 @@ class CompanyProfileController extends Controller
             }
             $newDataRecord = CompanyProfile::create($validated);
         });
+        
         return redirect()->route('admin.profiles.index')->with('toast', ['type' => 'success', 'message' => 'Profile created successfully.']);
     }
 

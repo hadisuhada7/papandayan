@@ -10,18 +10,26 @@ use Illuminate\View\View;
 
 class EmailConfigController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index(): View
     {
         $configs = EmailConfig::orderByDesc('id')->get();
-
         return view('admin.email-configs.index', compact('configs'));
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create(): View
     {
         return view('admin.email-configs.create');
     }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
@@ -51,11 +59,25 @@ class EmailConfigController extends Controller
         return redirect()->route('admin.email-configs.index')->with('toast', ['type' => 'success', 'message' => 'Email config created successfully.']);
     }
 
+    /**
+     * Display the specified resource.
+     */
+    public function show(EmailConfig $emailConfig): View
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
     public function edit(EmailConfig $emailConfig): View
     {
         return view('admin.email-configs.edit', compact('emailConfig'));
     }
 
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, EmailConfig $emailConfig): RedirectResponse
     {
         $validated = $request->validate([
@@ -90,6 +112,9 @@ class EmailConfigController extends Controller
         return redirect()->route('admin.email-configs.index')->with('toast', ['type' => 'success', 'message' => 'Email config updated successfully.']);
     }
 
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(EmailConfig $emailConfig): RedirectResponse
     {
         DB::transaction(function () use ($emailConfig) {

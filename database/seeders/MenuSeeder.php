@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\MenuGroup;
 use App\Models\MenuNavigation;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
 
 class MenuSeeder extends Seeder
 {
@@ -14,7 +14,7 @@ class MenuSeeder extends Seeder
      */
     public function run(): void
     {
-        // Buat grup menu dengan order
+        // Create menu groups with order
         $tentangKami = MenuGroup::create([
             'name' => 'Tentang Kami',
             'order' => 2
@@ -30,7 +30,7 @@ class MenuSeeder extends Seeder
             'order' => 5
         ]);
 
-        // Menu tanpa grup (uncategorized) dengan order
+        // Menu navigations without group
         MenuNavigation::create([
             'name' => 'Beranda',
             'url' => '/',
@@ -55,7 +55,7 @@ class MenuSeeder extends Seeder
             'order' => 6
         ]);
 
-        // Menu grup Tentang Kami dengan order
+        // Menu navigations for Tentang Kami group with order
         MenuNavigation::create([
             'name' => 'Profile Perusahaan',
             'url' => '/about#profiles',
@@ -104,7 +104,7 @@ class MenuSeeder extends Seeder
             'order' => 6
         ]);
 
-        // Menu grup Keberlanjutan dengan order
+        // Menu navigations for Keberlanjutan group with order
         MenuNavigation::create([
             'name' => 'K3',
             'url' => '/safety',
@@ -137,7 +137,7 @@ class MenuSeeder extends Seeder
             'order' => 4
         ]);
 
-        // Menu grup Hubungan Investor dengan order
+        // Menu navigations for Hubungan Investor group with order
         MenuNavigation::create([
             'name' => 'Laporan Tahunan',
             'url' => '/report',

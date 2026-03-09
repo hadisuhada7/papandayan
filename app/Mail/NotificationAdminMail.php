@@ -22,7 +22,6 @@ class NotificationAdminMail extends Mailable
      */
     public function __construct(public Question $question, public ?Ticket $ticket = null)
     {
-        // $this->logoSrc = 'cid:...';
         $this->logoSrc = 'https://www.test.papandayan.co.id/images/logo/logo6.png';
     }
 

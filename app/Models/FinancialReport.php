@@ -28,4 +28,9 @@ class FinancialReport extends Model
     {
         return $this->hasMany(LogDownloadReport::class);
     }
+
+    public function financialStatement()
+    {
+        return $this->belongsTo(FinancialStatement::class, 'financial_statement_id');
+    }
 }

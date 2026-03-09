@@ -11,6 +11,8 @@ use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Font;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Border;
 
 class ApplicantsExport implements FromCollection, WithHeadings, WithMapping, WithColumnWidths, WithStyles
 {
@@ -138,7 +140,7 @@ class ApplicantsExport implements FromCollection, WithHeadings, WithMapping, Wit
                 'color' => ['argb' => 'FFFFFF'],
             ],
             'fill' => [
-                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'fillType' => Fill::FILL_SOLID,
                 'startColor' => ['argb' => '366092'],
             ],
             'alignment' => [
@@ -160,7 +162,7 @@ class ApplicantsExport implements FromCollection, WithHeadings, WithMapping, Wit
         $sheet->getStyle('A1:R' . $lastRow)->applyFromArray([
             'borders' => [
                 'allBorders' => [
-                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'borderStyle' => Border::BORDER_THIN,
                 ],
             ],
         ]);

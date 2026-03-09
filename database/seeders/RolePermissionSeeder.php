@@ -50,6 +50,7 @@ class RolePermissionSeeder extends Seeder
             'manage email configs',
             'manage download logs',
             'manage report subscribers',
+            'manage partners',
         ];
 
         foreach($permission as $permission){
@@ -99,6 +100,7 @@ class RolePermissionSeeder extends Seeder
             'manage email configs',
             'manage download logs',
             'manage report subscribers',
+            'manage partners',
         ];
 
         $designManagerRole->syncPermissions($designManagerPermissions);
@@ -107,11 +109,13 @@ class RolePermissionSeeder extends Seeder
             'name' => 'super_admin'
         ]);
 
-        $user = User::create([
-            'name' => 'Admin',
-            'email' => 'admin@papandayan.co.id',
-            'password' => bcrypt('papandayan@2025')
-        ]);
+        $user = User::firstOrCreate(
+            ['email' => 'admin@papandayan.co.id'],
+            [
+                'name' => 'Admin',
+                'password' => bcrypt('papandayan@2025')
+            ]
+        );
 
         $user->assignRole($superAdminRole);
     }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class InvestorPresentation extends Model
+class Partner extends Model
 {
     use HasFactory, HasUuids, SoftDeletes;
 
@@ -15,20 +15,12 @@ class InvestorPresentation extends Model
 
     public $incrementing = false;
 
-    protected $table = 'investor_presentations';
-
     protected $fillable = [
-        'title',
-        'status',
-        'publish_at',
+        'full_name',
+        'email',
+        'phone_number',
+        'company_name',
+        'address',
+        'description',
     ];
-
-    protected $casts = [
-        'publish_at' => 'date', // format method...
-    ];
-
-    public function investorReports()
-    {
-        return $this->hasMany(InvestorReport::class, 'investor_presentation_id');
-    }
 }

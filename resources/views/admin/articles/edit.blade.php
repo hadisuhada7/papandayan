@@ -118,14 +118,14 @@
                                 <div class="form-group row">
                                     <label for="tags" class="col-sm-3 col-form-label">Tags</label>
                                     <div class="col-sm-9">
-                                        <select class="form-control select2-tags" style="width: 100%;" id="tags" name="tags[]" multiple="multiple" data-placeholder="Select or type new tags">
+                                        <select class="form-control select2-tags" style="width: 100%;" id="tags" name="tags[]" multiple="multiple" data-placeholder="">
                                             @foreach($tags as $tag)
                                                 <option value="{{ $tag->id }}" {{ $article->tags->contains($tag->id) ? 'selected' : '' }}>
                                                     {{ $tag->name }}
                                                 </option>
                                             @endforeach
                                         </select>
-                                        <small class="form-text text-muted">You can select existing tags or type to create new ones</small>
+                                        <small class="form-text text-muted">You can select existing tags or type to create new ones.</small>
                                         <span class="error invalid-feedback">{{ $errors->first('tags') }}</span>
                                     </div>
                                 </div>
@@ -183,7 +183,7 @@
             // Initialize Select2 for tags (multiple) with ability to add new tags
             $('.select2-tags').select2({
                 theme: 'bootstrap4',
-                placeholder: 'Select or type new tags',
+                placeholder: '',
                 allowClear: true,
                 tags: true,
                 createTag: function (params) {

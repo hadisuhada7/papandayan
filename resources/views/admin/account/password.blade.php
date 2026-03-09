@@ -39,7 +39,7 @@
                         <div class="form-group">
                             <label for="newPassword">New Password</label>
                             <input type="password" name="password" id="newPassword" class="form-control @error('password') is-invalid @enderror" placeholder="Enter new password" required>
-                            <small class="form-text text-muted">Minimum 8 characters with letters and numbers</small>
+                            <small class="form-text text-muted">Minimum 8 characters with letters and numbers.</small>
                             @error('password')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -56,7 +56,7 @@
             </div>
         </div>
         <div class="col-lg-6">
-            <div class="card card-outline card-secondary h-100">
+            <div class="card card-primary card-outline">
                 <div class="card-header">
                     <h3 class="card-title">Password Tips</h3>
                 </div>
@@ -70,6 +70,10 @@
             </div>
         </div>
     </div>
+@stop
+
+@section('css')
+    {{-- add stylesheets --}}
 @stop
 
 @section('js')

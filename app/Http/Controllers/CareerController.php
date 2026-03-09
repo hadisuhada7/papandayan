@@ -108,13 +108,13 @@ class CareerController extends Controller
         
         // Change status from 'Private' to 'Published' if current date is between posting_at and closing_at
         Career::where('status', 'Private')
-              ->whereDate('posting_at', '<=', $today)
-              ->whereDate('closing_at', '>=', $today)
-              ->update(['status' => 'Published']);
+            ->whereDate('posting_at', '<=', $today)
+            ->whereDate('closing_at', '>=', $today)
+            ->update(['status' => 'Published']);
         
         // Change status from 'Published' to 'Private' if closing date has passed
         Career::where('status', 'Published')
-              ->whereDate('closing_at', '<', $today)
-              ->update(['status' => 'Private']);
+            ->whereDate('closing_at', '<', $today)
+            ->update(['status' => 'Private']);
     }
 }

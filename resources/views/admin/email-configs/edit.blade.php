@@ -89,7 +89,7 @@
                                     <label for="password" class="col-sm-3 col-form-label">Password</label>
                                     <div class="col-sm-9">
                                         <input type="password" class="form-control" id="password" name="password" maxlength="255" placeholder="Password">
-                                        <small class="text-muted">Leave blank to keep existing password</small>
+                                        <small class="text-muted">Leave blank to keep existing password.</small>
                                         <span class="error invalid-feedback">{{ $errors->first('password') }}</span>
                                     </div>
                                 </div>
@@ -133,6 +133,7 @@
                     </div>
                     <div class="card-footer text-right">
                         <a href="{{ route('admin.email-configs.index') }}" class="btn btn-default" style="margin-right: 5px">Back</a>
+                        <button type="reset" class="btn btn-secondary" style="margin-right: 5px">Reset</button>
                         <button type="submit" class="btn btn-primary">Update</button>
                     </div>
                 </form>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreQuestionRequest;
 use App\Http\Requests\UpdateQuestionRequest;
 use App\Models\Question;
+use App\Models\Ticket;
+use App\Enums\TicketStatus;
 use App\Models\QuestionType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,8 +18,14 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        $questions = Question::with('question_type')->orderBy('id')->get();
-        return view('admin.questions.index', compact('questions'));
+        $questions = Ticket::with('question')->latest('id')->get();
+        $stats = [
+            'new' => Ticket::where('status', TicketStatus::New)->count(),
+            'open' => Ticket::where('status', TicketStatus::Open)->count(),
+            'responded' => Ticket::where('status', TicketStatus::Responded)->count(),
+        ];
+
+        return view('admin.questions.index', compact('questions', 'stats'));
     }
 
     /**

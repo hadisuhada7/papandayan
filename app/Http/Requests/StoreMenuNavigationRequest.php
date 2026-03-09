@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\MenuGroup;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 
 class StoreMenuNavigationRequest extends FormRequest
 {
@@ -42,11 +44,11 @@ class StoreMenuNavigationRequest extends FormRequest
                     return;
                 }
                 // Check if it's a valid UUID and exists in menu_groups table
-                if (!\Illuminate\Support\Str::isUuid($value)) {
+                if (!Str::isUuid($value)) {
                     $fail('The menu group must be a valid UUID.');
                     return;
                 }
-                if (!\App\Models\MenuGroup::where('id', $value)->exists()) {
+                if (!MenuGroup::where('id', $value)->exists()) {
                     $fail('The selected menu group does not exist.');
                 }
             }],

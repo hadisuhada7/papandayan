@@ -109,7 +109,7 @@ class TwoFactorController extends Controller
             session()->forget('google2fa_secret');
             
             return redirect()->route('account.two-factor.index')
-                ->with('success', '2FA successfully enabled!');
+                ->with('success', '2FA successfully enabled.');
         }
 
         return back()->withErrors(['one_time_password' => 'Invalid OTP code. Please try again.']);
@@ -133,6 +133,6 @@ class TwoFactorController extends Controller
         $user->save();
 
         return redirect()->route('account.two-factor.index')
-            ->with('success', '2FA successfully disabled!');
+            ->with('success', '2FA successfully disabled.');
     }
 }

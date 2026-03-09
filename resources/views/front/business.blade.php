@@ -102,8 +102,11 @@
 
                                         </div>
                                         <a class="btnCustom5 btn-1 hover-slide-down fadein" href="{{ $service->link_whatsapp }}" target="_blank" rel="noopener noreferrer">
-                                            <span>Hubungi Kami <img src="{{ asset('images/icon/icon-black-right.png') }}" alt="right" class="img-fluid"></span>
+                                            <span>Bermitra <img src="{{ asset('images/icon/icon-black-right.png') }}" alt="right" class="img-fluid"></span>
                                         </a>
+                                        <!-- <a class="btnCustom5 btn-1 hover-slide-down fadein" href="{{ route('front.partner') }}">
+                                            <span>Menjadi Mitra <img src="{{ asset('images/icon/icon-black-right.png') }}" alt="right" class="img-fluid"></span>
+                                        </a> -->
                                     </div>
                                 </div>
                             </div>

@@ -1,29 +1,19 @@
 @extends('adminlte::page')
 
-@section('title', 'Papandayan | Report Subscribers')
+@section('title', 'Papandayan | Partners')
 
 @section('plugins.Datatables', true)
 @section('plugins.Toastr', true)
 
-@php
-function subscriberStatusBadge(bool $isActive): string {
-    return $isActive ? 'bg-success' : 'bg-secondary';
-}
-
-function subscriberStatusLabel(bool $isActive): string {
-    return $isActive ? 'Active' : 'Inactive';
-}
-@endphp
-
 @section('content_header')
     <div class="row mb-2">
         <div class="col-sm-6">
-            <h1>Report Subscribers</h1>
+            <h1>Partners</h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-                <li class="breadcrumb-item active">Report Subscribers</li>
+                <li class="breadcrumb-item active">Partners</li>
             </ol>
         </div>
     </div>
@@ -41,30 +31,30 @@ function subscriberStatusLabel(bool $isActive): string {
                         <thead>
                             <tr>
                                 <th style="width: 30px;">No</th>
+                                <th style="width: 150px;">Full Name</th>
                                 <th scope="col">Email</th>
-                                <th style="width: 100px;">Status</th>
-                                <th style="width: 150px;">Subscribed At</th>
-                                <th style="width: 150px;">Unsubscribed At</th>
+                                <th style="width: 150px;">Phone Number</th>
+                                <th style="width: 200px;">Company Name</th>
+                                <th style="width: 25px;">&nbsp;</th>
                             </tr>
                         </thead>
                         <tbody>
                             @php 
                                 $index = 1; 
                             @endphp
-                            @foreach($subscribers as $subscriber)
+                            @foreach($partners as $partner)
                                 <tr>
                                     <td scope="row">{{ $index }}</td>
-                                    <td>{{ $subscriber->email }}</td>
-                                    <td>
-                                        <span class="badge {{ subscriberStatusBadge($subscriber->is_active) }}">
-                                            {{ subscriberStatusLabel($subscriber->is_active) }}
-                                        </span>
+                                    <td>{{ $partner->full_name }}</td>
+                                    <td>{{ $partner->email }}</td>
+                                    <td>{{ $partner->phone_number }}</td>
+                                    <td>{{ $partner->company_name }}</td>
+                                    <td class="text-center">
+                                        <a href="javascript:void(0)" class="btn btn-sm btn-info item-detail" data-id="{{ $partner->id }}"><i class="fas fa-eye"></i></a>
                                     </td>
-                                    <td>{{ $subscriber->subscribed_at?->format('d M Y H:i') ?? '-' }}</td>
-                                    <td>{{ $subscriber->unsubscribed_at?->format('d M Y H:i') ?? '-' }}</td>
                                 </tr>
                                 @php 
-                                    $index++;
+                                    $index++; 
                                 @endphp
                             @endforeach
                         </tbody>
@@ -96,18 +86,24 @@ function subscriberStatusLabel(bool $isActive): string {
     <script type="text/javascript">
         $(document).ready(function () {
 
+            var selectedRow;
+
             // Initialize DataTable
             $("#datagrid").DataTable({
                 paging: true,
                 ordering: true,
                 searching: true,
-                responsive: true,
-                lengthChange: true,
+                responsive: true, 
+                lengthChange: true, 
                 autoWidth: false,
                 language: {
                     emptyTable: "No data available in table",
                     zeroRecords: "No matching records found"
                 },
+
+                columnDefs: [
+                    { targets: 5, orderable: false }
+                ],
 
                 initComplete: function(settings, json) {
                     $('#datagrid_filter label').contents().filter(function() {
@@ -120,10 +116,20 @@ function subscriberStatusLabel(bool $isActive): string {
                         .attr('name', 'datagrid_search')
                         .addClass('form-control input-sm');
 
+                    // $('<a href="{{ route('admin.partners.create') }}" class="btn btn-sm btn-primary" style="margin-left: 10px;">Add New</a>')
+                    //     .appendTo($('#datagrid_filter'));
+                    
                     $('#datagrid_length label').contents().filter(function() {
                         return this.nodeType === 3;
                     }).remove();
                 }
+            });
+
+            // Handle eye button click to redirect to detail page
+            $(document).on('click', '.item-detail', function() {
+                var selectedRow = $(this).data('id');
+                var detailUrl = '{{ route("admin.partners.show", ":id") }}'.replace(':id', selectedRow);
+                window.location.href = detailUrl;
             });
         });
     </script>

@@ -116,7 +116,7 @@ return [
     ],
 
     'admin' => [
-        'address' => env('MAIL_ADMIN_ADDRESS', 'hadisuhada7@gmail.com'),
+        'address' => env('MAIL_ADMIN_ADDRESS', 'mediapapandayan@gmail.com'),
         'name' => env('MAIL_ADMIN_NAME', 'Admin Papandayan'),
     ],
 

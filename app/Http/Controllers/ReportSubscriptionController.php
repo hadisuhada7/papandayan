@@ -12,6 +12,9 @@ use Illuminate\View\View;
 
 class ReportSubscriptionController extends Controller
 {
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request): JsonResponse|RedirectResponse
     {
         $validated = $request->validate([
@@ -44,6 +47,9 @@ class ReportSubscriptionController extends Controller
         return $this->subscriptionResponse($request, 'Berhasil berlangganan notifikasi laporan.', true);
     }
 
+    /**
+     * Unsubscribe a user from the report subscription.
+     */
     public function unsubscribe(string $token, EmailService $emailService): View
     {
         $subscriber = ReportSubscriber::where('token', $token)->first();
@@ -78,6 +84,9 @@ class ReportSubscriptionController extends Controller
         ]);
     }
 
+    /**
+    * Resubscribe a user to the report subscription.
+    */
     public function resubscribe(string $token): View
     {
         $subscriber = ReportSubscriber::where('token', $token)->first();
@@ -107,6 +116,9 @@ class ReportSubscriptionController extends Controller
         ]);
     }
 
+    /**
+     * Handle the subscription response.
+     */
     private function subscriptionResponse(Request $request, string $message, bool $success): JsonResponse|RedirectResponse
     {
         if ($request->expectsJson() || $request->wantsJson() || $request->ajax()) {

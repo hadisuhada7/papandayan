@@ -84,7 +84,7 @@ class ApplicantsExport implements FromCollection, WithHeadings, WithMapping, Wit
             $applicant->email,
             $applicant->phone_number,
             $applicant->bod ? $applicant->bod->format('d/m/Y') : 'N/A',
-            $applicant->education,
+            $applicant->education . ' - ' . $applicant->major,
             $applicant->experienced,
             $applicant->current_salary ? 'Rp ' . number_format($applicant->current_salary, 0, ',', '.') : 'N/A',
             $applicant->expectation_salary ? 'Rp ' . number_format($applicant->expectation_salary, 0, ',', '.') : 'N/A',
@@ -113,7 +113,7 @@ class ApplicantsExport implements FromCollection, WithHeadings, WithMapping, Wit
             'E' => 25,  // Email
             'F' => 15,  // Phone Number
             'G' => 12,  // Birth of Date
-            'H' => 15,  // Education
+            'H' => 26,  // Education
             'I' => 16,  // Experienced
             'J' => 15,  // Current Salary
             'K' => 15,  // Expectation Salary

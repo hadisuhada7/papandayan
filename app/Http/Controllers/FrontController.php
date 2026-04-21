@@ -84,7 +84,7 @@ class FrontController extends Controller
         $testimonials = Testimonial::take(5)->get();
 
         $articles = Article::where('status', 'Published')
-            ->orderBy('id')
+            ->orderByDesc('publish_at')
             ->withCount('likes')
             ->take(3)
             ->get();
@@ -115,7 +115,7 @@ class FrontController extends Controller
                     $query->where('slug', $tagSlug);
                 });
             })
-            ->orderBy('id')
+            ->orderByDesc('publish_at')
             ->withCount('likes')
             ->paginate(10)
             ->withQueryString();
@@ -254,7 +254,7 @@ class FrontController extends Controller
                         ->orWhere('about', 'like', '%' . $search . '%');
                 });
             })
-            ->orderBy('id')
+            ->orderByDesc('publish_at')
             ->withCount('likes')
             ->paginate(10)
             ->withQueryString();
@@ -290,7 +290,7 @@ class FrontController extends Controller
                         ->orWhere('about', 'like', '%' . $search . '%');
                 });
             })
-            ->orderBy('id')
+            ->orderByDesc('publish_at')
             ->withCount('likes')
             ->paginate(10)
             ->withQueryString();

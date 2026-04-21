@@ -85,8 +85,8 @@
                                                 </li>
                                                 <li class="nav-item shareSocialIcon">
                                                     <a class="nav-link" href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->url()) }}" target="_blank" rel="noopener noreferrer"><img src="{{ asset('images/icon/fb.png') }}" alt="facebook" class="img-fluid"></a>
-                                                    <a class="nav-link" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer"><img src="{{ asset('images/icon/insta.png') }}" alt="instagram" class="img-fluid"></a>
-                                                    <a class="nav-link" href="https://twitter.com/intent/tweet?url={{ urlencode(request()->url()) }}&text={{ urlencode($article->title) }}" target="_blank" rel="noopener noreferrer"><img src="{{ asset('images/icon/twitter.png') }}" alt="twitter" class="img-fluid"></a>
+                                                    <a class="nav-link" href="javascript:void(0);" onclick="copyArticleLink()" title="Copy Link"><img src="{{ asset('images/icon/insta.png') }}" alt="instagram" class="img-fluid"></a>
+                                                    <a class="nav-link" href="https://x.com/intent/tweet?url={{ urlencode(request()->url()) }}&text={{ urlencode($article->title) }}" target="_blank" rel="noopener noreferrer"><img src="{{ asset('images/icon/twitter.png') }}" alt="twitter" class="img-fluid"></a>
                                                     <a class="nav-link" href="https://api.whatsapp.com/send?text={{ urlencode($article->title . ' - ' . request()->url()) }}" target="_blank" rel="noopener noreferrer"><img src="{{ asset('images/icon/whatsapp.png') }}" alt="whatsapp" class="img-fluid"></a>
                                                 </li>
                                             </ul>
@@ -221,5 +221,63 @@
                 header.classList.remove(toggleClass);
             }
         });
+
+        // Copy article link to clipboard
+        function copyArticleLink() {
+            const url = window.location.href;
+            
+            // Modern clipboard API
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(url).then(() => {
+                    if (typeof toastr !== 'undefined') {
+                        toastr.success('Link artikel berhasil disalin! Anda bisa paste di Instagram Story.');
+                    }
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                    fallbackCopyTextToClipboard(url);
+                });
+            } else {
+                // Fallback for older browsers
+                fallbackCopyTextToClipboard(url);
+            }
+        }
+
+        // Fallback copy method for older browsers
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.top = 0;
+            textArea.style.left = 0;
+            textArea.style.width = "2em";
+            textArea.style.height = "2em";
+            textArea.style.padding = 0;
+            textArea.style.border = "none";
+            textArea.style.outline = "none";
+            textArea.style.boxShadow = "none";
+            textArea.style.background = "transparent";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    if (typeof toastr !== 'undefined') {
+                        toastr.success('Link artikel berhasil disalin! Anda bisa paste di Instagram Story.');
+                    }
+                } else {
+                    if (typeof toastr !== 'undefined') {
+                        toastr.error('Gagal menyalin link. Silakan copy manual.');
+                    }
+                }
+            } catch (err) {
+                if (typeof toastr !== 'undefined') {
+                    toastr.error('Gagal menyalin link. Silakan copy manual.');
+                }
+            }
+            
+            document.body.removeChild(textArea);
+        }
     </script>
 @endpush
